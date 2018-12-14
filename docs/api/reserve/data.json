@@ -1,0 +1,61 @@
+{
+	"store": {
+		"id": 1,
+		"name": "Scavolini Store Milano Missori",
+		"address": "Piazza Missori 2, 20122 - Milano (MI)"
+	},
+	"categories": [
+		{ "id": 1, "name": "Cucine/living" },
+		{ "id": 2, "name": "Bagni" }
+	],
+	"products": [
+		{ "category": 1, "id": 1, "name": "Baccarat" },
+		{ "category": 1, "id": 2, "name": "Baltimora" },
+		{ "category": 1, "id": 3, "name": "Belvedere" },
+		{ "category": 1, "id": 4, "name": "Carattere" },
+		{ "category": 1, "id": 5, "name": "Diesel Open Workshop" },
+		{ "category": 1, "id": 6, "name": "Diesel Social Kitchen" },
+		{ "category": 1, "id": 7, "name": "Exclusiva" },
+		{ "category": 1, "id": 8, "name": "Favilla" },
+		{ "category": 1, "id": 9, "name": "Flux" },
+		{ "category": 1, "id": 10, "name": "Flux Swing" },
+		{ "category": 1, "id": 11, "name": "Focus" },
+		{ "category": 1, "id": 12, "name": "Foodshelf" },
+		{ "category": 1, "id": 13, "name": "Grand Relais" },
+		{ "category": 1, "id": 14, "name": "LiberaMente" },
+		{ "category": 1, "id": 15, "name": "Long Island" },
+		{ "category": 1, "id": 16, "name": "MIA by Carlo Cracco_preview" },
+		{ "category": 1, "id": 17, "name": "Mood" },
+		{ "category": 1, "id": 18, "name": "Motus" },
+		{ "category": 1, "id": 19, "name": "Qi" },
+		{ "category": 1, "id": 20, "name": "Tetrix" },
+		{ "category": 1, "id": 30, "name": "Living Atelier" },
+		{ "category": 1, "id": 31, "name": "Living Carattere" },
+		{ "category": 1, "id": 32, "name": "Living Easy" },
+		{ "category": 1, "id": 33, "name": "Living Evolution" },
+		{ "category": 1, "id": 34, "name": "Living Exclusiva" },
+		{ "category": 1, "id": 35, "name": "Living Flux Swing" },
+		{ "category": 1, "id": 36, "name": "Living Foodshelf" },
+		{ "category": 1, "id": 37, "name": "Living LiberaMente" },
+		{ "category": 1, "id": 38, "name": "Living Madeleine" },
+		{ "category": 1, "id": 39, "name": "Living Mood" },
+		{ "category": 1, "id": 40, "name": "Living Motus" },
+		{ "category": 1, "id": 41, "name": "Living Sax" },
+		{ "category": 1, "id": 42, "name": "Living Tetrix" },
+		{ "category": 2, "id": 50, "name": "Aquo" },
+		{ "category": 2, "id": 51, "name": "Baltimora" },
+		{ "category": 2, "id": 52, "name": "Diesel Open Workshop" },
+		{ "category": 2, "id": 53, "name": "Font" },
+		{ "category": 2, "id": 54, "name": "Habi" },
+		{ "category": 2, "id": 55, "name": "Idro" },
+		{ "category": 2, "id": 56, "name": "Lagu" },
+		{ "category": 2, "id": 57, "name": "Laundry Space" },
+		{ "category": 2, "id": 58, "name": "Magnifica" },
+		{ "category": 2, "id": 59, "name": "Qi_bagno" },
+		{ "category": 2, "id": 60, "name": "Rivo" }
+	],
+	"daytimes": [
+		{ "id": 1, "name": "Mattino", "description": "9:30 - 12:30" },
+		{ "id": 2, "name": "Pomeriggio", "description": "15:30 - 19:30" }
+	]
+}

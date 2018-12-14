@@ -1,0 +1,33 @@
+<div class="modal-body">
+	<div class="form-headline">
+		<div class="h2">Modifica i tuoi dati:</div>
+	</div>
+	<div class="form-body">
+		<div class="form-group">
+			<label>Nome <sup class="required">*</sup></label>
+			<input placeholder="Il tuo nome" name="firstName" ng-model="model.user.firstName" type="text" class="form-control" type="text" required />
+		</div>
+		<div class="form-group">
+			<label>Cognome <sup class="required">*</sup></label>
+			<input placeholder="Il tuo cognome" name="lastName" ng-model="model.user.lastName" type="text" class="form-control" type="text" required />
+		</div>
+		<div class="form-group">
+			<label>Email <sup class="required">*</sup></label>
+			<input placeholder="la tua email" name="email" ng-model="model.user.email" type="text" class="form-control" type="text" required />
+		</div>
+		<div class="form-group">
+			<label>Cellulare <sup class="required">*</sup></label>
+			<input placeholder="Il tuo cellulare" name="mobilePhone" ng-model="model.user.mobilePhone" type="text" class="form-control" type="text" required />
+		</div>
+		<div class="form-group">
+			<label>Vuoi aggiungere un messaggio?</label>
+			<textarea name="message" ng-model="model.user.message" class="form-control">Aggiungi qui eventuali domande o richieste aggiuntive che possono essere utili allo store per organizzare al meglio il tuo appuntamento.</textarea>
+		</div>
+	</div>
+	<div class="form-action">
+		<button type="button" class="btn btn-primary btn-block animated infinite" ng-class="state.classes({
+			busy: 'bounce', error: 'shake', success: 'pulse'
+		})" ng-disabled="state.isBusy" ng-click="onSubmit()"><span>Conferma</span></button>
+		<button type="button" class="btn btn-cancel btn-block" ng-disabled="state.isBusy" ng-click="onCancel()"><span>Annulla</span></button>
+	</div>
+</div>

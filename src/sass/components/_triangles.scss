@@ -1,0 +1,20 @@
+.triangles {
+	position: absolute;
+	pointer-events: none;
+}
+
+.triangle {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.triangle--60 {
+	width: 60px;
+	height: 60px;
+}
+
+.triangle--120 {
+	width: 120px;
+	height: 120px;
+}

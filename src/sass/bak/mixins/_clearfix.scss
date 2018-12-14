@@ -1,0 +1,11 @@
+﻿@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
+@import "variables";
+
+@mixin clearfix() {
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}

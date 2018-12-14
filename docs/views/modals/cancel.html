@@ -1,0 +1,12 @@
+<div class="modal-body">
+	<div class="form-headline">
+		<div class="h2">Sei sicuro di voler cancellare il tuo appuntamento?</div>
+	</div>
+	<div class="form-body"></div>
+	<div class="form-action">
+		<button type="button" class="btn btn-primary btn-block animated infinite" ng-class="state.classes({
+			busy: 'bounce', error: 'shake', success: 'pulse'
+		})" ng-disabled="state.isBusy" ng-click="onSubmit()"><span>Conferma</span></button>
+		<button type="button" class="btn btn-cancel btn-block" ng-disabled="state.isBusy" ng-click="onCancel()"><span>Annulla</span></button>
+	</div>
+</div>

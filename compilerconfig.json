@@ -1,0 +1,7 @@
+﻿[{
+	"inputFile": "src/sass/bootstrap.scss",
+	"outputFile": "docs/css/bootstrap.css"
+}, {
+	"inputFile": "src/sass/app.scss",
+	"outputFile": "docs/css/app.css"
+}]

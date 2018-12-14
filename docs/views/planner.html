@@ -1,0 +1,63 @@
+<section class="section section-planner">
+	<div class="container">
+		<form name="view.form" role="form" novalidate autocomplete="off" ng-submit="view.form.$valid && onSubmit()" ng-keyup="$event.keyCode == 13 && view.form.$valid && onSubmit()">
+			<input type="hidden" name="time" ng-model="booking.model.time" required />
+			<div class="form-headline">
+				<div class="h1">Seleziona una data</div>
+			</div>
+			<div planner="plannerOptions" daytimes="booking.daytimes"></div>
+			<div class="form-action form-action-inline">
+				<button type="button" class="btn btn-back" ng-disabled="state.isBusy" ng-click="onBack()">
+					<i class="icon-back"></i> <span>Torna indietro</span>
+				</button>
+				<button type="submit" class="btn btn-primary animated infinite" ng-class="state.classes({
+					busy: 'bounce', error: 'shake', success: 'pulse'
+				})" ng-disabled="view.form.$invalid || state.isBusy"><span>Continua</span></button>
+			</div>
+		</form>
+	</div>
+</section>
+
+<!-- CALENDAR -->
+<script type="text/ng-template" id="partials/planner">
+	<div class="planner">
+		<div class="week">
+			<div class="week-row">
+				<span class="cell">
+					<button type="button" class="btn btn-arrow" ng-click="doNavWeek(-1)" ng-disabled="!hasWeeksBefore()">
+						<i class="icon-arrow-left"></i>
+					</button>
+				</span>
+				<div class="cell" ng-repeat="day in sources.view.days track by $index">
+					<div class="day" ng-bind="day.date | date : 'EEEE' | capitalize"></div>
+					<div class="date"><span ng-bind="day.date | date : 'd'"></span> <span ng-bind="day.date | date : 'MMMM' | capitalize"></span></div>
+				</div>
+				<span class="cell">
+					<button type="button" class="btn btn-arrow" ng-click="doNavWeek(1)">
+						<i class="icon-arrow-right"></i>
+					</button>
+				</span>
+			</div>
+			<div class="week-row" ng-repeat="daytime in daytimes track by $index">
+				<div class="cell">
+					<div ng-bind="daytime.name"></div>
+					<div ng-bind="daytime.description"></div>
+				</div>
+				<div class="cell" ng-class="getDayClasses(day, day.daytimes[daytime.id])" ng-repeat="day in sources.view.days track by $index">
+					<button type="button" class="btn btn-daytime-empty" ng-if="!day.daytimes[daytime.id].times.length"></button>
+					<button type="button" class="btn btn-daytime" ng-class="{ active: day.daytimes[daytime.id].active }" ng-click="onDaySelect(day, day.daytimes[daytime.id])" ng-if="day.daytimes[daytime.id].times.length">
+						<span class="number" ng-bind="day.daytimes[daytime.id].times.length"></span>
+						<span class="available">disponibili</span>
+						<span class="selected">Selezionato</span>
+						<span class="time" ng-bind="day.daytimes[daytime.id].time.name"></span>
+						<span class="select">seleziona orario</span>
+						<span class="modify">modifica</span>
+					</button>
+				</div>
+				<div class="cell">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

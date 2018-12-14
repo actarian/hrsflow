@@ -1,0 +1,44 @@
+[{
+	"inputFiles": [
+		"src/app/app.js"
+    ],
+	"outputFileName": "docs/js/app.js",
+	"minify": {
+		"enabled": true
+	}
+}, {
+	"inputFiles": [
+        "docs/css/app.css"
+    ],
+	"outputFileName": "docs/css/app.css",
+	"minify": {
+		"enabled": true
+	}
+}, {
+	"inputFiles": [
+		"node_modules/gsap/src/uncompressed/easing/EasePack.js",
+        "node_modules/gsap/src/uncompressed/TweenLite.js",
+		"node_modules/gsap/src/uncompressed/TweenMax.js",
+		"node_modules/swiper/dist/js/swiper.js"
+    ],
+	"outputFileName": "docs/js/vendors.js",
+	"minify": {
+		"enabled": true
+	}
+}, {
+	"inputFiles": [
+        "node_modules/swiper/dist/css/swiper.css"
+    ],
+	"outputFileName": "docs/css/vendors.css",
+	"minify": {
+		"enabled": true
+	}
+}, {
+	"inputFiles": [
+        "docs/css/bootstrap.css"
+    ],
+	"outputFileName": "docs/css/bootstrap.css",
+	"minify": {
+		"enabled": true
+	}
+}]

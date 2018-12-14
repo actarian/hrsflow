@@ -1,0 +1,159 @@
+﻿@import "../colors";
+@import "../variables";
+
+[ng-click],
+[link-to],
+button,
+a {
+	cursor: pointer;
+	@include transition();
+
+	&,
+	&:hover,
+	&:active,
+	&:focus,
+	&:visited {
+		text-decoration: none;
+	}
+}
+
+button {
+	background: transparent;
+	padding: 0;
+	border: none;
+	outline: 0;
+	-webkit-appearance: none;
+
+	&:focus,
+	&:active {
+		outline: none;
+	}
+}
+
+[type=reset],
+[type=submit],
+button,
+html [type=button] {
+	-webkit-appearance: none;
+}
+
+.btn {
+	display: inline-block;
+	line-height: 1;
+	vertical-align: middle;
+	@include transition();
+
+	i {
+		height: auto;
+		line-height: 1;
+		vertical-align: middle;
+	}
+}
+
+a,
+[type=reset],
+[type=submit],
+button,
+.btn {
+	&:disabled {
+		cursor: auto;
+		pointer-events: none;
+	}
+}
+
+.btn--more {
+	display: inline-block;
+	position: relative;
+	font-size: 18px;
+	line-height: 27px;
+	font-weight: 600;
+	color: white;
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 3px;
+		bottom: 0;
+		background: white;
+		@include transition();
+	}
+
+	&:hover {
+		color: white;
+
+		&:before {
+			transform: scale(0, 1);
+		}
+	}
+
+}
+
+.btn--discover {
+	display: inline-block;
+	position: relative;
+	font-size: 15px;
+	line-height: 24px;
+	font-weight: 800;
+	color: #d90726;
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 3px;
+		bottom: 0;
+		background: #d90726;
+		@include transition();
+	}
+
+	&:hover {
+		color: #d90726;
+
+		&:before {
+			transform: scale(0, 1);
+		}
+	}
+
+}
+
+.btn--see {
+	display: inline-block;
+	position: relative;
+	font-size: 15px;
+	line-height: 24px;
+	font-weight: 800;
+	color: #d90726;
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 3px;
+		bottom: 0;
+		background: #d90726;
+		transform: scale(0, 1);
+		@include transition();
+	}
+
+	&:hover {
+		color: #d90726;
+
+		&:before {
+			transform: scale(1, 1);
+		}
+	}
+
+}
+
+.btn--group {
+	margin-top: 50px;
+}
+
+.btn--block {
+	display: block;
+	width: 100%;
+}

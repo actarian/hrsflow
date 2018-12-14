@@ -1,0 +1,31 @@
+.confirmed {
+
+	.confirmed__confirm {
+		font-size: 44px;
+		line-height: 50px;
+		color: #c00019;
+		margin-bottom: 35px;
+	}
+
+	.confirmed__detail {
+		font-size: 28px;
+		line-height: 40px;
+		color: #28292b;
+		margin-bottom: 40px;
+	}
+
+	.confirmed__email {
+		font-size: 18px;
+		line-height: 30px;
+		color: #28292b;
+		margin-bottom: 35px;
+		text-decoration: underline;
+	}
+
+	.confirmed__thanks {
+		font-size: 28px;
+		line-height: 40px;
+		color: #28292b;
+	}
+
+}

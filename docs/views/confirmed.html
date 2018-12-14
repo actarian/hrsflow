@@ -1,0 +1,109 @@
+<section class="section section-confirmed">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="confirmed">
+					<div class="confirmed__confirm">Gentile {{booking.model.user.firstName}} il tuo appuntamento è confermato.</div>
+					<div class="confirmed__detail">{{booking.model.store.name}} ti aspetta il {{booking.model.date | date : 'd MMMM'}} alle ore {{booking.model.time.name}}.</div>
+					<div class="confirmed__email">Hai ricevuto una e-mail di conferma all'indirizzo {{booking.model.user.email}} dalla quale potrai modificare in qualsiasi momento i tuoi dati o cancellare l'appuntamento.</div>
+					<div class="confirmed__thanks">Grazie per aver scelto Scavolini.</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div>
+					<div class="form-group form-group-inline">
+						<div class="info">Il tuo appuntamento</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Store</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.store.name"></div>
+							<div class="description" ng-bind="booking.model.store.address"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Categoria</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.category.name"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Prodotti</label>
+						<div class="content">
+							<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+								<span ng-bind="booking.getProductNames()"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Data</label>
+						<div class="content">
+							<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+								<span ng-bind="booking.model.date | date : 'd MMMM yyyy'"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Orario</label>
+						<div class="content">
+							<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+								<span ng-bind="booking.model.time.name"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group form-group-action">
+						<button type="button" class="btn btn-link" ng-disabled="state.isBusy" ng-click="onCancelReservation()">
+							<span>Cancella il tuo appuntamento</span>
+						</button>
+					</div>
+				</div>
+				<div>
+					<div class="form-group form-group-inline">
+						<div class="info">I tuoi dati</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Nome</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.user.firstName"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Cognome</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.user.lastName"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Email</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.user.email"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<label>Cellulare</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.user.mobilePhone"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-inline" ng-if="booking.model.user.message">
+						<label>Messaggio</label>
+						<div class="content">
+							<div class="title" ng-bind="booking.model.user.message"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-action">
+						<button type="button" class="btn btn-link" ng-disabled="state.isBusy" ng-click="onEditUserData()">
+							<span>Modifica i tuoi dati</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+<json-formatter json="view"></json-formatter>
+<json-formatter json="booking.model"></json-formatter>
+<json-formatter json="state"></json-formatter>
+-->

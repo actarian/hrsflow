@@ -1,0 +1,68 @@
+<section class="section section-reserve">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="picture">
+					<img src="img/assistant.jpg" alt="" />
+				</div>
+			</div>
+			<div class="col-lg-6" ng-if="state.isReady && !store">
+				<div class="form-headline">
+					<div class="h1">Prenota un appuntamento</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<div class="info">Non hai selezionato lo store.</div>
+				</div>
+			</div>
+			<div class="col-lg-6" ng-if="state.isReady && store">
+				<form name="view.form" role="form" novalidate autocomplete="off" ng-submit="view.form.$valid && onSubmit()" ng-keyup="$event.keyCode == 13 && view.form.$valid && onSubmit()">
+					<div class="form-headline">
+						<div class="h1">Prenota un appuntamento</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<div class="info">La tua selezione</div>
+					</div>
+					<div class="form-group form-group-inline">
+						<input type="hidden" name="store" ng-model="booking.model.store" required />
+						<div class="content">
+							<div class="title" ng-bind="booking.model.store.name"></div>
+							<div class="description" ng-bind="booking.model.store.address"></div>
+						</div>
+					</div>
+					<div class="form-group form-group-cta">
+						<input type="hidden" name="category" ng-model="booking.model.category" required />
+						<div class="content">
+							<div class="title" ng-bind="booking.model.category.name"></div>
+						</div>
+						<div class="cta">
+							<button class="btn btn-link" type="button" ng-click="onSelectCategory()"><span>Modifica</span></button>
+						</div>
+					</div>
+					<div class="form-group form-group-cta">
+						<input type="hidden" name="products" ng-model="booking.model.products" required />
+						<div class="content">
+							<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+								<span ng-if="booking.model.products.length" ng-bind="booking.getProductNames()"></span>
+								<span ng-if="!booking.model.products.length">Seleziona prodotti</span>
+							</div>
+						</div>
+						<div class="cta">
+							<button class="btn btn-link" type="button" ng-click="onSelectProduct()"><span>Seleziona</span></button>
+						</div>
+					</div>
+					<div class="form-action">
+						<button type="submit" class="btn btn-primary animated infinite" ng-class="state.classes({
+						busy: 'bounce', error: 'shake', success: 'pulse'
+					})" ng-disabled="view.form.$invalid || state.isBusy"><span>Continua</span></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+<json-formatter json="view"></json-formatter>
+<json-formatter json="booking.model"></json-formatter>
+<json-formatter json="state"></json-formatter>
+-->

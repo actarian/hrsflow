@@ -1,0 +1,460 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
+@import "../variables";
+@import '../mixins';
+
+$background: #75787b; // #90939b;
+$positive: #111111;
+$negative: #ffffff;
+$border: #90939b;
+$dimmed: #f4f4f4;
+$idle: #d0d3db;
+$active: #fff79a;
+$hover: #03a9f4;
+
+.calendar {
+
+	section {
+		margin-bottom: 10px;
+		border: 1px solid $border;
+		padding: 0;
+	}
+
+	display: block;
+	padding: 0;
+
+	h6 {
+		font-size: 20px;
+		font-weight: 100;
+		background: $background;
+		color: $negative;
+		padding: 8px 10px 8px 10px;
+		margin: 0;
+	}
+
+	ul {
+		display: block;
+		background: $dimmed;
+		font-size: 11px;
+		width: 100%;
+		min-width: 260px;
+
+		&>.week {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			align-items: stretch;
+
+			&>.cell {
+				display: block;
+				position: relative;
+				max-width: 14.28%;
+				min-height: 40px;
+				line-height: 40px;
+				padding: 20px 4px 4px 4px;
+				box-sizing: border-box;
+				text-align: right;
+				flex: 0 0 14.28%; // border: 1px solid $idle;
+
+				@each $property,
+				$col in $statusColors {
+					&.status-#{$property} {
+						background: $col;
+						color: white;
+					}
+				}
+			}
+
+			.cell+.cell {
+				border-left: 1px solid $idle;
+			}
+
+			&:first-child {
+				background: $background;
+				color: $negative;
+
+				&>.cell {
+					min-height: 25px;
+					line-height: 12px;
+					border-color: $border;
+					padding-top: 4px;
+				}
+			}
+		}
+
+		.week+.week {
+			border-top: 1px solid $idle;
+		}
+	}
+
+	.num {
+		display: block;
+		position: absolute;
+		min-width: 16px;
+		height: 16px;
+		right: 3px;
+		top: 3px;
+		text-align: center;
+		line-height: 16px;
+	}
+
+	.day {
+		background: $negative;
+		color: $positive;
+
+		&.active {
+			background: $active;
+			cursor: pointer;
+
+			&:hover {
+				background: $hover;
+				color: white;
+
+				.task {
+					background: $negative;
+				}
+			}
+		}
+
+		/*
+			& > .num {
+				display: block;
+				position: absolute;
+				min-width: 16px;
+				height: 16px;
+				right: 3px;
+				top: 3px;
+				text-align: center;
+				line-height: 16px;
+			}
+			*/
+		&>.hours {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			text-align: center;
+			transform: translate3d(-50%, -50%, 0px);
+		}
+
+		&.today {
+			&>.num {
+				background: red;
+				color: #fff;
+				border-radius: 9px;
+			}
+		}
+	}
+
+	.tasks {
+		display: block;
+		position: relative;
+		padding: 3px 0;
+		line-height: 0;
+		text-align: right;
+
+		&>.task {
+			display: inline-block;
+			position: relative;
+			background: #444;
+			width: 4px;
+			height: 4px;
+			margin: 0 2px 3px 0;
+			border-radius: 2px;
+
+			/*
+				width: 6px;
+				height: 6px;
+				border-radius: 3px;
+				left: 3px;
+				top: 3px;
+				*/
+			&.working {
+				background: map-get($mainColors, success);
+			}
+		}
+	}
+}
+
+.calendar-slider {
+
+	/*
+			overflow: hidden;
+			margin-left: -15px;
+			margin-right: -15px;
+			margin-top: -15px;
+			margin-bottom: 15px;
+
+			.inner {
+				display: flex;
+				justify-content: flex-start;
+				align-items: baseline;
+
+				& > section {
+					width: 400px;
+				}
+			}
+			*/
+	section {
+		border: none;
+		margin-bottom: 0;
+		border-bottom: 1px solid $idle;
+	}
+
+	& section+section {
+		border-left: 1px solid $idle;
+	}
+
+	.cell {
+		background: transparent;
+
+		&.day {
+			background: #f8f8f8;
+		}
+
+		&.workable {
+			background: white;
+		}
+
+		&.working {
+			background: mix($primary, white, 50%);
+		}
+
+		&.available:hover {
+			background: $primary;
+		}
+
+		&.full {
+			background: mix(map-get($mainColors, danger), white, 30%);
+		}
+	}
+}
+
+.calendar-planner {
+	margin: -20px -15px !important;
+
+	h6 {
+		text-transform: uppercase;
+		font-size: 22px;
+	}
+
+	ul {
+
+		&>.week {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			align-items: stretch;
+
+			&>.cell {
+				max-width: 12.5%;
+				flex: 0 0 12.5%;
+				min-height: 80px;
+				line-height: 20px;
+				padding: 20px 4px 4px 4px;
+				text-align: right;
+			}
+		}
+	}
+
+	.cell {
+		background: transparent;
+		pointer-events: none;
+
+		&.holiday {
+			background: mix(map-get($statusColors, light-orange), white, 30%);
+		}
+
+		&.vacation {
+			background: mix(map-get($mainColors, success), white, 50%);
+		}
+
+		&.working {
+			background: white;
+			pointer-events: auto;
+		}
+
+		&.unworkable {
+			background: mix(map-get($mainColors, success), white, 30%);
+		}
+
+		/*
+			&.full {
+				background: mix(map-get($mainColors, danger), white, 30%);
+			}
+			*/
+		&.selected {
+			box-shadow: 0 0 0 2px #75787b inset;
+		}
+
+		&:hover {
+			transition: background ease-in-out 250ms;
+			background: mix(map-get($mainColors, primary), white, 15%);
+		}
+
+		&.weekNum {
+			background: #676a6d;
+			color: white;
+			font-size: 18px;
+			pointer-events: auto;
+
+			.num {
+				position: absolute;
+				top: 20px;
+				right: 10px;
+				line-height: 1;
+				height: auto;
+			}
+
+			&:hover {
+				background: mix(white, #676a6d, 15%);
+			}
+		}
+	}
+
+	.activities {
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		position: relative;
+		padding: 3px 0;
+		line-height: 0;
+		text-align: right;
+
+		&>.activity {
+			display: inline-block;
+			position: relative;
+			flex-basis: 0;
+			flex-grow: 1;
+			margin: 0 2px 3px 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+			text-align: right;
+
+			&.working {
+				background: map-get($mainColors, success);
+			}
+		}
+	}
+
+	.records {
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		position: relative;
+		padding: 3px 0;
+		line-height: 0;
+		text-align: right;
+
+		&>.record {
+			display: inline-block;
+			position: relative;
+			flex-basis: 0;
+			flex-grow: 1;
+			min-width: 20px;
+			margin: 0 2px 3px 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+			text-align: right;
+		}
+	}
+}
+
+.calendar-popup-container {
+	position: relative;
+}
+
+.calendar-popup {
+	position: absolute;
+	width: 100%;
+	max-width: 400px;
+	background: white;
+	z-index: 100;
+	box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.35);
+
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+
+		&>.week {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			align-items: stretch;
+
+			&>.cell {
+				max-width: 12.5%;
+				flex: 0 0 12.5%;
+				min-width: 40px;
+				min-height: 40px;
+				line-height: 20px;
+				padding: 4px;
+				text-align: right;
+			}
+		}
+	}
+
+	.cell {
+		background: transparent;
+		pointer-events: none;
+
+		&.holiday {
+			background: mix(map-get($statusColors, light-orange), white, 30%);
+		}
+
+		&.vacation {
+			background: mix(map-get($mainColors, success), white, 50%);
+		}
+
+		&.working {
+			background: white;
+			pointer-events: auto;
+		}
+
+		&.unworkable {
+			background: mix(map-get($mainColors, success), white, 30%);
+		}
+
+		&.selected {
+			box-shadow: 0 0 0 2px #75787b inset;
+		}
+
+		&:hover {
+			// transition: background ease-in-out 250ms;
+			// background: mix(map-get($mainColors, primary), white, 15%);
+			box-shadow: 0 0 0 1px #75787b inset;
+		}
+	}
+
+	/*
+		.records {
+			display: block;
+			position: absolute;
+			min-width: 16px;
+			height: 16px;
+			right: 3px;
+			bottom: 3px;
+			text-align: center;
+			line-height: 16px;
+		}
+		*/
+	.records {
+		display: flex;
+		position: relative;
+		width: 100%;
+		height: 100%;
+		justify-content: flex-start;
+		align-items: flex-end;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1;
+		padding: 0;
+	}
+}

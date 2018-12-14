@@ -1,0 +1,23 @@
+<section class="section section-canceled">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 offset-lg-3">
+				<div class="canceled">
+					<div class="canceled__status">Il tuo appuntamento è stato cancellato.</div>
+					<div class="canceled__info">Riceverai una e-mail di conferma dell'avvenuta cancellazione.</div>
+					<div class="canceled__reserve">Non perdere l'occasione di toccare con mano la qualità Scavolini. <span class="red">Prenota un altro appuntamento presso {{booking.model.store.name}}</span>.</div>
+				</div>
+				<div class="form-action form-action-inline">
+					<button type="button" class="btn btn-cancel" ng-click="onStoreChange()"><span>Cerca un altro rivenditore</span></button>
+					<button type="button" class="btn btn-primary" ng-click="onStoreReserve()"><span>Prenota appuntamento</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+<json-formatter json="view"></json-formatter>
+<json-formatter json="booking.model"></json-formatter>
+<json-formatter json="state"></json-formatter>
+-->

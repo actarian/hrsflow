@@ -1,0 +1,105 @@
+<section class="section section-confirm">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-headline">
+					<div class="h1">Conferma appuntamento</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<div class="info">La tua selezione</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<label>Store</label>
+					<div class="content">
+						<div class="title" ng-bind="booking.model.store.name"></div>
+						<div class="description" ng-bind="booking.model.store.address"></div>
+					</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<label>Categoria</label>
+					<div class="content">
+						<div class="title" ng-bind="booking.model.category.name"></div>
+					</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<label>Prodotti</label>
+					<div class="content">
+						<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+							<span ng-bind="booking.getProductNames()"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<label>Data</label>
+					<div class="content">
+						<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+							<span ng-bind="booking.model.date | date : 'd MMMM yyyy'"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-group-inline">
+					<label>Orario</label>
+					<div class="content">
+						<div class="title" ng-class="{ 'title-empty': !booking.model.products.length }">
+							<span ng-bind="booking.model.time.name"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-action">
+					<button type="button" class="btn btn-back" ng-disabled="state.isBusy" ng-click="onBack()">
+						<i class="icon-back"></i> <span>Torna indietro</span>
+					</button>
+				</div>
+			</div>
+			<div class="col-lg-6 background-right">
+				<form name="view.form" role="form" novalidate autocomplete="off" ng-submit="view.form.$valid && onSubmit()" ng-keyup="$event.keyCode == 13 && view.form.$valid && onSubmit()">
+					<div class="form-headline">
+						<div class="h2">Inserisci i tuoi dati</div>
+						<div><sup class="required">*</sup> Campi obbligatori</div>
+					</div>
+					<div class="form-group">
+						<label>Nome <sup class="required">*</sup></label>
+						<input placeholder="Il tuo nome" name="firstName" ng-model="booking.model.user.firstName" type="text" class="form-control" type="text" required />
+					</div>
+					<div class="form-group">
+						<label>Cognome <sup class="required">*</sup></label>
+						<input placeholder="Il tuo cognome" name="lastName" ng-model="booking.model.user.lastName" type="text" class="form-control" type="text" required />
+					</div>
+					<div class="form-group">
+						<label>Email <sup class="required">*</sup></label>
+						<input placeholder="la tua email" name="email" ng-model="booking.model.user.email" type="text" class="form-control" type="text" required />
+					</div>
+					<div class="form-group">
+						<label>Cellulare <sup class="required">*</sup></label>
+						<input placeholder="Il tuo cellulare" name="mobilePhone" ng-model="booking.model.user.mobilePhone" type="text" class="form-control" type="text" required />
+					</div>
+					<div class="form-group">
+						<label>Vuoi aggiungere un messaggio?</label>
+						<textarea name="message" ng-model="booking.model.user.message" class="form-control">Aggiungi qui eventuali domande o richieste aggiuntive che possono essere utili allo store per organizzare al meglio il tuo appuntamento.</textarea>
+					</div>
+					<div class="form-group form-group-checkbox form-check">
+						<input type="hidden" name="privacy" ng-model="booking.model.user.privacyAccepted" required />
+						<div class="input-group">
+							<label class="form-label-check">
+								<input name="privacy" ng-model="booking.model.user.privacyAccepted" type="checkbox" ng-true-value="true" ng-false-value="null" />
+								<span class="form-control-check"></span>
+								Ho letto e accetto la <a href="#">politica privacy</a> adottata dal Gruppo Scavolini <sup class="required">*</sup>
+							</label>
+						</div>
+					</div>
+					<div class="form-action">
+						<button type="submit" class="btn btn-primary btn-block animated infinite" ng-class="state.classes({
+							busy: 'bounce', error: 'shake', success: 'pulse'
+						})" ng-disabled="view.form.$invalid || state.isBusy"><span>Conferma prenotazione</span></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+<json-formatter json="view"></json-formatter>
+<json-formatter json="booking.model"></json-formatter>
+<json-formatter json="state"></json-formatter>
+-->
