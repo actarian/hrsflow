@@ -65,8 +65,12 @@
 		<div class="wrapper">
 			<!-- HEADER -->
 			<header>
-				<div class="container">
-					<a><img class="brand" src="img/logo.svg" /></a>
+				<div class="container flex-row hidden-lg-up">
+					<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
+					<button type="button" class="btn btn--menu"><i class="icon-menu"></i></button>
+				</div>
+				<div class="container flex-row hidden-md-down">
+					<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
 					<ul class="nav nav--primary">
 						<li><a href="#"><span>Products</span></a></li>
 						<li><a href="#"><span>Solutions</span></a></li>
@@ -99,8 +103,8 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-xl-10">
-											<div class="h1" data-swiper-parallax="-150"><span>Passion</span> <span class="em">for expertise</span></div>
-											<div class="btn--group" data-swiper-parallax="-250">
+											<div class="h1" data-swiper-parallax-x="-150"><span>Passion</span> <span class="em">for expertise</span></div>
+											<div class="btn--group" data-swiper-parallax-x="-250">
 												<a href="#" class="btn btn--more"><span>Who we are</span></a>
 											</div>
 										</div>
@@ -117,8 +121,8 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-xl-10">
-											<div class="h1" data-swiper-parallax="-150"><span>Advanced</span> <span class="em">Hot Runner Solutions</span></div>
-											<div class="btn--group" data-swiper-parallax="-250">
+											<div class="h1" data-swiper-parallax-x="-150"><span>Advanced</span> <span class="em">Hot Runner Solutions</span></div>
+											<div class="btn--group" data-swiper-parallax-x="-250">
 												<a href="#" class="btn btn--more"><span>Read more</span></a>
 											</div>
 										</div>
@@ -133,8 +137,8 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-xl-10">
-											<div class="h1" data-swiper-parallax="-150"><span>We work for automotive,</span> <span class="em">lighting up the future.</span></div>
-											<div class="btn--group" data-swiper-parallax="-250">
+											<div class="h1" data-swiper-parallax-x="-150"><span>We work for automotive,</span> <span class="em">lighting up the future.</span></div>
+											<div class="btn--group" data-swiper-parallax-x="-250">
 												<a href="#" class="btn btn--more"><span>Read more</span></a>
 											</div>
 										</div>
@@ -161,17 +165,17 @@
 									<div class="row">
 										<div class="col-md-6 col-lg-7 col-xl-7">
 											<div class="pictures">
-												<div class="picture-b" data-swiper-parallax="250"><img src="img/home/hilight-01-b.jpg" /></div>
-												<div class="picture-a" data-swiper-parallax="-450"><img src="img/home/hilight-01-a.jpg" /></div>
+												<div class="picture-b" data-swiper-parallax-x="250"><img src="img/home/hilight-01-b.jpg" data-parallax-shadow /></div>
+												<div class="picture-a" data-swiper-parallax-x="-450" data-swiper-parallax-duration="800"><img src="img/home/hilight-01-a.jpg" data-parallax-shadow /></div>
 											</div>
 										</div>
-										<div class="col-md-6 col-lg-5 col-xl-4">
+										<div class="col-md-6 col-lg-5 col-xl-4" data-swiper-parallax-x="-650" data-swiper-parallax-opacity="0" data-swiper-parallax-duration="900">
 											<div class="h5">Technical Highlights</div>
-											<div class="h3" data-swiper-parallax="-800" data-swiper-parallax-opacity="0"><span>FLEXflow Weld Lines</span> <span class="em">Management</span></div>
-											<div data-swiper-parallax="-850">
+											<div class="h3"><span>FLEXflow Weld Lines</span> <span class="em">Management</span></div>
+											<div>
 												A new servo-driven valve gate that assures accurate, easy and flexible control of pressures and flow rates during the injection process.
 											</div>
-											<div class="btn--group" data-swiper-parallax="-900">
+											<div class="btn--group">
 												<a href="#" class="btn btn--discover"><span>Discover FLEXflow</span></a>
 											</div>
 										</div>
@@ -184,17 +188,17 @@
 									<div class="row">
 										<div class="col-md-6 col-lg-7 col-xl-7">
 											<div class="pictures">
-												<div class="picture-b" data-swiper-parallax="250"><img src="img/home/hilight-02-b.jpg" /></div>
-												<div class="picture-a" data-swiper-parallax="-450"><img src="img/home/hilight-02-a.jpg" /></div>
+												<div class="picture-b" data-swiper-parallax-x="250"><img src="img/home/hilight-02-b.jpg" data-parallax-shadow /></div>
+												<div class="picture-a" data-swiper-parallax-x="-450" data-swiper-parallax-duration="800"><img src="img/home/hilight-02-a.jpg" data-parallax-shadow /></div>
 											</div>
 										</div>
-										<div class="col-md-6 col-lg-5 col-xl-4">
+										<div class="col-md-6 col-lg-5 col-xl-4" data-swiper-parallax-x="-650" data-swiper-parallax-opacity="0" data-swiper-parallax-duration="900">
 											<div class="h5">Technical Highlights</div>
-											<div class="h3" data-swiper-parallax="-800" data-swiper-parallax-opacity="0"><span>SLM inserts</span> <span class="em">selective Laser Melting</span></div>
-											<div data-swiper-parallax="-850">
+											<div class="h3"><span>SLM inserts</span> <span class="em">selective Laser Melting</span></div>
+											<div>
 												Selective Laser Melting technology, or SLM as it is commonly referred to, is an innovative process used to produce metal parts.
 											</div>
-											<div class="btn--group" data-swiper-parallax="-900">
+											<div class="btn--group">
 												<a href="#" class="btn btn--discover"><span>Discover more on SLM</span></a>
 											</div>
 										</div>
@@ -207,17 +211,17 @@
 									<div class="row">
 										<div class="col-md-6 col-lg-7 col-xl-7">
 											<div class="pictures">
-												<div class="picture-b" data-swiper-parallax="250"><img src="img/home/hilight-03-b.jpg" /></div>
-												<div class="picture-a" data-swiper-parallax="-450"><img src="img/home/hilight-03-a.jpg" /></div>
+												<div class="picture-b" data-swiper-parallax-x="250"><img src="img/home/hilight-03-b.jpg" data-parallax-shadow /></div>
+												<div class="picture-a" data-swiper-parallax-x="-450" data-swiper-parallax-duration="800"><img src="img/home/hilight-03-a.jpg" data-parallax-shadow /></div>
 											</div>
 										</div>
-										<div class="col-md-6 col-lg-5 col-xl-4">
+										<div class="col-md-6 col-lg-5 col-xl-4" data-swiper-parallax-x="-650" data-swiper-parallax-opacity="0" data-swiper-parallax-duration="900">
 											<div class="h5">Technical Highlights</div>
-											<div class="h3" data-swiper-parallax="-800" data-swiper-parallax-opacity="0"><span>FLEXflow Weld Lines</span> <span class="em">Management</span></div>
-											<div data-swiper-parallax="-850">
+											<div class="h3"><span>FLEXflow Weld Lines</span> <span class="em">Management</span></div>
+											<div>
 												A new servo-driven valve gate that assures accurate, easy and flexible control of pressures and flow rates during the injection process.
 											</div>
-											<div class="btn--group" data-swiper-parallax="-900">
+											<div>
 												<a href="#" class="btn btn--discover"><span>Discover FLEXflow</span></a>
 											</div>
 										</div>
@@ -332,12 +336,12 @@
 				<!-- NEWS -->
 				<section class="section section--news">
 					<div class="container">
-						<div class="inner">
+						<div class="inner" data-parallax-shadow>
 							<div class="row">
-								<div class="col-lg-4">
+								<div class="col-md-4">
 									<div class="h3">News</div>
 									<div class="news__item">
-										<div class="picture">
+										<div class="picture" data-parallax-shadow>
 											<img src="img/home/news-01.jpg" alt="HRSflow at Chinaplas 2018." />
 										</div>
 										<div class="content">
@@ -350,12 +354,12 @@
 										<a href="#" class="btn btn--discover"><span>Discover all news</span></a>
 									</div>
 								</div>
-								<div class="col-lg-8">
+								<div class="col-md-8">
 									<div class="h3">Events</div>
 									<div class="row">
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="news__item">
-												<div class="picture">
+												<div class="picture" data-parallax-shadow>
 													<img src="img/home/news-02.jpg" alt="HRSflow at Chinaplas 2018." />
 												</div>
 												<div class="content">
@@ -365,9 +369,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="news__item">
-												<div class="picture">
+												<div class="picture" data-parallax-shadow>
 													<img src="img/home/news-03.jpg" alt="HRSflow at Chinaplas 2018." />
 												</div>
 												<div class="content">
@@ -392,28 +396,28 @@
 					<div class="container">
 						<div class="h5">numbers of excellence</div>
 						<div class="row">
-							<div class="col-lg-3">
+							<div class="col-md-6 col-lg-3">
 								<div class="content">
 									<img class="picture" src="img/icons/numbers-01.svg">
 									<div class="number">1600</div>
 									<div>Active clients wordwide</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-md-6 col-lg-3">
 								<div class="content">
 									<img class="picture" src="img/icons/numbers-02.svg">
 									<div class="number">+1000</div>
 									<div>Employees</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-md-6 col-lg-3">
 								<div class="content">
 									<img class="picture" src="img/icons/numbers-03.svg">
 									<div class="number">3/52</div>
 									<div>Production plants/Branches</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-md-6 col-lg-3">
 								<div class="content">
 									<img class="picture" src="img/icons/numbers-04.svg">
 									<div class="number">+200</div>
@@ -437,7 +441,7 @@
 									<img src="img/customer-service.jpg" />
 								</div>
 								<div class="col-md-6 offset-md-6">
-									<div class="customer-service">
+									<div class="customer-service" data-parallax-shadow>
 										<div class="h6">Customer Service 24/7</div>
 										<ul class="nav nav--footer-primary">
 											<li>
@@ -481,8 +485,8 @@
 								<img class="brand" src="img/logo-black.svg" /> <img class="slogan" src="img/slogan.svg" />
 							</div>
 							<div class="row">
-								<div class="col-md-4">
-									<ul class="nav nav--footer-primary">
+								<div class="col-sm-6 col-md-4">
+									<ul class="nav nav--footer-primary hidden-md-down">
 										<li>
 											<span>Products</span>
 											<ul class="nav">
@@ -508,7 +512,7 @@
 									</ul>
 								</div>
 								<div class="col-md-4">
-									<ul class="nav nav--footer-primary">
+									<ul class="nav nav--footer-primary hidden-md-down">
 										<li>
 											<span>Downloads</span>
 											<ul class="nav">
@@ -534,7 +538,7 @@
 								</div>
 								<div class="col-md-4">
 									<ul class="nav nav--footer-primary">
-										<li>
+										<li class="hidden-md-down">
 											<span>About Us</span>
 											<ul class="nav">
 												<li><a href="#"><span>Company</span></a></li>

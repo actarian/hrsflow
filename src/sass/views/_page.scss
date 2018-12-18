@@ -20,9 +20,9 @@ page-transition {
 	align-items: center;
 	z-index: 10000;
 	opacity: 0;
-	transition: opacity ease-in-out 350ms;
 	pointer-events: none;
 	background: white;
+	@include transition;
 
 	&.loading {
 		transition: none;

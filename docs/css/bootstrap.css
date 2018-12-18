@@ -27,8 +27,8 @@
   --light: #e6e6e6;
   --dark: #343a40;
   --breakpoint-xs: 0;
-  --breakpoint-sm: 1024px;
-  --breakpoint-md: 1200px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
   --breakpoint-lg: 1440px;
   --breakpoint-xl: 1600px;
   --font-family-sans-serif: "Aktiv Grotesk", sans-serif;
@@ -455,15 +455,15 @@ pre {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto; }
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .container {
       max-width: 720px; } }
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     .container {
       max-width: 960px; } }
   @media (min-width: 1440px) {
     .container {
-      max-width: 1140px; } }
+      max-width: 1200px; } }
   @media (min-width: 1600px) {
     .container {
       max-width: 1440px; } }
@@ -699,7 +699,7 @@ pre {
 .offset-11 {
   margin-left: 91.66667%; }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .col-sm {
     -ms-flex-preferred-size: 0;
         flex-basis: 0;
@@ -858,7 +858,7 @@ pre {
   .offset-sm-11 {
     margin-left: 91.66667%; } }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .col-md {
     -ms-flex-preferred-size: 0;
         flex-basis: 0;

@@ -19,13 +19,17 @@ footer {
 		position: absolute;
 		bottom: -60px;
 		left: 0;
+
+		@include media-breakpoint-down(sm) {
+			display: none;
+		}
 	}
 
 	.customer-service {
-		padding: 30px 20px;
+		padding: 30px;
 		background: white;
 		border: 1px solid #dedcdc;
-		box-shadow: -30px 30px 30px -5px rgba(#474b58, 0.15);
+		// box-shadow: -30px 30px 30px -5px rgba(#474b58, 0.15);
 
 		.h6 {
 			font-size: 24px;
@@ -36,6 +40,13 @@ footer {
 
 	.headline {
 		margin-bottom: 35px;
+
+		@include media-breakpoint-down(md) {
+			margin-top: 60px;
+			text-align: center;
+			border-top: 1px solid #dedcdc;
+			padding-top: 20px;
+		}
 	}
 
 	.brand,
@@ -57,11 +68,4 @@ footer {
 			color: #000;
 		}
 	}
-}
-
-
-.flex-row {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
 }

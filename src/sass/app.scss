@@ -87,3 +87,24 @@ main {
 	position: absolute;
 	visibility: hidden;
 }
+
+.flex-row {
+	display: flex;
+	position: relative;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-down($breakpoint) {
+		.hidden-#{$breakpoint}-down {
+			display: none;
+		}
+	}
+
+	@include media-breakpoint-up($breakpoint) {
+		.hidden-#{$breakpoint}-up {
+			display: none;
+		}
+	}
+}

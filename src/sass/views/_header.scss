@@ -21,17 +21,53 @@ header {
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
 	}
 
-	.container {
-		display: flex;
-		position: relative;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		min-height: 80px;
+	.brand,
+	.brand--black {
+		margin-left: -50px;
+
+		@include media-breakpoint-down(sm) {
+			margin-left: 0;
+		}
 	}
 
 	.brand {
 		height: 60px;
-		margin-left: -50px;
 	}
+
+	.brand--black {
+		display: none;
+		height: 45px;
+	}
+
+	.flex-row {
+		align-items: center;
+		min-height: 80px;
+	}
+
+	.fixed & {
+		position: fixed;
+		top: 0;
+		left: 50%;
+		max-width: 1920px;
+		width: 100%;
+		padding: 10px 0;
+
+		transform: translateX(-50%) translateY(-100%);
+		@include transition();
+		transform: translateX(-50%) translateY(0);
+
+		.brand {
+			display: none;
+		}
+
+		.brand--black {
+			display: block;
+		}
+
+		&:before {
+			background: white;
+			height: 100%;
+		}
+	}
+
 }

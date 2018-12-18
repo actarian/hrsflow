@@ -61,6 +61,17 @@ button,
 	}
 }
 
+.btn--menu {
+	font-size: 30px;
+	line-height: 30px;
+	color: white;
+	text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+	&:hover {
+		color: white;
+	}
+}
+
 .btn--more {
 	display: inline-block;
 	position: relative;
