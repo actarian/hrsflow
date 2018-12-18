@@ -1,6 +1,7 @@
 .section--home-hero {
 	height: 100vh;
 	min-height: 760px;
+	max-height: 980px;
 	overflow: hidden;
 
 	.h1 {
@@ -51,6 +52,8 @@
 
 .swiper-container--home-hero {
 	height: 100vh;
+	min-height: 760px;
+	max-height: 980px;
 
 	.swiper-wrapper {
 		height: 100%;
@@ -70,7 +73,8 @@
 		left: 0;
 		overflow: hidden;
 
-		img {
+		img,
+		video {
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -91,7 +95,6 @@
 }
 
 .section--hilights {
-	overflow: hidden;
 
 	.container-fluid {
 		width: calc(100% - 192px);
@@ -143,7 +146,8 @@
 				right: 40px;
 				top: 50%;
 				transform: translateY(-50%);
-				box-shadow: 50px 50px 60px -5px rgba(#474b58, 0.15);
+				// box-shadow: 50px 50px 60px -5px rgba(#474b58, 0.15);
+				box-shadow: -60px 10px 90px -10px rgba(0, 0, 0, 0.7)
 			}
 		}
 	}
@@ -182,7 +186,7 @@
 
 .case-studies__item {
 
-	$transition: all 1000ms 25ms cubic-bezier(0.670, 0.005, 0.210, 1.000);
+	$transition: all 800ms 100ms ease-in-out;
 
 	position: relative;
 	width: 100%;
@@ -206,7 +210,7 @@
 			position: relative;
 			z-index: 0;
 			width: 100%;
-			transition: all 1000ms 0ms cubic-bezier(0.670, 0.005, 0.210, 1.000);
+			transition: all 350ms 0ms ease-in-out;
 		}
 
 		&:before {
@@ -302,7 +306,7 @@
 
 		.picture {
 			img {
-				transform: scale3d(1.1, 1.1, 1.1);
+				transform: scale3d(1.2, 1.2, 1.2);
 			}
 
 			&:before {
@@ -378,8 +382,33 @@
 	padding-top: 140px;
 	padding-bottom: 160px;
 
-	&>.container {
+	.h3 {
+		margin-bottom: 60px;
+	}
+
+	.col-lg-4,
+	.col-lg-8 {
 		padding: 60px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.col-lg-4 {
+		.news__item {
+			flex: 1 0 auto;
+		}
+	}
+
+	.col-lg-8 {
+		border-left: 1px solid #e4e4e4;
+
+		.row {
+			flex: 1 0 auto;
+		}
+	}
+
+	&>.container {
 		position: relative;
 
 		&:before {
@@ -409,17 +438,32 @@
 		}
 	}
 
-	.news__item {
-		.date {
-			margin-bottom: 30px;
-		}
+}
 
-		.title {
-			font-size: 30px;
-			line-height: 30px;
-			font-weight: 200;
-			color: #272727;
-			margin-bottom: 20px;
+.news__item {
+	max-width: 340px;
+
+	.picture {
+		margin-bottom: 30px;
+		background: white;
+		box-shadow: 30px 30px 30px -5px rgba(#474b58, 0.10);
+
+		img {
+			max-width: 100%;
 		}
+	}
+
+	.date {
+		font-size: 13px;
+		font-weight: 400;
+		margin-bottom: 30px;
+	}
+
+	.title {
+		font-size: 30px;
+		line-height: 36px;
+		font-weight: 200;
+		color: #272727;
+		margin-bottom: 20px;
 	}
 }

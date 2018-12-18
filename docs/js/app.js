@@ -7,11 +7,33 @@
 		loop: true,
 		effect: 'fade',
 		parallax: true,
-		spaceBetween: 500,
+		spaceBetween: 300,
 		speed: 600,
 		autoplay: {
 			delay: 5000,
-			disableOnInteraction: false,
+			disableOnInteraction: true,
+		},
+		on: {
+			slideChangeTransitionEnd: function() {
+				// console.log('slideChange', this.slides.length, this.activeIndex);
+				var slide = this.slides[this.activeIndex];
+				if (slide) {
+					var video = slide.querySelector('video');
+					/*
+					var videos = [].slice.call(slide.parentNode.querySelectorAll('video'));
+					videos.forEach(function(v) {
+						if (!video && !!(v.currentTime > 0 && !v.paused && !v.ended && v.readyState > 2)) {
+							v.pause();
+						}
+					});
+					*/
+					if (video) {
+						video.play();
+						console.log(video);
+					}
+					// console.log(videos);
+				}
+			},
 		},
 		/*
 		pagination: {
@@ -30,7 +52,7 @@
 		},
 		*/
 		parallax: true,
-		spaceBetween: 500,
+		spaceBetween: 300,
 		speed: 600,
 		pagination: {
 			el: '.swiper-pagination',

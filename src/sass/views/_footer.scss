@@ -1,1 +1,67 @@
-footer {}
+footer {
+
+	.container {
+		border-top: 1px solid #dedcdc;
+
+		&:first-child {
+			padding-top: 60px;
+			padding-bottom: 60px;
+			position: relative;
+		}
+
+		&:last-child {
+			padding-top: 30px;
+			padding-bottom: 60px;
+		}
+	}
+
+	.background {
+		position: absolute;
+		bottom: -60px;
+		left: 0;
+	}
+
+	.customer-service {
+		padding: 30px 20px;
+		background: white;
+		border: 1px solid #dedcdc;
+		box-shadow: -30px 30px 30px -5px rgba(#474b58, 0.15);
+
+		.h6 {
+			font-size: 24px;
+			font-weight: 200;
+			margin-bottom: 40px;
+		}
+	}
+
+	.headline {
+		margin-bottom: 35px;
+	}
+
+	.brand,
+	.slogan {
+		height: 40px;
+	}
+
+	.brand {
+		margin-right: 15px;
+	}
+
+	a {
+		color: #050505;
+		font-weight: 600;
+
+		&:hover,
+		&:active,
+		&.active {
+			color: #000;
+		}
+	}
+}
+
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}

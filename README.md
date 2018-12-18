@@ -1,7 +1,13 @@
-# scavolini-reserve
+# hrsflow
 
-[demo](https://actarian.github.io/scavolini-reserve/)
+[montaggio](https://actarian.github.io/hrsflow/)
 
+## Install
 > npm install
 
+## Run
 > gulp
+
+
+## Build
+> gulp start
