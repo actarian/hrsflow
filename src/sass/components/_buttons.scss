@@ -70,6 +70,18 @@ button,
 	&:hover {
 		color: white;
 	}
+
+	.fixed & {
+		color: #484848;
+		text-shadow: none;
+
+		&:hover,
+		&:active,
+		&.active {
+			color: black;
+		}
+	}
+
 }
 
 .btn--more {

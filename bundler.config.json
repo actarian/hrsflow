@@ -1,6 +1,6 @@
 [{
 	"inputFiles": [
-		"src/app/app.js"
+		"docs/js/app.js"
     ],
 	"outputFileName": "docs/js/app.js",
 	"minify": {

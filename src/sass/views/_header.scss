@@ -1,10 +1,14 @@
 header {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 100;
-	padding: 40px 0;
+
+	.container {
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
 
 	&:before {
 		content: '';
@@ -21,8 +25,8 @@ header {
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
 	}
 
-	.brand,
-	.brand--black {
+	.brand {
+		height: 60px;
 		margin-left: -50px;
 
 		@include media-breakpoint-down(sm) {
@@ -30,13 +34,10 @@ header {
 		}
 	}
 
-	.brand {
-		height: 60px;
-	}
-
 	.brand--black {
 		display: none;
 		height: 45px;
+		margin-left: 0;
 	}
 
 	.flex-row {
@@ -45,16 +46,19 @@ header {
 	}
 
 	.fixed & {
-		position: fixed;
 		top: 0;
-		left: 50%;
-		max-width: 1920px;
+		left: 0;
 		width: 100%;
-		padding: 10px 0;
 
-		transform: translateX(-50%) translateY(-100%);
+		.container {
+			padding-top: 10px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid #dedcdc;
+		}
+
+		transform: translateY(-100%);
 		@include transition();
-		transform: translateX(-50%) translateY(0);
+		transform: translateY(0);
 
 		.brand {
 			display: none;
@@ -68,6 +72,7 @@ header {
 			background: white;
 			height: 100%;
 		}
+
 	}
 
 }

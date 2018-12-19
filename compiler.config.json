@@ -4,4 +4,7 @@
 }, {
 	"inputFile": "src/sass/app.scss",
 	"outputFile": "docs/css/app.css"
+}, {
+	"inputFile": "src/app/app.js",
+	"outputFile": "docs/js/app.js"
 }]

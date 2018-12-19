@@ -200,6 +200,11 @@ button:disabled,
   text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
   .btn--menu:hover {
     color: white; }
+  .fixed .btn--menu {
+    color: #484848;
+    text-shadow: none; }
+    .fixed .btn--menu:hover, .fixed .btn--menu:active, .fixed .btn--menu.active {
+      color: black; }
 
 .btn--more {
   display: inline-block;
@@ -330,12 +335,15 @@ button:disabled,
     color: #c5c7c8; }
   .nav--primary li:hover a, .nav--primary li:active a, .nav--primary li.active a {
     color: white; }
-  .nav--primary li + li {
-    margin-left: 30px; }
   .fixed .nav--primary a {
     color: #484848; }
   .fixed .nav--primary:hover a, .fixed .nav--primary:active a, .fixed .nav--primary.active a {
     color: black; }
+  .nav--primary li + li {
+    margin-left: 30px; }
+  @media (max-width: 1599.98px) {
+    .nav--primary li + li {
+      margin-left: 15px; } }
 
 .nav--secondary {
   display: -webkit-box;
@@ -350,12 +358,15 @@ button:disabled,
     color: #c5c7c8; }
   .nav--secondary li:hover a, .nav--secondary li:active a, .nav--secondary li.active a {
     color: white; }
-  .nav--secondary li + li {
-    margin-left: 25px; }
   .fixed .nav--secondary a {
     color: #484848; }
   .fixed .nav--secondary:hover a, .fixed .nav--secondary:active a, .fixed .nav--secondary.active a {
     color: black; }
+  .nav--secondary li + li {
+    margin-left: 25px; }
+  @media (max-width: 1599.98px) {
+    .nav--secondary li + li {
+      margin-left: 10px; } }
 
 .nav--i18n {
   display: -webkit-box;
@@ -370,12 +381,15 @@ button:disabled,
     margin-right: 10px; }
   .nav--i18n li:hover a, .nav--i18n li:active a, .nav--i18n li.active a {
     color: white; }
-  .nav--i18n li + li {
-    margin-left: 50px; }
   .fixed .nav--i18n a {
     color: #484848; }
   .fixed .nav--i18n:hover a, .fixed .nav--i18n:active a, .fixed .nav--i18n.active a {
     color: black; }
+  .nav--i18n li + li {
+    margin-left: 50px; }
+  @media (max-width: 1599.98px) {
+    .nav--i18n li + li {
+      margin-left: 20px; } }
 
 .nav--footer-primary {
   display: -webkit-box;
@@ -661,12 +675,14 @@ page-transition {
             transform: rotate(-90deg); } }
 
 header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
-  padding: 40px 0; }
+  z-index: 100; }
+  header .container {
+    padding-top: 40px;
+    padding-bottom: 40px; }
   header:before {
     content: '';
     display: block;
@@ -679,36 +695,35 @@ header {
     background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0)));
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0); }
-  header .brand,
-  header .brand--black {
+  header .brand {
+    height: 60px;
     margin-left: -50px; }
     @media (max-width: 1023.98px) {
-      header .brand,
-      header .brand--black {
+      header .brand {
         margin-left: 0; } }
-  header .brand {
-    height: 60px; }
   header .brand--black {
     display: none;
-    height: 45px; }
+    height: 45px;
+    margin-left: 0; }
   header .flex-row {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
     min-height: 80px; }
   .fixed header {
-    position: fixed;
     top: 0;
-    left: 50%;
-    max-width: 1920px;
+    left: 0;
     width: 100%;
-    padding: 10px 0;
-    -webkit-transform: translateX(-50%) translateY(-100%);
-            transform: translateX(-50%) translateY(-100%);
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
-    -webkit-transform: translateX(-50%) translateY(0);
-            transform: translateX(-50%) translateY(0); }
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
+    .fixed header .container {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #dedcdc; }
     @media screen and (prefers-reduced-motion: reduce) {
       .fixed header {
         -webkit-transition: none;
