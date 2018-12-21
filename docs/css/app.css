@@ -887,19 +887,25 @@ footer a {
   padding-bottom: 120px; }
   .swiper-slide--hilights .container {
     position: relative; }
-  .swiper-slide--hilights .pictures .picture-b img {
-    max-height: 70vh; }
-  .swiper-slide--hilights .pictures .picture-a {
-    display: block;
-    position: absolute;
-    max-width: 75%;
-    z-index: 1;
-    right: 40px;
-    top: 50%;
-    margin-top: -20%; }
-    .swiper-slide--hilights .pictures .picture-a img {
-      max-width: 100%;
-      position: relative; }
+  .swiper-slide--hilights .pictures {
+    /*
+		.picture-b {
+			img {
+				max-height: 70vh;
+			}
+		}
+		*/ }
+    .swiper-slide--hilights .pictures .picture-a {
+      display: block;
+      position: absolute;
+      max-width: 75%;
+      z-index: 1;
+      right: 40px;
+      top: 50%;
+      margin-top: -20%; }
+      .swiper-slide--hilights .pictures .picture-a img {
+        max-width: 100%;
+        position: relative; }
   .swiper-slide--hilights .h3 {
     color: #272727; }
     .swiper-slide--hilights .h3 .em {

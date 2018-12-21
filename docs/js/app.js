@@ -30,8 +30,6 @@ function () {
   _createClass(App, [{
     key: "init",
     value: function init() {
-      var _this = this;
-
       var body = document.querySelector('body');
       var page = document.querySelector('.page');
       var swiperHero = new Swiper('.swiper-container--home-hero', {
@@ -96,11 +94,12 @@ function () {
         }
       });
       var shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
-      var animations = [].slice.call(document.querySelectorAll('.triangles')).map(function (element) {
-        return new _triangles.default(element);
+      var triangles = [].slice.call(document.querySelectorAll('.triangles')).map(function (node, i) {
+        var triangles = new _triangles.default(node);
+        triangles.i = i;
+        return triangles;
       });
-      var elements = [].slice.call(document.querySelectorAll('.case-studies__item'));
-      var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+      var parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
       var mxy = {
         x: 0,
         y: 0
@@ -110,42 +109,75 @@ function () {
       this.swiperHero = swiperHero;
       this.swiperHilights = swiperHilights;
       this.shadows = shadows;
-      this.animations = animations;
-      this.elements = elements;
-      this.hrefs = hrefs;
+      this.triangles = triangles;
+      this.parallaxes = parallaxes;
       this.mxy = mxy;
+      this.onResize();
+      this.addListeners();
+    }
+  }, {
+    key: "addListeners",
+    value: function addListeners() {
       window.addEventListener('resize', function () {
-        _this.resize();
+        app.onResize();
       });
       window.addEventListener('scroll', function () {
-        _this.scroll();
+        app.onScroll();
       });
       document.addEventListener('mousemove', function (e) {
-        _this.mxy.x = e.clientX / window.innerWidth - 0.5;
-        _this.mxy.y = e.clientY / window.innerHeight - 0.5;
+        app.onMouseMove(e);
       });
-      hrefs.forEach(function (element) {
-        element.addEventListener('click', function (e) {
+      /*
+      // intersection observer
+      const intersection = new IntersectionService();
+      parallaxes.forEach((node, i) => intersection.observe(node, (entry, ei) => {
+      	let pow = 1 + 0.1 * i;
+      	pow = (pow * entry.intersectionRatio);
+      	node.pow = pow;
+      }));
+      */
+      // href="#" noop
+
+      var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+      hrefs.forEach(function (node) {
+        node.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
         });
       });
-      /*
-      const intersection = new IntersectionService();
-      elements.forEach((element, i) => intersection.observe(element, (entry, ei) => {
-      	let pow = 1 + 0.1 * i;
-      	pow = (pow * entry.intersectionRatio);
-      	element.pow = pow;
-      }));
-      */
-
-      this.resize();
-      this.loop();
+    }
+  }, {
+    key: "onMouseMove",
+    value: function onMouseMove(e) {
+      this.mxy.x = e.clientX / window.innerWidth - 0.5;
+      this.mxy.y = e.clientY / window.innerHeight - 0.5;
+    }
+  }, {
+    key: "onResize",
+    value: function onResize() {
+      this.windowRect = new _rect.default({
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+      this.triangles.forEach(function (animation) {
+        animation.resize();
+      });
+    }
+  }, {
+    key: "onScroll",
+    value: function onScroll() {
+      if (_dom.default.scrollTop() > 0) {
+        this.body.classList.add('fixed');
+      } else {
+        this.body.classList.remove('fixed');
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       // smoothscroll
       if (this.body.offsetHeight !== this.page.offsetHeight) {
@@ -154,130 +186,122 @@ function () {
         });
       }
 
-      var cy = this.page.cy || 0;
-      cy += (-window.scrollY - cy) / 10;
-      this.page.cy = cy;
-      TweenMax.set(this.page, {
-        y: cy
-      }); // shadows
+      var top = this.page.top || 0;
+      top += (-_dom.default.scrollTop() - top) / 10;
+      top = Math.round(top * 10) / 10;
 
-      this.shadows.forEach(function (element) {
-        var xy = element.xy || {
+      if (this.page.top !== top) {
+        this.page.top = top;
+        TweenMax.set(this.page, {
+          y: top
+        });
+      } // shadows
+
+
+      this.shadows.forEach(function (node) {
+        var xy = node.xy || {
           x: 0,
           y: 0
         };
-        xy.x += (_this2.mxy.x - xy.x) / 8;
-        xy.y += (_this2.mxy.y - xy.y) / 8;
-        var shadow = element.getAttribute('data-parallax-shadow') || 90;
-        var pow = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
+        xy.x += (_this.mxy.x - xy.x) / 8;
+        xy.y += (_this.mxy.y - xy.y) / 8;
+        var shadow = node.getAttribute('data-parallax-shadow') || 90;
+        var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
         var x = (xy.x * -100).toFixed(2);
         var y = (xy.y * -50).toFixed(2);
-        var bs = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + pow + ')';
+        var boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')'; // if (node.boxShadow !== boxShadow) {
+        // 	node.boxShadow = boxShadow;
 
-        if (element.bs !== bs) {
-          TweenMax.set(element, {
-            // transform: 'translateX(' + (xy.x * -4) + '%) translateY(' + (xy.y * -2) + '%)',
-            boxShadow: bs
-          });
-          element.bs = bs;
+        TweenMax.set(node, {
+          boxShadow: boxShadow
+        }); // }
+
+        node.xy = xy;
+      }); // triangles
+
+      this.triangles.forEach(function (triangle, i) {
+        var node = triangle.element;
+
+        if (node.offsetParent) {
+          var rect = _rect.default.fromNode(node);
+
+          var intersection = rect.intersection(_this.windowRect);
+
+          if (intersection.y > 0) {
+            triangle.appear();
+          } else {
+            triangle.disappear();
+          }
         }
-
-        element.xy = xy;
       }); // parallax
 
-      /*
-      this.elements.forEach((element, i) => {
-      	if (element.parentNode) {
-      		const parentRect = element.parentNode.getBoundingClientRect();
-      		const rect = new Rect({
-      			top: parentRect.top + element.offsetTop,
-      			left: parentRect.left + element.offsetLeft,
-      			width: element.offsetWidth,
-      			height: element.offsetHeight,
-      		});
-      		const intersection = rect.intersection(this.windowRect);
-      		element.intersection = intersection;
-      		TweenMax.set(element, {
-      			y: element.intersection.center.y * (100 + 30 * i),
-      		});
-      	}
+      this.parallaxes.forEach(function (node, i) {
+        if (node.offsetParent) {
+          var currentY = node.currentY || 0;
+
+          var rect = _rect.default.fromNode(node);
+
+          rect = new _rect.default({
+            top: rect.top - currentY,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height
+          });
+          /*
+          node.getBoundingClientRect();
+          rect = new Rect({
+          	top: rect.top,
+          	left: rect.left,
+          	width: rect.width,
+          	height: rect.height,
+          });
+          */
+
+          /*
+          const parentRect = node.offsetParent.getBoundingClientRect();
+          const rect = new Rect({
+          	top: parentRect.top + node.offsetTop,
+          	left: parentRect.left + node.offsetLeft,
+          	width: node.offsetWidth,
+          	height: node.offsetHeight,
+          });
+          */
+
+          var intersection = rect.intersection(_this.windowRect);
+          currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+
+          if (node.currentY !== currentY) {
+            node.currentY = currentY;
+            TweenMax.set(node, {
+              transform: 'translateY(' + currentY + 'px)'
+            });
+          }
+        }
       });
-      /*
-      this.elements.forEach((element, i) => {
-      	if (element.intersection) {
-      		let pow = element.pow || 0;
-      		pow += (element.intersection.center.y - pow) / 10;
-      		element.pow = pow;
-      		TweenMax.set(element, {
-      			// opacity: pow,
-      			// y: pow * 100,
-      			y: element.intersection.center.y * 100,
-      		});
-      	}
-      });
-      */
     }
   }, {
     key: "loop",
     value: function loop() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.render();
-      window.requestAnimationFrame(function () {
-        _this3.loop();
-      });
-    }
-  }, {
-    key: "resize",
-    value: function resize() {
-      this.windowRect = new _rect.default({
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-      this.animations.forEach(function (animation) {
-        animation.resize();
-      });
-    }
-  }, {
-    key: "scroll",
-    value: function scroll() {
-      if (window.scrollY > 0) {
-        _dom.default.addClass(this.body, 'fixed');
-      } else {
-        _dom.default.removeClass(this.body, 'fixed');
+
+      if (this.playing) {
+        window.requestAnimationFrame(function () {
+          _this2.loop();
+        });
       }
-      /*
-      const wrect = new Rect({
-      	top: 0,
-      	left: 0,
-      	width: window.innerWidth,
-      	height: window.innerHeight,
-      });
-      this.elements.forEach((element, i) => {
-      	if (element.parentNode) {
-      		const parentRect = element.parentNode.getBoundingClientRect();
-      		const rect = new Rect({
-      			top: parentRect.top + element.offsetTop,
-      			left: parentRect.left + element.offsetLeft,
-      			width: element.offsetWidth,
-      			height: element.offsetHeight,
-      		});
-      		const intersection = rect.intersection(wrect);
-      		element.intersection = intersection;
-      	}
-      });
-      */
-
-      /*
-      TweenMax.to(this.page, 1.650, {
-      	y: -window.scrollY,
-      	ease: Quad.easeOut,
-      	overwrite: 'all',
-      });
-      */
-
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.playing = true;
+      this.loop();
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.playing = false;
     }
   }]);
 
@@ -289,6 +313,7 @@ var app = new App();
 
 window.onload = function () {
   app.init();
+  app.play();
 };
 
 },{"./shared/dom":2,"./shared/rect":3,"./shared/triangles":5}],2:[function(require,module,exports){
@@ -326,34 +351,15 @@ function () {
       return document.createRange().createContextualFragment(html);
     }
   }, {
-    key: "hasClass",
-    value: function hasClass(element, name) {
-      return element && new RegExp("(?:^|\\s+)".concat(name, "(?:\\s+|$)")).test(element.className);
-    }
-  }, {
-    key: "addClass",
-    value: function addClass(element, name) {
-      if (element && !Dom.hasClass(element, name)) {
-        element.className = element.className ? "".concat(element.className, " ").concat(name) : name;
-      }
-
-      return Dom;
-    }
-  }, {
-    key: "removeClass",
-    value: function removeClass(element, name) {
-      if (element && Dom.hasClass(element, name)) {
-        element.className = element.className.split(name).join("").replace(/\s\s+/g, " "); // .replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
-      }
-
-      return Dom;
-    }
-  }, {
     key: "scrollTop",
     value: function scrollTop() {
-      var pageYOffset = window ? window.pageXOffset : 0;
-      var scrollTop = document && document.documentElement ? document.documentElement.scrollTop : 0;
+      return document && document.defaultView ? document.defaultView.pageYOffset : 0;
+      /*
+      const pageYOffset = window ? window.pageYOffset : 0;
+      const scrollTop = document && document.documentElement ? document.documentElement.scrollTop : 0;
       return pageYOffset || scrollTop;
+      // window.scrollY;
+      */
     }
   }]);
 
@@ -446,6 +452,24 @@ function () {
     value: function intersectRect(r1, r2) {
       return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
     }
+  }, {
+    key: "fromNode",
+    value: function fromNode(node) {
+      if (!node.getClientRects().length) {
+        return new Rect();
+      }
+
+      var rect = node.getBoundingClientRect();
+      var defaultView = node.ownerDocument.defaultView;
+      return new Rect({
+        // top: rect.top + defaultView.pageYOffset,
+        // left: rect.left + defaultView.pageXOffset,
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height
+      });
+    }
   }]);
 
   return Rect;
@@ -534,7 +558,6 @@ function () {
         opacity: 0,
         transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
       });
-      this.appear();
     }
   }, {
     key: "appear",
@@ -598,25 +621,9 @@ function () {
       });
     }
   }, {
-    key: "tween",
-    value: function tween() {
-      var _this4 = this;
-
-      TweenMax.to(this.element, 1.0, {
-        opacity: Math.min(1, Math.random() * 2),
-        onComplete: function onComplete() {
-          _this4.tween();
-        },
-        onCompleteScope: this,
-        ease: Quint.easeInOut,
-        overwrite: 'all',
-        delay: position.i * 0.1
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      console.log(this);
+    key: "kill",
+    value: function kill() {
+      TweenMax.killTweensOf(this.element);
     }
   }]);
 
@@ -663,11 +670,37 @@ function () {
   _createClass(Triangles, [{
     key: "resize",
     value: function resize() {
+      var _this = this;
+
       var element = this.element;
       var pool = {};
       this.triangles.forEach(function (triangle) {
         triangle.resize(element, pool);
+
+        if (_this.visible) {
+          triangle.appear();
+        }
       });
+    }
+  }, {
+    key: "appear",
+    value: function appear() {
+      if (!this.visible) {
+        this.visible = true;
+        this.triangles.forEach(function (triangle) {
+          triangle.appear();
+        });
+      }
+    }
+  }, {
+    key: "disappear",
+    value: function disappear() {
+      if (this.visible) {
+        this.visible = false;
+        this.triangles.forEach(function (triangle) {
+          triangle.kill();
+        });
+      }
     }
   }]);
 

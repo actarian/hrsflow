@@ -21,7 +21,28 @@ export default class Triangles {
 		const pool = {};
 		this.triangles.forEach((triangle) => {
 			triangle.resize(element, pool);
+			if (this.visible) {
+				triangle.appear();
+			}
 		});
+	}
+
+	appear() {
+		if (!this.visible) {
+			this.visible = true;
+			this.triangles.forEach((triangle) => {
+				triangle.appear();
+			});
+		}
+	}
+
+	disappear() {
+		if (this.visible) {
+			this.visible = false;
+			this.triangles.forEach((triangle) => {
+				triangle.kill();
+			});
+		}
 	}
 
 }

@@ -19,6 +19,22 @@ export default class Rect {
 			r2.bottom < r1.top);
 	}
 
+	static fromNode(node) {
+		if (!node.getClientRects().length) {
+			return new Rect();
+		}
+		let rect = node.getBoundingClientRect();
+		const defaultView = node.ownerDocument.defaultView;
+		return new Rect({
+			// top: rect.top + defaultView.pageYOffset,
+			// left: rect.left + defaultView.pageXOffset,
+			top: rect.top,
+			left: rect.left,
+			width: rect.width,
+			height: rect.height,
+		});
+	}
+
 	set(rect) {
 		if (rect) {
 			Object.assign(this, rect);

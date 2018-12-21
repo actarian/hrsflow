@@ -56,7 +56,6 @@ export default class Triangle {
 			opacity: 0,
 			transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
 		});
-		this.appear();
 	}
 
 	appear() {
@@ -109,21 +108,8 @@ export default class Triangle {
 		});
 	}
 
-	tween() {
-		TweenMax.to(this.element, 1.0, {
-			opacity: Math.min(1, Math.random() * 2),
-			onComplete: () => {
-				this.tween();
-			},
-			onCompleteScope: this,
-			ease: Quint.easeInOut,
-			overwrite: 'all',
-			delay: position.i * 0.1,
-		});
-	}
-
-	render() {
-		console.log(this);
+	kill() {
+		TweenMax.killTweensOf(this.element);
 	}
 
 }
