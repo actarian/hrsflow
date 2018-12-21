@@ -61,34 +61,35 @@
 		</defs>
 	</svg>
 
+	<!-- HEADER -->
+	<header>
+		<div class="container flex-row hidden-lg-up">
+			<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
+			<button type="button" class="btn btn--menu"><i class="icon-menu"></i></button>
+		</div>
+		<div class="container flex-row hidden-md-down">
+			<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
+			<ul class="nav nav--primary">
+				<li><a href="#"><span>Products</span></a></li>
+				<li><a href="#"><span>Solutions</span></a></li>
+				<li><a href="#"><span>Markets</span></a></li>
+				<li><a href="#"><span>Service & Support</span></a></li>
+			</ul>
+			<ul class="nav nav--secondary">
+				<li><a href="#"><span>About Us</span></a></li>
+				<li><a href="#"><span>Downloads</span></a></li>
+				<li><a href="#"><span>Careers</span></a></li>
+				<li><a href="#"><span>WW Contacts</span></a></li>
+			</ul>
+			<ul class="nav nav--i18n">
+				<li><a href="#"><i class="icon-search"></i><span>Search</span></a></li>
+				<li><a href="#"><i class="icon-world"></i><span>Eng</span></a></li>
+			</ul>
+		</div>
+	</header>
+
 	<div class="page">
 		<div class="wrapper">
-			<!-- HEADER -->
-			<header>
-				<div class="container flex-row hidden-lg-up">
-					<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
-					<button type="button" class="btn btn--menu"><i class="icon-menu"></i></button>
-				</div>
-				<div class="container flex-row hidden-md-down">
-					<a href="#"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
-					<ul class="nav nav--primary">
-						<li><a href="#"><span>Products</span></a></li>
-						<li><a href="#"><span>Solutions</span></a></li>
-						<li><a href="#"><span>Markets</span></a></li>
-						<li><a href="#"><span>Service & Support</span></a></li>
-					</ul>
-					<ul class="nav nav--secondary">
-						<li><a href="#"><span>About Us</span></a></li>
-						<li><a href="#"><span>Downloads</span></a></li>
-						<li><a href="#"><span>Careers</span></a></li>
-						<li><a href="#"><span>WW Contacts</span></a></li>
-					</ul>
-					<ul class="nav nav--i18n">
-						<li><a href="#"><i class="icon-search"></i><span>Search</span></a></li>
-						<li><a href="#"><i class="icon-world"></i><span>Eng</span></a></li>
-					</ul>
-				</div>
-			</header>
 			<main>
 				<!-- HERO -->
 				<section class="section section--home-hero">
@@ -97,7 +98,7 @@
 						<div class="swiper-wrapper">
 							<!-- SWIPER-SLIDE -->
 							<div class="swiper-slide swiper-slide--home-hero">
-								<div class="background">
+								<div class="background" data-swiper-parallax="-4%">
 									<img src="img/home/hero-01.jpg" />
 								</div>
 								<div class="container">
@@ -113,7 +114,7 @@
 							</div>
 							<!-- SWIPER-SLIDE -->
 							<div class="swiper-slide swiper-slide--home-hero">
-								<div class="background">
+								<div class="background" data-swiper-parallax="-4%">
 									<video loop muted playsinline preload="auto">
 										<source src="img/home/video.mp4" type="video/mp4">
 									</video>
@@ -131,7 +132,7 @@
 							</div>
 							<!-- SWIPER-SLIDE -->
 							<div class="swiper-slide swiper-slide--home-hero">
-								<div class="background">
+								<div class="background" data-swiper-parallax="-4%">
 									<img src="img/home/hero-03.jpg" />
 								</div>
 								<div class="container">

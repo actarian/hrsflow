@@ -550,7 +550,8 @@ button:disabled,
     margin-top: 3px; }
 
 .swiper-container {
-  width: 100%; }
+  width: 100%;
+  cursor: pointer; }
 
 .swiper-container-horizontal > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
   -webkit-transition: all ease-in-out 350ms;
@@ -610,7 +611,7 @@ button:disabled,
 */
 .page {
   display: block;
-  position: relative;
+  position: fixed;
   width: 100vw;
   min-height: 100vh; }
 
@@ -805,7 +806,7 @@ footer a {
   .section--home-hero .triangles {
     position: absolute;
     width: 100%;
-    height: 240px;
+    height: 294px;
     bottom: 0;
     left: 0;
     z-index: 90; }
@@ -851,10 +852,10 @@ footer a {
           align-items: center; }
   .swiper-slide--home-hero .background {
     position: absolute;
-    width: 100%;
+    width: 108%;
     height: 100%;
     top: 0;
-    left: 0;
+    left: -4%;
     overflow: hidden; }
     .swiper-slide--home-hero .background img,
     .swiper-slide--home-hero .background video {
@@ -876,7 +877,7 @@ footer a {
 
 .section--hilights .triangles {
   position: absolute;
-  height: 50%;
+  height: 392px;
   top: 0;
   left: 0;
   width: 100%; }
@@ -908,7 +909,7 @@ footer a {
   padding-bottom: 185px; }
   .section--case-studies .triangles {
     width: 100%;
-    height: 60%;
+    height: 392px;
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
@@ -1103,7 +1104,7 @@ footer a {
     margin-top: 85px; }
   .section--numbers .triangles {
     width: 100%;
-    height: 60%;
+    height: 392px;
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }

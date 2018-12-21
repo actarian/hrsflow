@@ -12,7 +12,7 @@ const fs = require('fs'),
 	path = require('path'),
 	plumber = require('gulp-plumber'),
 	rename = require('gulp-rename'),
-	sass = require('gulp-sass'),
+	scss = require('gulp-sass'),
 	sourcemaps = require('gulp-sourcemaps'),
 	uglify = require('gulp-uglify'),
 	webserver = require('gulp-webserver'),
@@ -23,61 +23,28 @@ const fs = require('fs'),
 const bundler = './bundler.config.json';
 const compiler = './compiler.config.json';
 
-const useTypescript = false;
-
-// TYPESCRIPT
-gulp.task('bundle:typescript', () => {
-	return gulp.src('src/app/main.ts')
-		.pipe(plumber())
-		.pipe(sourcemaps.init())
-		.pipe(through2.obj((file, enc, next) => {
-				browserify(file.path)
-					.plugin(tsify)
-					.transform('babelify', { plugins: ['@babel/plugin-transform-flow-strip-types'], extensions: ['.ts'] })
-					.bundle((error, response) => {
-						if (error) {
-							console.log('browserify.bundle.error', error);
-						} else {
-							file.contents = response;
-							next(null, file);
-						}
-					})
-					.on('error', (error) => {
-						console.error('browserify.error', error.toString());
-					});
-			}
-			/*, (done) => {
-				console.log('through2.done', error);
-			}*/
-		))
-		.pipe(rename('main.js'))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('docs/js'));
-});
-
 // COMPILE
-gulp.task('compile:sass', () => {
+gulp.task('compile:scss', () => {
 	const tasks = getCompilers('.scss').map((compile) => {
-		console.log(compile.inputFile);
 		return gulp.src(compile.inputFile, {
 				base: '.'
 			})
 			.pipe(plumber())
-			.pipe(sass({
+			.pipe(scss({
 				includePaths: ['./node_modules/', __dirname + '/node_modules', 'node_modules'],
-			}).on('compile:sass.error', (error) => {
-				console.log('compile:sass.error', error);
+			}).on('compile:scss.error', (error) => {
+				logger.error('compile:scss', error);
 			}))
 			.pipe(autoprefixer())
 			.pipe(rename(compile.outputFile))
 			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./'));
+			.pipe(gulp.dest('./'))
+			.on('end', () => logger.log('compile', compile.outputFile));
 	});
 	return merge(tasks);
 });
 gulp.task('compile:js', () => {
 	const tasks = getCompilers('.js').map((compile) => {
-		console.log(compile.inputFile);
 		return gulp.src(compile.inputFile, {
 				base: '.'
 			})
@@ -86,53 +53,78 @@ gulp.task('compile:js', () => {
 			.pipe(through2.obj((file, enc, next) => {
 					browserify(file.path)
 						.plugin(tsify)
-						.transform('babelify', { plugins: [], extensions: ['.js'] })
+						.transform('babelify', {
+							global: true,
+							presets: [
+								["@babel/preset-env", {
+									targets: {
+										chrome: '58',
+										ie: '11'
+									},
+								}]
+							],
+							extensions: ['.js']
+						})
 						.bundle((error, response) => {
 							if (error) {
-								console.log('browserify.bundle.error', error);
+								logger.error('compile:js', error);
+							} else {
+								logger.log('browserify.bundle.success', compile.outputFile);
+								file.contents = response;
+								next(null, file);
+							}
+						})
+						.on('error', (error) => {
+							logger.error('compile:js', error.toString());
+						});
+				}
+				/*, (done) => {
+					logger.log('through2.done', error);
+				}*/
+			))
+			.pipe(rename(compile.outputFile))
+			.pipe(sourcemaps.write('.'))
+			.pipe(gulp.dest('./'))
+			.on('end', () => logger.log('compile', compile.outputFile));
+	});
+	return merge(tasks);
+});
+gulp.task('compile:ts', () => {
+	const tasks = getCompilers('.ts').map((compile) => {
+		logger.log(compile.inputFile);
+		return gulp.src(compile.inputFile, {
+				base: '.'
+			})
+			.pipe(plumber())
+			.pipe(sourcemaps.init())
+			.pipe(through2.obj((file, enc, next) => {
+					browserify(file.path)
+						.plugin(tsify)
+						.transform('babelify', { plugins: ['@babel/plugin-transform-flow-strip-types'], extensions: ['.ts'] })
+						.bundle((error, response) => {
+							if (error) {
+								logger.error('compile:ts', error);
 							} else {
 								file.contents = response;
 								next(null, file);
 							}
 						})
 						.on('error', (error) => {
-							console.error('browserify.error', error.toString());
+							logger.error('compile:ts', error.toString());
 						});
 				}
 				/*, (done) => {
-					console.log('through2.done', error);
+					logger.log('through2.done', error);
 				}*/
 			))
 			.pipe(rename(compile.outputFile))
 			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./'));
+			.pipe(gulp.dest('./'))
+			.on('end', () => logger.log('compile', compile.outputFile));
 	});
 	return merge(tasks);
 });
-gulp.task('compile', ['compile:sass', 'compile:js']);
-
-// BUNDLE
-
-gulp.task('bundle:css', () => {
-	const tasks = getBundles('.css').map((bundle) => {
-		return doCssBundle(gulp.src(bundle.inputFiles, {
-			base: '.'
-		}), bundle);
-	});
-	return merge(tasks);
-});
-
-gulp.task('bundle:js', () => {
-	const tasks = getBundles('.js').map((bundle) => {
-		return doJsBundle(gulp.src(bundle.inputFiles, {
-			base: '.'
-		}), bundle);
-	});
-	return merge(tasks);
-});
-
-// PARTIALS
-gulp.task('bundle:partials', () => {
+gulp.task('compile:partials', () => {
 	return gulp.src('./src/artisan/**/*.html', {
 			base: './src/artisan/'
 		})
@@ -142,7 +134,7 @@ gulp.task('bundle:partials', () => {
 			path.dirname = path.dirname.split('artisan/').join('');
 			// path.basename += "-partial";
 			path.extname = '';
-			// console.log('path', path);
+			// logger.log('path', path);
 		}))
 		.pipe(html2js('artisan-partials.js', {
 			adapter: 'angular',
@@ -163,9 +155,7 @@ gulp.task('bundle:partials', () => {
 		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest('./docs/js/'));
 });
-
-// SNIPPETS
-gulp.task('bundle:snippets', () => {
+gulp.task('compile:snippets', () => {
 	return gulp.src('./src/snippets/**/*.glsl', {
 			base: './src/snippets/'
 		})
@@ -202,34 +192,66 @@ gulp.task('bundle:snippets', () => {
 		}))
 		.pipe(gulp.dest('./snippets/'));
 });
+gulp.task('compile', ['compile:scss', 'compile:js', 'compile:ts']);
+// gulp.task('compile', ['compile:scss', 'compile:js', 'compile:ts', 'compile:partials', 'compile:snippets']);
+
+// BUNDLE
+gulp.task('bundle:css', () => {
+	const tasks = getBundles('.css').map((bundle) => {
+		return doCssBundle(gulp.src(bundle.inputFiles, {
+			base: '.'
+		}), bundle);
+	});
+	return merge(tasks);
+});
+gulp.task('bundle:js', () => {
+	const tasks = getBundles('.js').map((bundle) => {
+		return doJsBundle(gulp.src(bundle.inputFiles, {
+			base: '.'
+		}), bundle);
+	});
+	return merge(tasks);
+});
+gulp.task('bundle', ['bundle:css', 'bundle:js']);
 
 // WATCH
 gulp.task('watch', (done) => {
-	if (useTypescript) {
-		gulp.watch('./src/app/**/*.ts', ['bundle:typescript']).on('change', log);
+	const scssSources = getCompilers('.scss').map(x => {
+		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.scss');
+	});
+	if (scssSources.length > 0) {
+		gulp.watch(scssSources, ['compile:scss']).on('change', logWatch);
 	}
-	if (getCompilers('.js').length > 0) {
-		gulp.watch('./src/app/**/*.js', ['compile:js']).on('change', log);
+	const jsSources = getCompilers('.js').map(x => {
+		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.js');
+	});
+	if (jsSources.length > 0) {
+		gulp.watch(jsSources, ['compile:js']).on('change', logWatch);
 	}
-	gulp.watch('./src/sass/**/*.scss', ['compile:sass']).on('change', log);
+	const tsSources = getCompilers('.ts').map(x => {
+		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.ts');
+	});
+	if (tsSources.length > 0) {
+		gulp.watch(tsSources, ['compile:ts']).on('change', logWatch);
+	}
+	// gulp.watch('./src/artisan/**/*.html', ['compile:partials']).on('change', logWatch);
+	// gulp.watch('./src/snippets/**/*.glsl', ['compile:snippets']).on('change', logWatch);
 	getBundles('.css').forEach((bundle) => {
 		gulp.watch(bundle.inputFiles, () => {
 			return doCssBundle(gulp.src(bundle.inputFiles, {
 				base: '.'
 			}), bundle);
-		}).on('change', log);
+		}).on('change', logWatch);
 	});
 	getBundles('.js').forEach((bundle) => {
 		gulp.watch(bundle.inputFiles, () => {
 			return doJsBundle(gulp.src(bundle.inputFiles, {
 				base: '.'
 			}), bundle);
-		}).on('change', log);
+		}).on('change', logWatch);
 	});
-	gulp.watch('./src/artisan/**/*.html', ['bundle:partials']).on('change', log);
-	// gulp.watch('./src/snippets/**/*.glsl', ['bundle:snippets']).on('change', log);
-	gulp.watch(compiler, ['compile', 'bundle']).on('change', log);
-	gulp.watch(bundler, ['bundle']).on('change', log);
+	gulp.watch(compiler, ['compile', 'bundle']).on('change', logWatch);
+	gulp.watch(bundler, ['bundle']).on('change', logWatch);
 	done();
 });
 
@@ -245,29 +267,23 @@ gulp.task('webserver', () => {
 		}));
 });
 
-if (useTypescript) {
-	gulp.task('bundle', ['bundle:css', 'bundle:js']);
-} else {
-	gulp.task('bundle', ['bundle:css', 'bundle:js', 'bundle:typescript']);
-}
-
-// gulp.task('bundle', ['bundle:css', 'bundle:js', 'bundle:typescript', 'bundle:partials', 'bundle:snippets']);
-
 gulp.task('default', ['compile', 'bundle', 'webserver', 'watch']);
 
 gulp.task('start', ['compile', 'bundle', 'watch']);
 
 // METHODS
-
 function doCssBundle(glob, bundle) {
 	return glob
 		.pipe(plumber())
 		.pipe(concat(bundle.outputFileName))
 		.pipe(gulp.dest('.'))
+		.on('end', () => logger.log('bundle', bundle.outputFileName))
+		// .pipe(sourcemaps.init())
 		.pipe(gulpif(bundle.minify && bundle.minify.enabled, cssmin()))
 		.pipe(rename({
 			extname: '.min.css'
 		}))
+		// .pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('.'));
 }
 
@@ -276,6 +292,7 @@ function doJsBundle(glob, bundle) {
 		.pipe(plumber())
 		.pipe(concat(bundle.outputFileName))
 		.pipe(gulp.dest('.'))
+		.on('end', () => logger.log('bundle', bundle.outputFileName))
 		.pipe(sourcemaps.init())
 		.pipe(gulpif(bundle.minify && bundle.minify.enabled, uglify()))
 		.pipe(rename({
@@ -310,7 +327,7 @@ function getBundles(ext) {
 function getJson(path) {
 	if (fs.existsSync(path)) {
 		const text = fs.readFileSync(path, 'utf8');
-		// console.log('getJson', path, text);
+		// logger.log('getJson', path, text);
 		return JSON.parse(stripBom(text));
 	} else {
 		return null;
@@ -325,6 +342,69 @@ function stripBom(text) {
 	return text;
 }
 
-function log(e) {
-	console.log(e.type, e.path);
+const palette = {
+	Reset: '\x1b[0m',
+	Bright: '\x1b[1m',
+	Dim: '\x1b[2m',
+	Underscore: '\x1b[4m',
+	Blink: '\x1b[5m',
+	Reverse: '\x1b[7m',
+	Hidden: '\x1b[8m',
+	//
+	FgBlack: '\x1b[30m',
+	FgRed: '\x1b[31m',
+	FgGreen: '\x1b[32m',
+	FgYellow: '\x1b[33m',
+	FgBlue: '\x1b[34m',
+	FgMagenta: '\x1b[35m',
+	FgCyan: '\x1b[36m',
+	FgWhite: '\x1b[37m',
+	//
+	BgBlack: '\x1b[40m',
+	BgRed: '\x1b[41m',
+	BgGreen: '\x1b[42m',
+	BgYellow: '\x1b[43m',
+	BgBlue: '\x1b[44m',
+	BgMagenta: '\x1b[45m',
+	BgCyan: '\x1b[46m',
+	BgWhite: '\x1b[47m',
+};
+
+const colors = [palette.FgWhite, palette.FgCyan, palette.FgGreen, palette.FgYellow, palette.FgMagenta, palette.FgBlue];
+
+function padStart(text, count = 2, char = '0') {
+	text = text.toString();
+	while (text.length < count) {
+		text = char + text;
+	}
+	return text;
+}
+
+class logger {
+	static log() {
+		const date = new Date();
+		const hh = padStart(date.getHours());
+		const mm = padStart(date.getMinutes());
+		const ss = padStart(date.getSeconds());
+		let a = Array.from(arguments);
+		a = [].concat.apply([], (a.map((x, i) => [colors[i % colors.length], x])));
+		a.unshift(`${palette.FgWhite}[${palette.Dim}${hh}:${mm}:${ss}${palette.Reset}${palette.FgWhite}]`);
+		a.push(palette.Reset);
+		console.log.apply(this, a);
+	}
+	static error() {
+		const date = new Date();
+		const hh = padStart(date.getHours());
+		const mm = padStart(date.getMinutes());
+		const ss = padStart(date.getSeconds());
+		let a = Array.from(arguments);
+		a = [].concat.apply([], (a.map((x, i) => [palette.Red, x])));
+		a.unshift(`${palette.FgWhite}[${palette.Dim}${hh}:${mm}:${ss}${palette.Reset}${palette.FgWhite}]`);
+		a.push(palette.Reset);
+		console.log.apply(this, a);
+	}
+}
+
+function logWatch(e) {
+	logger.log(e.type, e.path);
 }

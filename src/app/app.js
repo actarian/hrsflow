@@ -1,167 +1,23 @@
 /* jshint esversion: 6 */
-/* global Swiper, TweenLite, TweenMax */
+/* global window, document, Swiper, TweenMax */
 
-const module = 100;
+import Dom from './shared/dom';
+import Rect from './shared/rect';
+import Triangles from './shared/triangles';
 
-export class Triangle {
-
-	constructor(white) {
-		const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-		const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-		const size = Math.random() < 0.5 ? 60 : 120;
-		const filled = Math.random() < 0.15 ? '-fill' : '';
-		const color = white ? '-white' : '';
-		const name = 'triangle-' + size + filled + color;
-		element.appendChild(use);
-		element.setAttribute('class', 'triangle triangle--' + size);
-		use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + name);
-		use.setAttribute('width', size);
-		use.setAttribute('height', size);
-		this.element = element;
-	}
-
-	getRandomPosition(element) {
-		const width = element.offsetWidth;
-		const height = element.offsetHeight;
-		const r = Math.floor(Math.random() * 4) * 90;
-		const x = Math.floor((Math.random() * width) / module);
-		const y = Math.floor((Math.random() * height) / module);
-		const i = y * 30 + x;
-		return {
-			r: r,
-			x: x * module,
-			y: y * module,
-			i: i,
-		};
-	}
-
-	appendInto(element, pool) {
-		element.appendChild(this.element);
-		this.parent = element;
-		this.resize(element, pool);
-	}
-
-	resize(element, pool) {
-		let position = this.getRandomPosition(element);
-		let t = 0;
-		while (pool[position.i] !== undefined && t < 5) {
-			position = this.getRandomPosition(element);
-			t++;
-		}
-		pool[position.i] = position.i;
-		this.position = position;
-		this.parent = element;
-		TweenMax.set(this.element, {
-			opacity: 0,
-			transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
-		});
-		this.appear();
-	}
-
-	appear() {
-		const position = this.position;
-		TweenMax.to(this.element, 1.0, {
-			opacity: 1,
-			onComplete: () => {
-				this.rotate();
-			},
-			onCompleteScope: this,
-			ease: Quint.easeInOut,
-			overwrite: 'all',
-			delay: position.i * 0.02,
-		});
-	}
-
-	rotate() {
-		const position = this.position;
-		const i = (position.x / module) - 1;
-		position.x = i * module;
-		TweenMax.to(this.element, 1.0, {
-			// transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%)',
-			x: position.x + '%',
-			directionalRotation: '90_cw',
-			onComplete: () => {
-				this.disappear();
-			},
-			onCompleteScope: this,
-			ease: Quint.easeInOut,
-			overwrite: 'all',
-			delay: 3 + Math.floor(Math.random() * 10),
-		});
-	}
-
-	disappear() {
-		TweenMax.to(this.element, 1.0, {
-			opacity: 0,
-			onComplete: () => {
-				const position = this.getRandomPosition(this.parent);
-				this.position = position;
-				TweenMax.set(this.element, {
-					opacity: 0,
-					transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
-				});
-				this.appear();
-			},
-			onCompleteScope: this,
-			ease: Quint.easeInOut,
-			overwrite: 'all',
-		});
-	}
-
-	tween() {
-		TweenMax.to(this.element, 1.0, {
-			opacity: Math.min(1, Math.random() * 2),
-			onComplete: () => {
-				this.tween();
-			},
-			onCompleteScope: this,
-			ease: Quint.easeInOut,
-			overwrite: 'all',
-			delay: position.i * 0.1,
-		});
-	}
-
-	render() {
-		console.log(this);
-	}
-
-}
-
-export class Triangles {
-
-	constructor(element) {
-		const triangles = new Array(20).fill(null).map(() => {
-			return new Triangle(element.hasAttribute('white'));
-		});
-		this.element = element;
-		this.triangles = triangles;
-		const pool = {};
-		triangles.forEach((triangle) => {
-			triangle.appendInto(element, pool);
-		});
-	}
-
-	resize() {
-		const element = this.element;
-		const pool = {};
-		this.triangles.forEach((triangle) => {
-			triangle.resize(element, pool);
-		});
-	}
-
-}
-
-export class App {
+export default class App {
 
 	constructor() {}
 
 	init() {
+		const body = document.querySelector('body');
 		const page = document.querySelector('.page');
 		const swiperHero = new Swiper('.swiper-container--home-hero', {
 			loop: true,
-			effect: 'fade',
+			// effect: 'fade',
+			// followFinger: true,
 			parallax: true,
-			spaceBetween: 300,
+			spaceBetween: 0,
 			speed: 600,
 			autoplay: {
 				delay: 5000,
@@ -217,13 +73,16 @@ export class App {
 		const animations = [].slice.call(document.querySelectorAll('.triangles')).map((element) => {
 			return new Triangles(element);
 		});
+		const elements = [].slice.call(document.querySelectorAll('.case-studies__item'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const mxy = { x: 0, y: 0 };
+		this.body = body;
 		this.page = page;
 		this.swiperHero = swiperHero;
 		this.swiperHilights = swiperHilights;
 		this.shadows = shadows;
 		this.animations = animations;
+		this.elements = elements;
 		this.hrefs = hrefs;
 		this.mxy = mxy;
 		window.addEventListener('resize', () => {
@@ -242,10 +101,32 @@ export class App {
 				e.stopPropagation();
 			});
 		});
+		/*
+		const intersection = new IntersectionService();
+		elements.forEach((element, i) => intersection.observe(element, (entry, ei) => {
+			let pow = 1 + 0.1 * i;
+			pow = (pow * entry.intersectionRatio);
+			element.pow = pow;
+		}));
+		*/
+		this.resize();
 		this.loop();
 	}
 
 	render() {
+		// smoothscroll
+		if (this.body.offsetHeight !== this.page.offsetHeight) {
+			TweenMax.set(this.body, {
+				height: this.page.offsetHeight,
+			});
+		}
+		let cy = this.page.cy || 0;
+		cy += (-window.scrollY - cy) / 10;
+		this.page.cy = cy;
+		TweenMax.set(this.page, {
+			y: cy,
+		});
+		// shadows
 		this.shadows.forEach((element) => {
 			const xy = element.xy || { x: 0, y: 0 };
 			xy.x += (this.mxy.x - xy.x) / 8;
@@ -264,6 +145,38 @@ export class App {
 			}
 			element.xy = xy;
 		});
+		// parallax
+		/*
+		this.elements.forEach((element, i) => {
+			if (element.parentNode) {
+				const parentRect = element.parentNode.getBoundingClientRect();
+				const rect = new Rect({
+					top: parentRect.top + element.offsetTop,
+					left: parentRect.left + element.offsetLeft,
+					width: element.offsetWidth,
+					height: element.offsetHeight,
+				});
+				const intersection = rect.intersection(this.windowRect);
+				element.intersection = intersection;
+				TweenMax.set(element, {
+					y: element.intersection.center.y * (100 + 30 * i),
+				});
+			}
+		});
+		/*
+		this.elements.forEach((element, i) => {
+			if (element.intersection) {
+				let pow = element.pow || 0;
+				pow += (element.intersection.center.y - pow) / 10;
+				element.pow = pow;
+				TweenMax.set(element, {
+					// opacity: pow,
+					// y: pow * 100,
+					y: element.intersection.center.y * 100,
+				});
+			}
+		});
+		*/
 	}
 
 	loop() {
@@ -273,29 +186,58 @@ export class App {
 		});
 	}
 
-	scroll() {
-		if (window.scrollY > 0) {
-			this.page.setAttribute('class', 'page fixed');
-		} else {
-			this.page.setAttribute('class', 'page');
-		}
-	}
-
 	resize() {
+		this.windowRect = new Rect({
+			top: 0,
+			left: 0,
+			width: window.innerWidth,
+			height: window.innerHeight,
+		});
 		this.animations.forEach((animation) => {
 			animation.resize();
 		});
 	}
 
+	scroll() {
+		if (window.scrollY > 0) {
+			Dom.addClass(this.body, 'fixed');
+		} else {
+			Dom.removeClass(this.body, 'fixed');
+		}
+		/*
+		const wrect = new Rect({
+			top: 0,
+			left: 0,
+			width: window.innerWidth,
+			height: window.innerHeight,
+		});
+		this.elements.forEach((element, i) => {
+			if (element.parentNode) {
+				const parentRect = element.parentNode.getBoundingClientRect();
+				const rect = new Rect({
+					top: parentRect.top + element.offsetTop,
+					left: parentRect.left + element.offsetLeft,
+					width: element.offsetWidth,
+					height: element.offsetHeight,
+				});
+				const intersection = rect.intersection(wrect);
+				element.intersection = intersection;
+			}
+		});
+		*/
+		/*
+		TweenMax.to(this.page, 1.650, {
+			y: -window.scrollY,
+			ease: Quad.easeOut,
+			overwrite: 'all',
+		});
+		*/
+	}
+
 }
 
-(function() {
-	"use strict";
+var app = new App();
 
-	var app = new App();
-
-	window.onload = () => {
-		app.init();
-	};
-
-}());
+window.onload = () => {
+	app.init();
+};
