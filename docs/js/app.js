@@ -222,60 +222,36 @@ function () {
       this.triangles.forEach(function (triangle, i) {
         var node = triangle.element;
 
-        if (node.offsetParent) {
-          var rect = _rect.default.fromNode(node);
+        var rect = _rect.default.fromNode(node);
 
-          var intersection = rect.intersection(_this.windowRect);
+        var intersection = rect.intersection(_this.windowRect);
 
-          if (intersection.y > 0) {
-            triangle.appear();
-          } else {
-            triangle.disappear();
-          }
+        if (intersection.y > 0) {
+          triangle.appear();
+        } else {
+          triangle.disappear();
         }
       }); // parallax
 
       this.parallaxes.forEach(function (node, i) {
-        if (node.offsetParent) {
-          var currentY = node.currentY || 0;
+        var currentY = node.currentY || 0;
 
-          var rect = _rect.default.fromNode(node);
+        var rect = _rect.default.fromNode(node);
 
-          rect = new _rect.default({
-            top: rect.top - currentY,
-            left: rect.left,
-            width: rect.width,
-            height: rect.height
+        rect = new _rect.default({
+          top: rect.top - currentY,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height
+        });
+        var intersection = rect.intersection(_this.windowRect);
+        currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+
+        if (node.currentY !== currentY) {
+          node.currentY = currentY;
+          TweenMax.set(node, {
+            transform: 'translateY(' + currentY + 'px)'
           });
-          /*
-          node.getBoundingClientRect();
-          rect = new Rect({
-          	top: rect.top,
-          	left: rect.left,
-          	width: rect.width,
-          	height: rect.height,
-          });
-          */
-
-          /*
-          const parentRect = node.offsetParent.getBoundingClientRect();
-          const rect = new Rect({
-          	top: parentRect.top + node.offsetTop,
-          	left: parentRect.left + node.offsetLeft,
-          	width: node.offsetWidth,
-          	height: node.offsetHeight,
-          });
-          */
-
-          var intersection = rect.intersection(_this.windowRect);
-          currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
-
-          if (node.currentY !== currentY) {
-            node.currentY = currentY;
-            TweenMax.set(node, {
-              transform: 'translateY(' + currentY + 'px)'
-            });
-          }
         }
       });
     }
@@ -459,8 +435,8 @@ function () {
         return new Rect();
       }
 
-      var rect = node.getBoundingClientRect();
-      var defaultView = node.ownerDocument.defaultView;
+      var rect = node.getBoundingClientRect(); // const defaultView = node.ownerDocument.defaultView;
+
       return new Rect({
         // top: rect.top + defaultView.pageYOffset,
         // left: rect.left + defaultView.pageXOffset,

@@ -24,7 +24,7 @@ export default class Rect {
 			return new Rect();
 		}
 		let rect = node.getBoundingClientRect();
-		const defaultView = node.ownerDocument.defaultView;
+		// const defaultView = node.ownerDocument.defaultView;
 		return new Rect({
 			// top: rect.top + defaultView.pageYOffset,
 			// left: rect.left + defaultView.pageXOffset,

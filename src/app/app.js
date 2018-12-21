@@ -189,54 +189,32 @@ export default class App {
 		// triangles
 		this.triangles.forEach((triangle, i) => {
 			const node = triangle.element;
-			if (node.offsetParent) {
-				let rect = Rect.fromNode(node);
-				const intersection = rect.intersection(this.windowRect);
-				if (intersection.y > 0) {
-					triangle.appear();
-				} else {
-					triangle.disappear();
-				}
+			let rect = Rect.fromNode(node);
+			const intersection = rect.intersection(this.windowRect);
+			if (intersection.y > 0) {
+				triangle.appear();
+			} else {
+				triangle.disappear();
 			}
 		});
 
 		// parallax
 		this.parallaxes.forEach((node, i) => {
-			if (node.offsetParent) {
-				let currentY = node.currentY || 0;
-				let rect = Rect.fromNode(node);
-				rect = new Rect({
-					top: rect.top - currentY,
-					left: rect.left,
-					width: rect.width,
-					height: rect.height,
+			let currentY = node.currentY || 0;
+			let rect = Rect.fromNode(node);
+			rect = new Rect({
+				top: rect.top - currentY,
+				left: rect.left,
+				width: rect.width,
+				height: rect.height,
+			});
+			const intersection = rect.intersection(this.windowRect);
+			currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+			if (node.currentY !== currentY) {
+				node.currentY = currentY;
+				TweenMax.set(node, {
+					transform: 'translateY(' + currentY + 'px)',
 				});
-				/*
-				node.getBoundingClientRect();
-				rect = new Rect({
-					top: rect.top,
-					left: rect.left,
-					width: rect.width,
-					height: rect.height,
-				});
-				*/
-				/*
-				const parentRect = node.offsetParent.getBoundingClientRect();
-				const rect = new Rect({
-					top: parentRect.top + node.offsetTop,
-					left: parentRect.left + node.offsetLeft,
-					width: node.offsetWidth,
-					height: node.offsetHeight,
-				});
-				*/
-				const intersection = rect.intersection(this.windowRect);
-				currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
-				if (node.currentY !== currentY) {
-					node.currentY = currentY;
-					TweenMax.set(node, {
-						transform: 'translateY(' + currentY + 'px)',
-					});
-				}
 			}
 		});
 
