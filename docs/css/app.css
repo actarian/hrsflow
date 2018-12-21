@@ -613,7 +613,11 @@ button:disabled,
   display: block;
   position: fixed;
   width: 100vw;
-  min-height: 100vh; }
+  min-height: 100vh;
+  overflow-x: hidden; }
+  .overscroll .page,
+  .touch .page {
+    position: relative; }
 
 page-transition {
   display: -webkit-box;
@@ -684,18 +688,6 @@ header {
   header .container {
     padding-top: 40px;
     padding-bottom: 40px; }
-  header:before {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 320px;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0)));
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0); }
   header .brand {
     height: 60px;
     margin-left: -50px; }
@@ -715,6 +707,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    background: white;
     -webkit-transform: translateY(-100%);
             transform: translateY(-100%);
     -webkit-transition: all 0.2s ease-in-out;
@@ -733,9 +726,6 @@ header {
       display: none; }
     .fixed header .brand--black {
       display: block; }
-    .fixed header:before {
-      background: white;
-      height: 100%; }
 
 footer .container {
   border-top: 1px solid #dedcdc; }
@@ -806,7 +796,7 @@ footer a {
   .section--home-hero .triangles {
     position: absolute;
     width: 100%;
-    height: 294px;
+    height: 232px;
     bottom: 0;
     left: 0;
     z-index: 90; }
@@ -866,6 +856,19 @@ footer a {
               transform: translateX(-50%) translateY(-50%);
       min-width: 100%;
       min-height: 100%; }
+    .swiper-slide--home-hero .background:after {
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 320px;
+      background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0)));
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
+      mix-blend-mode: darken; }
   .swiper-slide--home-hero .container {
     position: relative; }
   .swiper-slide--home-hero .h1 {
@@ -877,7 +880,7 @@ footer a {
 
 .section--hilights .triangles {
   position: absolute;
-  height: 392px;
+  height: 464px;
   top: 0;
   left: 0;
   width: 100%; }
@@ -915,7 +918,7 @@ footer a {
   padding-bottom: 185px; }
   .section--case-studies .triangles {
     width: 100%;
-    height: 392px;
+    height: 464px;
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
@@ -1110,7 +1113,7 @@ footer a {
     margin-top: 85px; }
   .section--numbers .triangles {
     width: 100%;
-    height: 392px;
+    height: 464px;
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
@@ -1207,7 +1210,8 @@ body {
 body {
   font-size: 16px;
   background: white;
-  color: black; }
+  color: black;
+  -webkit-overflow-scrolling: touch; }
 
 main {
   position: relative; }

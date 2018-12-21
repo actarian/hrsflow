@@ -12,6 +12,7 @@ export default class App {
 	init() {
 		const body = document.querySelector('body');
 		const page = document.querySelector('.page');
+		Dom.detect(body);
 		const swiperHero = new Swiper('.swiper-container--home-hero', {
 			loop: true,
 			// effect: 'fade',
@@ -142,7 +143,7 @@ export default class App {
 	}
 
 	onScroll() {
-		if (Dom.scrollTop() > 0) {
+		if (Dom.scrollTop() > 80) {
 			this.body.classList.add('fixed');
 		} else {
 			this.body.classList.remove('fixed');
@@ -152,19 +153,23 @@ export default class App {
 	render() {
 
 		// smoothscroll
-		if (this.body.offsetHeight !== this.page.offsetHeight) {
-			TweenMax.set(this.body, {
-				height: this.page.offsetHeight,
-			});
-		}
-		let top = this.page.top || 0;
-		top += (-Dom.scrollTop() - top) / 10;
-		top = Math.round(top * 10) / 10;
-		if (this.page.top !== top) {
-			this.page.top = top;
-			TweenMax.set(this.page, {
-				y: top,
-			});
+		if (!Dom.overscroll && !Dom.touch) {
+			if (this.body.offsetHeight !== this.page.offsetHeight) {
+				TweenMax.set(this.body, {
+					height: this.page.offsetHeight,
+				});
+			}
+			let top = this.page.top || 0;
+			top += (-Dom.scrollTop() - top) / 10;
+			top = Math.round(top * 10) / 10;
+			if (this.page.top !== top) {
+				this.page.top = top;
+				TweenMax.set(this.page, {
+					y: top,
+				});
+			}
+		} else if (this.body.hasAttribute('style')) {
+			this.body.removeAttribute('style');
 		}
 
 		// shadows

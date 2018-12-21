@@ -32,6 +32,9 @@ function () {
     value: function init() {
       var body = document.querySelector('body');
       var page = document.querySelector('.page');
+
+      _dom.default.detect(body);
+
       var swiperHero = new Swiper('.swiper-container--home-hero', {
         loop: true,
         // effect: 'fade',
@@ -168,7 +171,7 @@ function () {
   }, {
     key: "onScroll",
     value: function onScroll() {
-      if (_dom.default.scrollTop() > 0) {
+      if (_dom.default.scrollTop() > 80) {
         this.body.classList.add('fixed');
       } else {
         this.body.classList.remove('fixed');
@@ -180,21 +183,25 @@ function () {
       var _this = this;
 
       // smoothscroll
-      if (this.body.offsetHeight !== this.page.offsetHeight) {
-        TweenMax.set(this.body, {
-          height: this.page.offsetHeight
-        });
-      }
+      if (!_dom.default.overscroll && !_dom.default.touch) {
+        if (this.body.offsetHeight !== this.page.offsetHeight) {
+          TweenMax.set(this.body, {
+            height: this.page.offsetHeight
+          });
+        }
 
-      var top = this.page.top || 0;
-      top += (-_dom.default.scrollTop() - top) / 10;
-      top = Math.round(top * 10) / 10;
+        var top = this.page.top || 0;
+        top += (-_dom.default.scrollTop() - top) / 10;
+        top = Math.round(top * 10) / 10;
 
-      if (this.page.top !== top) {
-        this.page.top = top;
-        TweenMax.set(this.page, {
-          y: top
-        });
+        if (this.page.top !== top) {
+          this.page.top = top;
+          TweenMax.set(this.page, {
+            y: top
+          });
+        }
+      } else if (this.body.hasAttribute('style')) {
+        this.body.removeAttribute('style');
       } // shadows
 
 
@@ -315,6 +322,56 @@ function () {
   }
 
   _createClass(Dom, null, [{
+    key: "detect",
+    value: function detect(node) {
+      var userAgent = navigator.userAgent.toLowerCase();
+      var explorer = userAgent.indexOf('msie') > -1;
+      var firefox = userAgent.indexOf('firefox') > -1;
+      var opera = userAgent.toLowerCase().indexOf('op') > -1;
+      var chrome = userAgent.indexOf('chrome') > -1;
+      var safari = userAgent.indexOf('safari') > -1;
+
+      if (chrome && safari) {
+        safari = false;
+      }
+
+      if (chrome && opera) {
+        chrome = false;
+      }
+
+      var overscroll = navigator.platform === 'MacIntel' && typeof navigator.getBattery === 'function';
+      var classList = {
+        chrome: chrome,
+        explorer: explorer,
+        firefox: firefox,
+        safari: safari,
+        opera: opera,
+        overscroll: overscroll
+      };
+      Object.assign(Dom, classList);
+      Object.keys(classList).forEach(function (x) {
+        if (classList[x]) {
+          node.classList.add(x);
+        }
+      });
+
+      var onTouchStart = function onTouchStart() {
+        document.removeEventListener('touchstart', onTouchStart);
+        Dom.touch = true;
+        node.classList.add('touch');
+      };
+
+      document.addEventListener('touchstart', onTouchStart);
+
+      var onMouseDown = function onMouseDown() {
+        document.removeEventListener('mousedown', onMouseDown);
+        Dom.mouse = true;
+        node.classList.add('mouse');
+      };
+
+      document.addEventListener('mousedown', onMouseDown);
+    }
+  }, {
     key: "fragmentFirstElement",
     value: function fragmentFirstElement(fragment) {
       return Array.prototype.slice.call(fragment.children).find(function (x) {
