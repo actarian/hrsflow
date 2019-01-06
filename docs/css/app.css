@@ -605,6 +605,25 @@ button:disabled,
   width: 120px;
   height: 120px; }
 
+.follower {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none; }
+  .follower:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    left: -75px;
+    border-radius: 75px;
+    border: 6px solid rgba(222, 220, 220, 0.5); }
+
 /*
 @import "components/forms";
 @import "components/modals";

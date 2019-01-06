@@ -8,9 +8,15 @@ exports.default = void 0;
 
 var _dom = _interopRequireDefault(require("./shared/dom"));
 
+var _follower = _interopRequireDefault(require("./shared/follower"));
+
 var _rect = _interopRequireDefault(require("./shared/rect"));
 
 var _triangles = _interopRequireDefault(require("./shared/triangles"));
+
+var _utils = _interopRequireDefault(require("./shared/utils"));
+
+var _video = _interopRequireDefault(require("./shared/video"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53,20 +59,9 @@ function () {
 
             if (slide) {
               var video = slide.querySelector('video');
-              /*
-              const videos = [].slice.call(slide.parentNode.querySelectorAll('video'));
-              videos.forEach(function(v) {
-              	if (!video && !!(v.currentTime > 0 && !v.paused && !v.ended && v.readyState > 2)) {
-              		v.pause();
-              	}
-              });
-              */
 
-              if (video) {
-                video.play();
-                console.log(video);
-              } // console.log(videos);
-
+              if (video) {// video.play();
+              }
             }
           }
         }
@@ -96,14 +91,22 @@ function () {
           dynamicBullets: true
         }
       });
-      var shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+      var swipers = [swiperHero, swiperHilights];
+      var videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map(function (node, i) {
+        var video = new _video.default(node);
+        video.i = i;
+        return video;
+      });
       var triangles = [].slice.call(document.querySelectorAll('.triangles')).map(function (node, i) {
         var triangles = new _triangles.default(node);
         triangles.i = i;
         return triangles;
       });
       var parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
-      var mxy = {
+      var shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+      var follower = new _follower.default(document.querySelector('.follower'));
+      var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+      var mouse = {
         x: 0,
         y: 0
       };
@@ -111,10 +114,14 @@ function () {
       this.page = page;
       this.swiperHero = swiperHero;
       this.swiperHilights = swiperHilights;
-      this.shadows = shadows;
+      this.swipers = swipers;
+      this.videos = videos;
       this.triangles = triangles;
       this.parallaxes = parallaxes;
-      this.mxy = mxy;
+      this.shadows = shadows;
+      this.follower = follower;
+      this.hrefs = hrefs;
+      this.mouse = mouse;
       this.onResize();
       this.addListeners();
     }
@@ -124,9 +131,9 @@ function () {
       window.addEventListener('resize', function () {
         app.onResize();
       });
-      window.addEventListener('scroll', function () {
+      window.addEventListener('scroll', _utils.default.throttle(function () {
         app.onScroll();
-      });
+      }, 1000 / 25));
       document.addEventListener('mousemove', function (e) {
         app.onMouseMove(e);
       });
@@ -141,8 +148,7 @@ function () {
       */
       // href="#" noop
 
-      var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
-      hrefs.forEach(function (node) {
+      this.hrefs.forEach(function (node) {
         node.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -152,8 +158,15 @@ function () {
   }, {
     key: "onMouseMove",
     value: function onMouseMove(e) {
-      this.mxy.x = e.clientX / window.innerWidth - 0.5;
-      this.mxy.y = e.clientY / window.innerHeight - 0.5;
+      this.mouse.x = e.clientX / window.innerWidth - 0.5;
+      this.mouse.y = e.clientY / window.innerHeight - 0.5;
+      this.follower.follow(this.hrefs.map(function (x) {
+        return _rect.default.fromNode(x);
+      }));
+      this.follower.move({
+        x: e.clientX,
+        y: e.clientY
+      });
     }
   }, {
     key: "onResize",
@@ -166,7 +179,7 @@ function () {
       });
       this.triangles.forEach(function (animation) {
         animation.resize();
-      });
+      }); // this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
     }
   }, {
     key: "onScroll",
@@ -175,7 +188,8 @@ function () {
         this.body.classList.add('fixed');
       } else {
         this.body.classList.remove('fixed');
-      }
+      } // this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+
     }
   }, {
     key: "render",
@@ -210,8 +224,8 @@ function () {
           x: 0,
           y: 0
         };
-        xy.x += (_this.mxy.x - xy.x) / 8;
-        xy.y += (_this.mxy.y - xy.y) / 8;
+        xy.x += (_this.mouse.x - xy.x) / 8;
+        xy.y += (_this.mouse.y - xy.y) / 8;
         var shadow = node.getAttribute('data-parallax-shadow') || 90;
         var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
         var x = (xy.x * -100).toFixed(2);
@@ -224,10 +238,42 @@ function () {
         }); // }
 
         node.xy = xy;
+      }); // swipers
+
+      this.swipers.forEach(function (swiper, i) {
+        var node = swiper.el;
+
+        var rect = _rect.default.fromNode(node);
+
+        var intersection = rect.intersection(_this.windowRect);
+
+        if (intersection.y > 0) {
+          if (!swiper.autoplay.running) {
+            swiper.autoplay.start();
+          }
+        } else {
+          if (swiper.autoplay.running) {
+            swiper.autoplay.stop();
+          }
+        }
+      }); // videos
+
+      this.videos.forEach(function (video, i) {
+        var node = video.node;
+
+        var rect = _rect.default.fromNode(node);
+
+        var intersection = rect.intersection(_this.windowRect);
+
+        if (intersection.y > 0) {
+          video.appear();
+        } else {
+          video.disappear();
+        }
       }); // triangles
 
       this.triangles.forEach(function (triangle, i) {
-        var node = triangle.element;
+        var node = triangle.node;
 
         var rect = _rect.default.fromNode(node);
 
@@ -251,7 +297,8 @@ function () {
           width: rect.width,
           height: rect.height
         });
-        var intersection = rect.intersection(_this.windowRect);
+        var intersection = rect.intersection(_this.windowRect); // if (intersection.y > 0) {}
+
         currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
 
         if (node.currentY !== currentY) {
@@ -259,8 +306,11 @@ function () {
           TweenMax.set(node, {
             transform: 'translateY(' + currentY + 'px)'
           });
-        }
-      });
+        } // }
+
+      }); // follower
+
+      this.follower.render();
     }
   }, {
     key: "loop",
@@ -299,7 +349,7 @@ window.onload = function () {
   app.play();
 };
 
-},{"./shared/dom":2,"./shared/rect":3,"./shared/triangles":5}],2:[function(require,module,exports){
+},{"./shared/dom":2,"./shared/follower":3,"./shared/rect":4,"./shared/triangles":6,"./shared/utils":7,"./shared/video":8}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -416,6 +466,104 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /* jshint esversion: 6 */
+
+/* global TweenMax */
+var friction = 8;
+
+var Follower =
+/*#__PURE__*/
+function () {
+  function Follower(node) {
+    _classCallCheck(this, Follower);
+
+    this.node = node;
+    this.x = 0;
+    this.y = 0;
+    this.s = 0;
+    this.opacity = 0;
+    this.mouse = {
+      x: 0,
+      y: 0
+    };
+    this.rects = [];
+  }
+
+  _createClass(Follower, [{
+    key: "follow",
+    value: function follow(rects) {
+      this.rects = rects;
+    }
+  }, {
+    key: "move",
+    value: function move(mouse) {
+      this.mouse = mouse;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var ex = this.mouse.x;
+      var ey = this.mouse.y;
+      var es = 0.25;
+      var magnet = this.rects.reduce(function (p, rect) {
+        var dx = Math.abs(ex - rect.center.x);
+        var dy = Math.abs(ey - rect.center.y);
+
+        if (dx < p.dx && dx < 100 && dy < p.dy && dy < 100) {
+          return {
+            match: true,
+            x: rect.center.x,
+            y: rect.center.y,
+            dx: dx,
+            dy: dy
+          };
+        } else {
+          return p;
+        }
+      }, {
+        match: false,
+        x: 0,
+        y: 0,
+        dx: Number.POSITIVE_INFINITY,
+        dy: Number.POSITIVE_INFINITY
+      });
+
+      if (magnet.match) {
+        ex = magnet.x;
+        ey = magnet.y;
+        es = 1;
+      }
+
+      this.x += (ex - this.x) / friction;
+      this.y += (ey - this.y) / friction;
+      this.s += (es - this.s) / friction;
+      this.opacity += (1.0 - this.opacity) / friction;
+      TweenMax.set(this.node, {
+        opacity: this.opacity,
+        transform: "translateX(".concat(this.x, "px) translateY(").concat(this.y, "px) scale3d(").concat(this.s, ",").concat(this.s, ",").concat(this.s, ")")
+      });
+    }
+  }]);
+
+  return Follower;
+}();
+
+exports.default = Follower;
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* jshint esversion: 6 */
 var Rect =
 /*#__PURE__*/
 function () {
@@ -510,7 +658,7 @@ function () {
 
 exports.default = Rect;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -535,26 +683,26 @@ function () {
   function Triangle(white) {
     _classCallCheck(this, Triangle);
 
-    var element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    var node = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     var size = Math.random() < 0.5 ? 60 : 120;
     var filled = Math.random() < 0.15 ? '-fill' : '';
     var color = white ? '-white' : '';
     var name = 'triangle-' + size + filled + color;
-    element.appendChild(use); // Dom.addClass(element, 'triangle--' + size);
+    node.appendChild(use); // Dom.addClass(node, 'triangle--' + size);
 
-    element.setAttribute('class', 'triangle triangle--' + size);
+    node.setAttribute('class', 'triangle triangle--' + size);
     use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + name);
     use.setAttribute('width', size);
     use.setAttribute('height', size);
-    this.element = element;
+    this.node = node;
   }
 
   _createClass(Triangle, [{
     key: "getRandomPosition",
-    value: function getRandomPosition(element) {
-      var width = element.offsetWidth;
-      var height = element.offsetHeight;
+    value: function getRandomPosition(node) {
+      var width = node.offsetWidth;
+      var height = node.offsetHeight;
       var r = Math.floor(Math.random() * 4) * 90;
       var x = Math.floor(Math.random() * width / _module);
       var y = Math.floor(Math.random() * height / _module);
@@ -568,26 +716,26 @@ function () {
     }
   }, {
     key: "appendInto",
-    value: function appendInto(element, pool) {
-      element.appendChild(this.element);
-      this.parent = element;
-      this.resize(element, pool);
+    value: function appendInto(node, pool) {
+      node.appendChild(this.node);
+      this.parent = node;
+      this.resize(node, pool);
     }
   }, {
     key: "resize",
-    value: function resize(element, pool) {
-      var position = this.getRandomPosition(element);
+    value: function resize(node, pool) {
+      var position = this.getRandomPosition(node);
       var t = 0;
 
       while (pool[position.i] !== undefined && t < 5) {
-        position = this.getRandomPosition(element);
+        position = this.getRandomPosition(node);
         t++;
       }
 
       pool[position.i] = position.i;
       this.position = position;
-      this.parent = element;
-      TweenMax.set(this.element, {
+      this.parent = node;
+      TweenMax.set(this.node, {
         opacity: 0,
         transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
       });
@@ -598,7 +746,7 @@ function () {
       var _this = this;
 
       var position = this.position;
-      TweenMax.to(this.element, 1.0, {
+      TweenMax.to(this.node, 1.0, {
         opacity: 1,
         onComplete: function onComplete() {
           _this.rotate();
@@ -617,7 +765,7 @@ function () {
       var position = this.position;
       var i = position.x / _module - 1;
       position.x = i * _module;
-      TweenMax.to(this.element, 1.0, {
+      TweenMax.to(this.node, 1.0, {
         // transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%)',
         x: position.x + '%',
         directionalRotation: '90_cw',
@@ -635,13 +783,13 @@ function () {
     value: function disappear() {
       var _this3 = this;
 
-      TweenMax.to(this.element, 1.0, {
+      TweenMax.to(this.node, 1.0, {
         opacity: 0,
         onComplete: function onComplete() {
           var position = _this3.getRandomPosition(_this3.parent);
 
           _this3.position = position;
-          TweenMax.set(_this3.element, {
+          TweenMax.set(_this3.node, {
             opacity: 0,
             transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
           });
@@ -656,7 +804,7 @@ function () {
   }, {
     key: "kill",
     value: function kill() {
-      TweenMax.killTweensOf(this.element);
+      TweenMax.killTweensOf(this.node);
     }
   }]);
 
@@ -665,7 +813,7 @@ function () {
 
 exports.default = Triangle;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -686,17 +834,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Triangles =
 /*#__PURE__*/
 function () {
-  function Triangles(element) {
+  function Triangles(node) {
     _classCallCheck(this, Triangles);
 
     var triangles = new Array(20).fill(null).map(function () {
-      return new _triangle.default(element.hasAttribute('white'));
+      return new _triangle.default(node.hasAttribute('white'));
     });
-    this.element = element;
+    this.node = node;
     this.triangles = triangles;
     var pool = {};
     triangles.forEach(function (triangle) {
-      triangle.appendInto(element, pool);
+      triangle.appendInto(node, pool);
     });
   }
 
@@ -705,10 +853,10 @@ function () {
     value: function resize() {
       var _this = this;
 
-      var element = this.element;
+      var node = this.node;
       var pool = {};
       this.triangles.forEach(function (triangle) {
-        triangle.resize(element, pool);
+        triangle.resize(node, pool);
 
         if (_this.visible) {
           triangle.appear();
@@ -742,6 +890,142 @@ function () {
 
 exports.default = Triangles;
 
-},{"./triangle":4}]},{},[1]);
+},{"./triangle":5}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* jshint esversion: 6 */
+
+/* global window, document */
+var Utils =
+/*#__PURE__*/
+function () {
+  function Utils() {
+    _classCallCheck(this, Utils);
+  }
+
+  _createClass(Utils, null, [{
+    key: "now",
+    value: function now() {
+      return Date.now ? Date.now() : new Date().getTime();
+    }
+  }, {
+    key: "throttle",
+    value: function throttle(callback, wait, options) {
+      var context = null,
+          result = null,
+          args = null,
+          timeout = null;
+      var previous = 0;
+
+      if (!options) {
+        options = {};
+      }
+
+      var later = function later() {
+        previous = options.leading === false ? 0 : Utils.now();
+        timeout = null;
+        result = callback.apply(context, args);
+
+        if (!timeout) {
+          context = args = null;
+        }
+      };
+
+      return function () {
+        context = this;
+        args = arguments;
+        var now = Utils.now();
+
+        if (!previous && options.leading === false) {
+          previous = now;
+        }
+
+        var remaining = wait - (now - previous);
+
+        if (remaining <= 0 || remaining > wait) {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+
+          previous = now;
+          result = callback.apply(context, args);
+
+          if (!timeout) {
+            context = args = null;
+          }
+        } else if (!timeout && options.trailing !== false) {
+          timeout = setTimeout(later, remaining);
+        }
+
+        return result;
+      };
+    }
+  }]);
+
+  return Utils;
+}();
+
+exports.default = Utils;
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* jshint esversion: 6 */
+var Video =
+/*#__PURE__*/
+function () {
+  function Video(node) {
+    _classCallCheck(this, Video);
+
+    this.node = node;
+  }
+
+  _createClass(Video, [{
+    key: "appear",
+    value: function appear() {
+      if (!this.visible) {
+        this.visible = true;
+        this.node.play();
+      }
+    }
+  }, {
+    key: "disappear",
+    value: function disappear() {
+      if (this.visible) {
+        this.visible = false;
+        this.node.pause();
+      }
+    }
+  }]);
+
+  return Video;
+}();
+
+exports.default = Video;
+
+},{}]},{},[1]);
 
 //# sourceMappingURL=app.js.map

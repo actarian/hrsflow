@@ -4,23 +4,23 @@ import Triangle from './triangle';
 
 export default class Triangles {
 
-	constructor(element) {
+	constructor(node) {
 		const triangles = new Array(20).fill(null).map(() => {
-			return new Triangle(element.hasAttribute('white'));
+			return new Triangle(node.hasAttribute('white'));
 		});
-		this.element = element;
+		this.node = node;
 		this.triangles = triangles;
 		const pool = {};
 		triangles.forEach((triangle) => {
-			triangle.appendInto(element, pool);
+			triangle.appendInto(node, pool);
 		});
 	}
 
 	resize() {
-		const element = this.element;
+		const node = this.node;
 		const pool = {};
 		this.triangles.forEach((triangle) => {
-			triangle.resize(element, pool);
+			triangle.resize(node, pool);
 			if (this.visible) {
 				triangle.appear();
 			}

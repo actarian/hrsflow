@@ -2,8 +2,11 @@
 /* global window, document, Swiper, TweenMax */
 
 import Dom from './shared/dom';
+import Follower from './shared/follower';
 import Rect from './shared/rect';
 import Triangles from './shared/triangles';
+import Utils from './shared/utils';
+import Video from './shared/video';
 
 export default class App {
 
@@ -30,19 +33,9 @@ export default class App {
 					const slide = this.slides[this.activeIndex];
 					if (slide) {
 						const video = slide.querySelector('video');
-						/*
-						const videos = [].slice.call(slide.parentNode.querySelectorAll('video'));
-						videos.forEach(function(v) {
-							if (!video && !!(v.currentTime > 0 && !v.paused && !v.ended && v.readyState > 2)) {
-								v.pause();
-							}
-						});
-						*/
 						if (video) {
-							video.play();
-							console.log(video);
+							// video.play();
 						}
-						// console.log(videos);
 					}
 				},
 			},
@@ -70,22 +63,34 @@ export default class App {
 				dynamicBullets: true,
 			},
 		});
-		const shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+		const swipers = [swiperHero, swiperHilights];
+		const videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map((node, i) => {
+			const video = new Video(node);
+			video.i = i;
+			return video;
+		});
 		const triangles = [].slice.call(document.querySelectorAll('.triangles')).map((node, i) => {
 			const triangles = new Triangles(node);
 			triangles.i = i;
 			return triangles;
 		});
 		const parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
-		const mxy = { x: 0, y: 0 };
+		const shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+		const follower = new Follower(document.querySelector('.follower'));
+		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+		const mouse = { x: 0, y: 0 };
 		this.body = body;
 		this.page = page;
 		this.swiperHero = swiperHero;
 		this.swiperHilights = swiperHilights;
-		this.shadows = shadows;
+		this.swipers = swipers;
+		this.videos = videos;
 		this.triangles = triangles;
 		this.parallaxes = parallaxes;
-		this.mxy = mxy;
+		this.shadows = shadows;
+		this.follower = follower;
+		this.hrefs = hrefs;
+		this.mouse = mouse;
 		this.onResize();
 		this.addListeners();
 	}
@@ -96,9 +101,9 @@ export default class App {
 			app.onResize();
 		});
 
-		window.addEventListener('scroll', () => {
+		window.addEventListener('scroll', Utils.throttle(() => {
 			app.onScroll();
-		});
+		}, 1000 / 25));
 
 		document.addEventListener('mousemove', (e) => {
 			app.onMouseMove(e);
@@ -115,8 +120,7 @@ export default class App {
 		*/
 
 		// href="#" noop
-		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
-		hrefs.forEach((node) => {
+		this.hrefs.forEach((node) => {
 			node.addEventListener('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -126,8 +130,13 @@ export default class App {
 	}
 
 	onMouseMove(e) {
-		this.mxy.x = e.clientX / window.innerWidth - 0.5;
-		this.mxy.y = e.clientY / window.innerHeight - 0.5;
+		this.mouse.x = e.clientX / window.innerWidth - 0.5;
+		this.mouse.y = e.clientY / window.innerHeight - 0.5;
+		this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+		this.follower.move({
+			x: e.clientX,
+			y: e.clientY
+		});
 	}
 
 	onResize() {
@@ -140,6 +149,7 @@ export default class App {
 		this.triangles.forEach((animation) => {
 			animation.resize();
 		});
+		// this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
 	}
 
 	onScroll() {
@@ -148,6 +158,7 @@ export default class App {
 		} else {
 			this.body.classList.remove('fixed');
 		}
+		// this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
 	}
 
 	render() {
@@ -175,8 +186,8 @@ export default class App {
 		// shadows
 		this.shadows.forEach((node) => {
 			const xy = node.xy || { x: 0, y: 0 };
-			xy.x += (this.mxy.x - xy.x) / 8;
-			xy.y += (this.mxy.y - xy.y) / 8;
+			xy.x += (this.mouse.x - xy.x) / 8;
+			xy.y += (this.mouse.y - xy.y) / 8;
 			const shadow = node.getAttribute('data-parallax-shadow') || 90;
 			const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
 			const x = (xy.x * -100).toFixed(2);
@@ -191,9 +202,37 @@ export default class App {
 			node.xy = xy;
 		});
 
+		// swipers
+		this.swipers.forEach((swiper, i) => {
+			const node = swiper.el;
+			let rect = Rect.fromNode(node);
+			const intersection = rect.intersection(this.windowRect);
+			if (intersection.y > 0) {
+				if (!swiper.autoplay.running) {
+					swiper.autoplay.start();
+				}
+			} else {
+				if (swiper.autoplay.running) {
+					swiper.autoplay.stop();
+				}
+			}
+		});
+
+		// videos
+		this.videos.forEach((video, i) => {
+			const node = video.node;
+			let rect = Rect.fromNode(node);
+			const intersection = rect.intersection(this.windowRect);
+			if (intersection.y > 0) {
+				video.appear();
+			} else {
+				video.disappear();
+			}
+		});
+
 		// triangles
 		this.triangles.forEach((triangle, i) => {
-			const node = triangle.element;
+			const node = triangle.node;
 			let rect = Rect.fromNode(node);
 			const intersection = rect.intersection(this.windowRect);
 			if (intersection.y > 0) {
@@ -214,6 +253,7 @@ export default class App {
 				height: rect.height,
 			});
 			const intersection = rect.intersection(this.windowRect);
+			// if (intersection.y > 0) {}
 			currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
 			if (node.currentY !== currentY) {
 				node.currentY = currentY;
@@ -221,7 +261,11 @@ export default class App {
 					transform: 'translateY(' + currentY + 'px)',
 				});
 			}
+			// }
 		});
+
+		// follower
+		this.follower.render();
 
 	}
 

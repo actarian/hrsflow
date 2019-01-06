@@ -6,24 +6,24 @@ const module = 98;
 export default class Triangle {
 
 	constructor(white) {
-		const element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		const node = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 		const size = Math.random() < 0.5 ? 60 : 120;
 		const filled = Math.random() < 0.15 ? '-fill' : '';
 		const color = white ? '-white' : '';
 		const name = 'triangle-' + size + filled + color;
-		element.appendChild(use);
-		// Dom.addClass(element, 'triangle--' + size);
-		element.setAttribute('class', 'triangle triangle--' + size);
+		node.appendChild(use);
+		// Dom.addClass(node, 'triangle--' + size);
+		node.setAttribute('class', 'triangle triangle--' + size);
 		use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + name);
 		use.setAttribute('width', size);
 		use.setAttribute('height', size);
-		this.element = element;
+		this.node = node;
 	}
 
-	getRandomPosition(element) {
-		const width = element.offsetWidth;
-		const height = element.offsetHeight;
+	getRandomPosition(node) {
+		const width = node.offsetWidth;
+		const height = node.offsetHeight;
 		const r = Math.floor(Math.random() * 4) * 90;
 		const x = Math.floor((Math.random() * width) / module);
 		const y = Math.floor((Math.random() * height) / module);
@@ -36,23 +36,23 @@ export default class Triangle {
 		};
 	}
 
-	appendInto(element, pool) {
-		element.appendChild(this.element);
-		this.parent = element;
-		this.resize(element, pool);
+	appendInto(node, pool) {
+		node.appendChild(this.node);
+		this.parent = node;
+		this.resize(node, pool);
 	}
 
-	resize(element, pool) {
-		let position = this.getRandomPosition(element);
+	resize(node, pool) {
+		let position = this.getRandomPosition(node);
 		let t = 0;
 		while (pool[position.i] !== undefined && t < 5) {
-			position = this.getRandomPosition(element);
+			position = this.getRandomPosition(node);
 			t++;
 		}
 		pool[position.i] = position.i;
 		this.position = position;
-		this.parent = element;
-		TweenMax.set(this.element, {
+		this.parent = node;
+		TweenMax.set(this.node, {
 			opacity: 0,
 			transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
 		});
@@ -60,7 +60,7 @@ export default class Triangle {
 
 	appear() {
 		const position = this.position;
-		TweenMax.to(this.element, 1.0, {
+		TweenMax.to(this.node, 1.0, {
 			opacity: 1,
 			onComplete: () => {
 				this.rotate();
@@ -76,7 +76,7 @@ export default class Triangle {
 		const position = this.position;
 		const i = (position.x / module) - 1;
 		position.x = i * module;
-		TweenMax.to(this.element, 1.0, {
+		TweenMax.to(this.node, 1.0, {
 			// transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%)',
 			x: position.x + '%',
 			directionalRotation: '90_cw',
@@ -91,12 +91,12 @@ export default class Triangle {
 	}
 
 	disappear() {
-		TweenMax.to(this.element, 1.0, {
+		TweenMax.to(this.node, 1.0, {
 			opacity: 0,
 			onComplete: () => {
 				const position = this.getRandomPosition(this.parent);
 				this.position = position;
-				TweenMax.set(this.element, {
+				TweenMax.set(this.node, {
 					opacity: 0,
 					transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
 				});
@@ -109,7 +109,7 @@ export default class Triangle {
 	}
 
 	kill() {
-		TweenMax.killTweensOf(this.element);
+		TweenMax.killTweensOf(this.node);
 	}
 
 }

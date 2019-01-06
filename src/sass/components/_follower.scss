@@ -1,0 +1,25 @@
+$follower-width: 150px;
+
+.follower {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	// mix-blend-mode: difference;
+	z-index: 9999;
+	pointer-events: none;
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: $follower-width;
+		height: $follower-width;
+		top: -$follower-width / 2;
+		left: -$follower-width / 2;
+		border-radius: $follower-width / 2;
+		// background: rgba(#dedcdc, 0.5);
+		border: 6px solid rgba(#dedcdc, 0.5);
+	}
+}
