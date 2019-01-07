@@ -197,7 +197,8 @@ function () {
       var _this = this;
 
       // smoothscroll
-      if (!_dom.default.overscroll && !_dom.default.touch) {
+      // if (!Dom.overscroll && !Dom.touch) {
+      if (!_dom.default.fastscroll) {
         if (this.body.offsetHeight !== this.page.offsetHeight) {
           TweenMax.set(this.body, {
             height: this.page.offsetHeight
@@ -357,13 +358,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _utils = _interopRequireDefault(require("./utils"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/* jshint esversion: 6 */
 var Dom =
 /*#__PURE__*/
 function () {
@@ -420,6 +424,25 @@ function () {
       };
 
       document.addEventListener('mousedown', onMouseDown);
+
+      var onScroll = function onScroll() {
+        var now = _utils.default.now();
+
+        if (Dom.lastScrollTime) {
+          var diff = now - Dom.lastScrollTime;
+
+          if (diff < 10) {
+            document.removeEventListener('scroll', onScroll);
+            Dom.fastscroll = true;
+            node.classList.add('fastscroll');
+            console.log('scroll', diff);
+          }
+        }
+
+        Dom.lastScrollTime = now;
+      };
+
+      document.addEventListener('scroll', onScroll);
     }
   }, {
     key: "fragmentFirstElement",
@@ -451,7 +474,7 @@ function () {
 
 exports.default = Dom;
 
-},{}],3:[function(require,module,exports){
+},{"./utils":7}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -468,7 +491,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /* jshint esversion: 6 */
 
 /* global TweenMax */
-var friction = 8;
+var friction = 5;
+var friction2 = 1;
+var size = 20;
 
 var Follower =
 /*#__PURE__*/
@@ -477,10 +502,17 @@ function () {
     _classCallCheck(this, Follower);
 
     this.node = node;
+    this.div1 = node.querySelectorAll('div')[0];
+    this.div2 = node.querySelectorAll('div')[1];
     this.x = 0;
     this.y = 0;
+    this.x2 = 0;
+    this.y2 = 0;
+    this.w = size;
+    this.h = size;
+    this.r = size / 2;
     this.s = 0;
-    this.opacity = 0;
+    this.o = 0;
     this.mouse = {
       x: 0,
       y: 0
@@ -501,46 +533,63 @@ function () {
   }, {
     key: "render",
     value: function render() {
-      var ex = this.mouse.x;
-      var ey = this.mouse.y;
-      var es = 0.25;
-      var magnet = this.rects.reduce(function (p, rect) {
-        var dx = Math.abs(ex - rect.center.x);
-        var dy = Math.abs(ey - rect.center.y);
+      var _this = this;
 
-        if (dx < p.dx && dx < 100 && dy < p.dy && dy < 100) {
-          return {
-            match: true,
-            x: rect.center.x,
-            y: rect.center.y,
-            dx: dx,
-            dy: dy
-          };
-        } else {
-          return p;
-        }
-      }, {
-        match: false,
-        x: 0,
-        y: 0,
-        dx: Number.POSITIVE_INFINITY,
-        dy: Number.POSITIVE_INFINITY
-      });
+      if (window.innerWidth >= 1024 && this.mouse.x && this.mouse.y) {
+        var magnet = this.rects.reduce(function (p, rect) {
+          if (rect.contains(_this.mouse.x, _this.mouse.y)) {
+            return {
+              match: true,
+              x: rect.left,
+              y: rect.bottom - 3,
+              width: rect.width,
+              height: 3,
+              radius: 0,
+              scale: 1,
+              opacity: 1
+            };
+          } else {
+            return p;
+          }
+        }, {
+          match: false,
+          x: this.mouse.x - size / 2,
+          y: this.mouse.y - size / 2,
+          width: size,
+          height: size,
+          radius: 75,
+          scale: 0.25,
+          opacity: 0.0
+        });
+        this.x += (magnet.x - this.x) / friction;
+        this.y += (magnet.y - this.y) / friction;
+        this.x2 += (this.mouse.x - this.x2) / friction2;
+        this.y2 += (this.mouse.y - this.y2) / friction2;
+        this.w += (magnet.width - this.w) / friction;
+        this.h += (magnet.height - this.h) / friction;
+        this.r += (magnet.radius - this.r) / friction; // this.s += (magnet.scale - this.s) / friction;
+        // this.o += (magnet.opacity - this.o) / friction;
 
-      if (magnet.match) {
-        ex = magnet.x;
-        ey = magnet.y;
-        es = 1;
+        TweenMax.set(this.div1, {
+          opacity: 1,
+          // width: `${this.w}px`,
+          // height: `${this.h}px`,
+          // transform: `translateX(${this.x}px) translateY(${this.y}px)`,
+          // borderRadius: `${magnet.radius}px`,
+          transform: "translateX(".concat(this.x + this.w / 2 - 50, "px) translateY(").concat(this.y + this.h / 2 - 50, "px) scale3d(").concat(this.w / 100, ",").concat(this.h / 100, ",1.0)")
+        });
+        TweenMax.set(this.div2, {
+          opacity: 1,
+          transform: "translateX(".concat(this.x2, "px) translateY(").concat(this.y2, "px)")
+        });
+      } else {
+        TweenMax.set(this.div1, {
+          opacity: 0
+        });
+        TweenMax.set(this.div2, {
+          opacity: 0
+        });
       }
-
-      this.x += (ex - this.x) / friction;
-      this.y += (ey - this.y) / friction;
-      this.s += (es - this.s) / friction;
-      this.opacity += (1.0 - this.opacity) / friction;
-      TweenMax.set(this.node, {
-        opacity: this.opacity,
-        transform: "translateX(".concat(this.x, "px) translateY(").concat(this.y, "px) scale3d(").concat(this.s, ",").concat(this.s, ",").concat(this.s, ")")
-      });
     }
   }]);
 
@@ -596,6 +645,11 @@ function () {
       this.center.y = this.center.top;
     }
   }, {
+    key: "contains",
+    value: function contains(left, top) {
+      return Rect.contains(this, left, top);
+    }
+  }, {
     key: "intersect",
     value: function intersect(rect) {
       return Rect.intersectRect(this, rect);
@@ -629,6 +683,11 @@ function () {
       }
     }
   }], [{
+    key: "contains",
+    value: function contains(rect, left, top) {
+      return rect.top <= top && top <= rect.bottom && rect.left <= left && left <= rect.right;
+    }
+  }, {
     key: "intersectRect",
     value: function intersectRect(r1, r2) {
       return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
@@ -918,6 +977,11 @@ function () {
     key: "now",
     value: function now() {
       return Date.now ? Date.now() : new Date().getTime();
+    }
+  }, {
+    key: "performanceNow",
+    value: function performanceNow() {
+      return performance ? performance.timing.navigationStart + performance.now() : Utils.now();
     }
   }, {
     key: "throttle",

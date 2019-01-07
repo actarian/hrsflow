@@ -12,6 +12,10 @@ export default class Rect {
 		this.set(rect);
 	}
 
+	static contains(rect, left, top) {
+		return rect.top <= top && top <= rect.bottom && rect.left <= left && left <= rect.right;
+	}
+
 	static intersectRect(r1, r2) {
 		return !(r2.left > r1.right ||
 			r2.right < r1.left ||
@@ -47,6 +51,10 @@ export default class Rect {
 		};
 		this.center.x = this.center.left;
 		this.center.y = this.center.top;
+	}
+
+	contains(left, top) {
+		return Rect.contains(this, left, top);
 	}
 
 	intersect(rect) {

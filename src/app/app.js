@@ -164,7 +164,8 @@ export default class App {
 	render() {
 
 		// smoothscroll
-		if (!Dom.overscroll && !Dom.touch) {
+		// if (!Dom.overscroll && !Dom.touch) {
+		if (!Dom.fastscroll) {
 			if (this.body.offsetHeight !== this.page.offsetHeight) {
 				TweenMax.set(this.body, {
 					height: this.page.offsetHeight,

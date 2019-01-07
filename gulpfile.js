@@ -262,7 +262,7 @@ gulp.task('webserver', () => {
 			port: 6001,
 			fallback: 'index.html',
 			open: true,
-			livereload: false,
+			livereload: true,
 			directoryListing: false,
 		}));
 });

@@ -9,10 +9,16 @@
 	min-height: 100vh;
 	overflow-x: hidden;
 
+	.fastscroll & {
+		position: relative;
+	}
+
+	/*
 	.overscroll &,
 	.touch & {
 		position: relative;
 	}
+	*/
 }
 
 page-transition {

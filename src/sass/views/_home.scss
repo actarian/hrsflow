@@ -128,6 +128,12 @@ $module: 116px;
 		width: 100%;
 	}
 
+	@include media-breakpoint-down(md) {
+		.container-fluid {
+			width: 100%;
+		}
+	}
+
 }
 
 .swiper-container--hilights {
@@ -176,16 +182,35 @@ $module: 116px;
 		}
 	}
 
+	@include media-breakpoint-down(md) {
+
+		.pictures {
+			margin-left: -15px;
+			margin-right: -15px;
+
+			.picture-b {
+				margin-left: 20px;
+			}
+
+			img {
+				max-height: 400px;
+			}
+		}
+
+	}
 }
 
 .section--case-studies {
-	padding-bottom: 185px;
 
 	.triangles {
 		width: 100%;
 		height: $module * 4;
 		top: 50%;
 		transform: translateY(-50%);
+	}
+
+	@include media-breakpoint-up(md) {
+		padding-bottom: 185px;
 	}
 }
 
@@ -475,8 +500,24 @@ $module: 116px;
 	}
 
 	@include media-breakpoint-down(md) {
+
+		.col-md-4,
+		.col-md-8 {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+
 		.btn--group {
 			margin-bottom: 40px;
+		}
+
+		&>.container {
+			padding: 0;
+
+			.inner {
+				padding: 15px;
+			}
+
 		}
 	}
 

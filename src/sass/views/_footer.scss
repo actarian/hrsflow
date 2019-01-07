@@ -68,4 +68,11 @@ footer {
 			color: #000;
 		}
 	}
+
+	@include media-breakpoint-down(sm) {
+		.flex-row {
+			display: block;
+			text-align: center;
+		}
+	}
 }

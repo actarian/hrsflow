@@ -1,25 +1,52 @@
-$follower-width: 150px;
+$follower-width: 100px;
 
 .follower {
 	display: block;
 	position: fixed;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	// mix-blend-mode: difference;
 	z-index: 9999;
 	pointer-events: none;
+	top: 0;
+	left: 0;
 
-	&:before {
-		content: '';
-		display: block;
+	div:first-child {
 		position: absolute;
+		opacity: 1;
+		top: 0;
+		left: 0;
 		width: $follower-width;
 		height: $follower-width;
-		top: -$follower-width / 2;
-		left: -$follower-width / 2;
-		border-radius: $follower-width / 2;
-		// background: rgba(#dedcdc, 0.5);
-		border: 6px solid rgba(#dedcdc, 0.5);
+		// border-radius: $follower-width / 2;
+		// background: rgba(#d90726, 0.5);
+		background: rgba(#E6E3E3, 1);
+		// mix-blend-mode: difference;
+		transform: scale3d(0, 0, 1);
+	}
+
+	div:last-child {
+		position: absolute;
+		opacity: 1;
+		width: 3px;
+		height: 3px;
+		top: -1.5px;
+		left: -1.5px;
+		border-radius: 1.5px;
+		background: rgba(#d90726, 1);
+	}
+
+
+	@include media-breakpoint-down(sm) {
+		display: none;
+	}
+}
+
+@include media-breakpoint-up(md) {
+
+	body,
+	html,
+	[ng-click],
+	[link-to],
+	button,
+	a {
+		cursor: none !important;
 	}
 }

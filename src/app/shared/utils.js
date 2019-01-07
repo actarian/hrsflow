@@ -7,6 +7,10 @@ export default class Utils {
 		return Date.now ? Date.now() : new Date().getTime();
 	}
 
+	static performanceNow() {
+		return performance ? performance.timing.navigationStart + performance.now() : Utils.now();
+	}
+
 	static throttle(callback, wait, options) {
 		let context = null,
 			result = null,

@@ -15,6 +15,7 @@ header {
 		margin-left: -50px;
 
 		@include media-breakpoint-down(sm) {
+			height: 40px;
 			margin-left: 0;
 		}
 	}

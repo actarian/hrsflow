@@ -1,5 +1,7 @@
 /* jshint esversion: 6 */
 
+import Utils from './utils';
+
 export default class Dom {
 
 	static detect(node) {
@@ -38,6 +40,20 @@ export default class Dom {
 			node.classList.add('mouse');
 		};
 		document.addEventListener('mousedown', onMouseDown);
+		const onScroll = () => {
+			let now = Utils.now();
+			if (Dom.lastScrollTime) {
+				const diff = now - Dom.lastScrollTime;
+				if (diff < 10) {
+					document.removeEventListener('scroll', onScroll);
+					Dom.fastscroll = true;
+					node.classList.add('fastscroll');
+					console.log('scroll', diff);
+				}
+			}
+			Dom.lastScrollTime = now;
+		};
+		document.addEventListener('scroll', onScroll);
 	}
 
 	static fragmentFirstElement(fragment) {
