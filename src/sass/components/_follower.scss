@@ -41,6 +41,7 @@ $follower-width: 100px;
 
 @include media-breakpoint-up(md) {
 
+	*,
 	body,
 	html,
 	[ng-click],

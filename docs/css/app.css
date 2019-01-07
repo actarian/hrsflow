@@ -685,6 +685,7 @@ button:disabled,
       display: none; } }
 
 @media (min-width: 1024px) {
+  *,
   body,
   html,
   [ng-click],
