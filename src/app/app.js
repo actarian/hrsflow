@@ -289,39 +289,39 @@ export default class App {
 			});
 			*/
 
-			// appears
-			let fi = 0;
-			this.appears.forEach((node, i) => {
-				let rect = Rect.fromNode(node);
-				const intersection = rect.intersection(this.windowRect);
-				if (intersection.y > 0) {
-					fi = fi || i;
-					/*
-					let overlap = '-=0.3';
-					if (!this.timeline.isActive()) {
-						overlap = '+=0';
-					}
-					this.timeline.to(node, 0.5, { autoAlpha: 1 }, overlap);
-					*/
-					if (!node.to) {
-						node.to = setTimeout(() => {
-							node.classList.add('appeared');
-						}, 150 * (i - fi));
-					}
-				} else {
-					if (node.classList.contains('appeared')) {
-						node.to = null;
-						node.classList.remove('appeared');
-					}
-				}
-			});
-
 			// follower
 			if (this.follower.enabled) {
 				this.follower.render();
 			}
 
 		}
+
+		// appears
+		let fi = 0;
+		this.appears.forEach((node, i) => {
+			let rect = Rect.fromNode(node);
+			const intersection = rect.intersection(this.windowRect);
+			if (intersection.y > 0) {
+				fi = fi || i;
+				/*
+				let overlap = '-=0.3';
+				if (!this.timeline.isActive()) {
+					overlap = '+=0';
+				}
+				this.timeline.to(node, 0.5, { autoAlpha: 1 }, overlap);
+				*/
+				if (!node.to) {
+					node.to = setTimeout(() => {
+						node.classList.add('appeared');
+					}, 150 * (i - fi));
+				}
+			} else {
+				if (node.classList.contains('appeared')) {
+					node.to = null;
+					node.classList.remove('appeared');
+				}
+			}
+		});
 
 	}
 
