@@ -12,19 +12,6 @@ $module: 116px;
 		}
 	}
 
-	.scroll-reminder {
-		position: absolute;
-		z-index: 90;
-		width: 80px;
-		left: 50%;
-		bottom: 60px;
-		margin-left: -40px;
-		text-align: center;
-		color: white;
-		font-size: 54px;
-		// animation: scrollAnim 1600ms cubic-bezier(0.5, 0, 0.35, 1) infinite;
-	}
-
 	.triangles {
 		position: absolute;
 		width: 100%;
@@ -34,22 +21,6 @@ $module: 116px;
 		z-index: 90;
 	}
 
-}
-
-@keyframes scrollAnim {
-
-	0% {
-		transform: translateY(30px);
-	}
-
-	40%,
-	95% {
-		transform: translateY(0);
-	}
-
-	100% {
-		transform: translateY(30px);
-	}
 }
 
 .swiper-container--home-hero {
@@ -130,6 +101,12 @@ $module: 116px;
 
 	@include media-breakpoint-down(md) {
 		.container-fluid {
+			width: calc(100% - 140px);
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.container-fluid {
 			width: 100%;
 		}
 	}
@@ -183,18 +160,28 @@ $module: 116px;
 	}
 
 	@include media-breakpoint-down(md) {
+		padding-top: 60px;
+		padding-bottom: 100px;
 
 		.pictures {
 			margin-left: -15px;
 			margin-right: -15px;
 
 			.picture-b {
-				margin-left: 20px;
+				margin-left: 0;
+
+				img {
+					max-width: 50vw;
+				}
 			}
 
-			img {
-				max-height: 400px;
+			.picture-a {
+				max-width: 60%;
+				right: 0;
+				top: 50%;
+				margin-top: -20vw;
 			}
+
 		}
 
 	}
@@ -231,7 +218,7 @@ $module: 116px;
 
 	position: relative;
 	width: 100%;
-	padding-bottom: 100%;
+	// padding-bottom: 100%;
 	display: block;
 	margin: 0 10px 10px 0;
 	@include transition();
@@ -240,17 +227,17 @@ $module: 116px;
 
 	@include media-breakpoint-up(sm) {
 		width: calc(50% - 10px);
-		padding-bottom: calc(50% - 10px);
+		// padding-bottom: calc(50% - 10px);
 	}
 
 	@include media-breakpoint-up(md) {
 		width: calc(25% - 10px);
-		padding-bottom: calc(25% - 10px);
+		// padding-bottom: calc(25% - 10px);
 	}
 
 	.picture {
 		display: block;
-		position: absolute;
+		position: relative;
 		z-index: 0;
 		width: 100%;
 		top: 0;
@@ -465,7 +452,14 @@ $module: 116px;
 		position: relative;
 		padding: 0;
 
-		@include media-breakpoint-up(md) {
+		.inner {
+			position: relative;
+			z-index: 1;
+			padding: 60px;
+			// box-shadow: 50px 50px 60px -5px rgba(#474b58, 0.15);
+		}
+
+		@include media-breakpoint-up(lg) {
 			&:before {
 				content: '';
 				position: absolute;
@@ -474,6 +468,10 @@ $module: 116px;
 				left: -10%;
 				height: calc(100% + 120px);
 				background: #f2f2f2;
+			}
+
+			.inner {
+				background: #fafafa;
 			}
 
 		}
@@ -490,16 +488,10 @@ $module: 116px;
 		}
 		*/
 
-		.inner {
-			position: relative;
-			z-index: 1;
-			background: #fafafa;
-			padding: 60px;
-			// box-shadow: 50px 50px 60px -5px rgba(#474b58, 0.15);
-		}
 	}
 
 	@include media-breakpoint-down(md) {
+		padding-bottom: 0px;
 
 		.col-md-4,
 		.col-md-8 {

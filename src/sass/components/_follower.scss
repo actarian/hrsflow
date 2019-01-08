@@ -1,12 +1,16 @@
 $follower-width: 100px;
 
 .follower {
-	display: block;
+	display: none;
 	position: fixed;
 	z-index: 9999;
 	pointer-events: none;
 	top: 0;
 	left: 0;
+
+	.follower-enabled & {
+		display: block;
+	}
 
 	div:first-child {
 		position: absolute;
@@ -33,21 +37,23 @@ $follower-width: 100px;
 		background: rgba(#d90726, 1);
 	}
 
-
 	@include media-breakpoint-down(sm) {
-		display: none;
+		.follower-enabled & {
+			display: none;
+		}
 	}
 }
 
 @include media-breakpoint-up(md) {
 
-	*,
-	body,
-	html,
-	[ng-click],
-	[link-to],
-	button,
-	a {
-		cursor: none !important;
+	.follower-enabled {
+
+		*,
+		[ng-click],
+		[link-to],
+		button,
+		a {
+			cursor: none !important;
+		}
 	}
 }

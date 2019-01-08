@@ -9,9 +9,11 @@
 @import "components/typography";
 @import "components/buttons";
 @import "components/navs";
+@import "components/scroll-reminder";
 @import "components/swiper";
 @import "components/triangles";
 @import "components/follower";
+@import "components/appear";
 
 /*
 @import "components/forms";
@@ -23,6 +25,7 @@
 @import "views/footer";
 
 @import "views/home";
+@import "views/product";
 
 html,
 body {

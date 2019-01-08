@@ -1,6 +1,8 @@
 /* jshint esversion: 6 */
 /* global TweenMax */
 
+import Utils from './utils';
+
 const friction = 5;
 const friction2 = 1;
 const size = 20;
@@ -8,6 +10,7 @@ const size = 20;
 export default class Follower {
 
 	constructor(node) {
+		this.enabled = false;
 		this.node = node;
 		this.div1 = node.querySelectorAll('div')[0];
 		this.div2 = node.querySelectorAll('div')[1];
@@ -22,6 +25,10 @@ export default class Follower {
 		this.o = 0;
 		this.mouse = { x: 0, y: 0 };
 		this.rects = [];
+		this.magnet = null;
+		this.setMagnetThrottled = Utils.throttle(() => {
+			return this.setMagnet();
+		}, 100);
 	}
 
 	follow(rects) {
@@ -32,8 +39,41 @@ export default class Follower {
 		this.mouse = mouse;
 	}
 
+	setMagnet() {
+		const magnet = this.rects.reduce((p, rect) => {
+			if (rect.contains(this.mouse.x, this.mouse.y)) {
+				return {
+					match: true,
+					x: rect.left,
+					y: rect.bottom - 3,
+					width: rect.width,
+					height: 3,
+					radius: 0,
+					scale: 1,
+					opacity: 1,
+				};
+			} else {
+				return p;
+			}
+		}, {
+			match: false,
+			x: this.mouse.x - size / 2,
+			y: this.mouse.y - size / 2,
+			width: size,
+			height: size,
+			radius: 75,
+			scale: 0.25,
+			opacity: 0.0,
+		});
+		this.magnet = magnet;
+	}
+
 	render() {
 		if (window.innerWidth >= 1024 && this.mouse.x && this.mouse.y) {
+			this.setMagnetThrottled();
+			const magnet = this.magnet;
+			// console.log(magnet);
+			/*
 			const magnet = this.rects.reduce((p, rect) => {
 				if (rect.contains(this.mouse.x, this.mouse.y)) {
 					return {
@@ -59,6 +99,7 @@ export default class Follower {
 				scale: 0.25,
 				opacity: 0.0,
 			});
+			*/
 			this.x += (magnet.x - this.x) / friction;
 			this.y += (magnet.y - this.y) / friction;
 			this.x2 += (this.mouse.x - this.x2) / friction2;

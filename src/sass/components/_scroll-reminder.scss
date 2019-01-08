@@ -1,0 +1,33 @@
+.scroll-reminder {
+	position: absolute;
+	z-index: 90;
+	width: 80px;
+	left: 50%;
+	bottom: 60px;
+	margin-left: -40px;
+	text-align: center;
+	color: white;
+	font-size: 54px;
+	// animation: scrollAnim 1600ms cubic-bezier(0.5, 0, 0.35, 1) infinite;
+
+	@include media-breakpoint-down(sm) {
+		display: none;
+	}
+
+}
+
+@keyframes scrollAnim {
+
+	0% {
+		transform: translateY(30px);
+	}
+
+	40%,
+	95% {
+		transform: translateY(0);
+	}
+
+	100% {
+		transform: translateY(30px);
+	}
+}

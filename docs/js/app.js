@@ -91,7 +91,15 @@ function () {
           dynamicBullets: true
         }
       });
-      var swipers = [swiperHero, swiperHilights];
+      var swiperGallery = new Swiper('.swiper-container--gallery', {
+        loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 45,
+        speed: 600
+      });
+      var swipers = [swiperHero, swiperHilights, swiperGallery].filter(function (swiper) {
+        return swiper.el !== undefined;
+      });
       var videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map(function (node, i) {
         var video = new _video.default(node);
         video.i = i;
@@ -104,12 +112,19 @@ function () {
       });
       var parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
       var shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+      var appears = [].slice.call(document.querySelectorAll('[appear]'));
       var follower = new _follower.default(document.querySelector('.follower'));
       var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
       var mouse = {
         x: 0,
         y: 0
       };
+      var timeline = new TimelineMax();
+
+      if (follower.enabled) {
+        body.classList.add('follower-enabled');
+      }
+
       this.body = body;
       this.page = page;
       this.swiperHero = swiperHero;
@@ -119,9 +134,11 @@ function () {
       this.triangles = triangles;
       this.parallaxes = parallaxes;
       this.shadows = shadows;
+      this.appears = appears;
       this.follower = follower;
       this.hrefs = hrefs;
       this.mouse = mouse;
+      this.timeline = timeline;
       this.onResize();
       this.addListeners();
     }
@@ -131,6 +148,12 @@ function () {
       window.addEventListener('resize', function () {
         app.onResize();
       });
+      /*
+      window.addEventListener('scroll', Utils.debounce(() => {
+      	app.onScroll();
+      }));
+      */
+
       window.addEventListener('scroll', _utils.default.throttle(function () {
         app.onScroll();
       }, 1000 / 25));
@@ -160,13 +183,16 @@ function () {
     value: function onMouseMove(e) {
       this.mouse.x = e.clientX / window.innerWidth - 0.5;
       this.mouse.y = e.clientY / window.innerHeight - 0.5;
-      this.follower.follow(this.hrefs.map(function (x) {
-        return _rect.default.fromNode(x);
-      }));
-      this.follower.move({
-        x: e.clientX,
-        y: e.clientY
-      });
+
+      if (this.follower.enabled) {
+        this.follower.follow(this.hrefs.map(function (x) {
+          return _rect.default.fromNode(x);
+        }));
+        this.follower.move({
+          x: e.clientX,
+          y: e.clientY
+        });
+      }
     }
   }, {
     key: "onResize",
@@ -225,8 +251,10 @@ function () {
           x: 0,
           y: 0
         };
-        xy.x += (_this.mouse.x - xy.x) / 8;
-        xy.y += (_this.mouse.y - xy.y) / 8;
+        var dx = _this.mouse.x - xy.x;
+        var dy = _this.mouse.y - xy.y;
+        xy.x += dx / 8;
+        xy.y += dy / 8;
         var shadow = node.getAttribute('data-parallax-shadow') || 90;
         var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
         var x = (xy.x * -100).toFixed(2);
@@ -271,47 +299,79 @@ function () {
         } else {
           video.disappear();
         }
-      }); // triangles
+      });
 
-      this.triangles.forEach(function (triangle, i) {
-        var node = triangle.node;
+      if (!_dom.default.mobile) {
+        // triangles
+        this.triangles.forEach(function (triangle, i) {
+          var node = triangle.node;
 
-        var rect = _rect.default.fromNode(node);
+          var rect = _rect.default.fromNode(node);
 
-        var intersection = rect.intersection(_this.windowRect);
+          var intersection = rect.intersection(_this.windowRect);
 
-        if (intersection.y > 0) {
-          triangle.appear();
-        } else {
-          triangle.disappear();
-        }
-      }); // parallax
+          if (intersection.y > 0) {
+            triangle.appear();
+          } else {
+            triangle.disappear();
+          }
+        }); // parallax
 
-      this.parallaxes.forEach(function (node, i) {
-        var currentY = node.currentY || 0;
-
-        var rect = _rect.default.fromNode(node);
-
-        rect = new _rect.default({
-          top: rect.top - currentY,
-          left: rect.left,
-          width: rect.width,
-          height: rect.height
+        /*
+        this.parallaxes.forEach((node, i) => {
+        	let currentY = node.currentY || 0;
+        	let rect = Rect.fromNode(node);
+        	rect = new Rect({
+        		top: rect.top - currentY,
+        		left: rect.left,
+        		width: rect.width,
+        		height: rect.height,
+        	});
+        	const intersection = rect.intersection(this.windowRect);
+        	currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+        	if (node.currentY !== currentY) {
+        		node.currentY = currentY;
+        		TweenMax.set(node, {
+        			transform: 'translateY(' + currentY + 'px)',
+        		});
+        	}
         });
-        var intersection = rect.intersection(_this.windowRect); // if (intersection.y > 0) {}
+        */
+        // appears
 
-        currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+        var fi = 0;
+        this.appears.forEach(function (node, i) {
+          var rect = _rect.default.fromNode(node);
 
-        if (node.currentY !== currentY) {
-          node.currentY = currentY;
-          TweenMax.set(node, {
-            transform: 'translateY(' + currentY + 'px)'
-          });
-        } // }
+          var intersection = rect.intersection(_this.windowRect);
 
-      }); // follower
+          if (intersection.y > 0) {
+            fi = fi || i;
+            /*
+            let overlap = '-=0.3';
+            if (!this.timeline.isActive()) {
+            	overlap = '+=0';
+            }
+            this.timeline.to(node, 0.5, { autoAlpha: 1 }, overlap);
+            */
 
-      this.follower.render();
+            if (!node.to) {
+              node.to = setTimeout(function () {
+                node.classList.add('appeared');
+              }, 150 * (i - fi));
+            }
+          } else {
+            if (node.classList.contains('appeared')) {
+              node.to = null;
+              node.classList.remove('appeared');
+            }
+          }
+        }); // follower
+
+        if (this.follower.enabled) {
+          this.follower.render();
+        }
+      }
     }
   }, {
     key: "loop",
@@ -393,6 +453,12 @@ function () {
         chrome = false;
       }
 
+      var android = userAgent.match(/android/i);
+      var blackberry = userAgent.match(/blackberry/i);
+      var ios = userAgent.match(/iphone|ipad|ipod/i);
+      var operamini = userAgent.match(/opera mini/i);
+      var iemobile = userAgent.match(/iemobile/i) || navigator.userAgent.match(/wpdesktop/i);
+      var mobile = android || blackberry || ios || operamini || iemobile;
       var overscroll = navigator.platform === 'MacIntel' && typeof navigator.getBattery === 'function';
       var classList = {
         chrome: chrome,
@@ -400,6 +466,12 @@ function () {
         firefox: firefox,
         safari: safari,
         opera: opera,
+        android: android,
+        blackberry: blackberry,
+        ios: ios,
+        operamini: operamini,
+        iemobile: iemobile,
+        mobile: mobile,
         overscroll: overscroll
       };
       Object.assign(Dom, classList);
@@ -482,15 +554,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _utils = _interopRequireDefault(require("./utils"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/* jshint esversion: 6 */
-
-/* global TweenMax */
 var friction = 5;
 var friction2 = 1;
 var size = 20;
@@ -499,8 +572,11 @@ var Follower =
 /*#__PURE__*/
 function () {
   function Follower(node) {
+    var _this = this;
+
     _classCallCheck(this, Follower);
 
+    this.enabled = false;
     this.node = node;
     this.div1 = node.querySelectorAll('div')[0];
     this.div2 = node.querySelectorAll('div')[1];
@@ -518,6 +594,10 @@ function () {
       y: 0
     };
     this.rects = [];
+    this.magnet = null;
+    this.setMagnetThrottled = _utils.default.throttle(function () {
+      return _this.setMagnet();
+    }, 100);
   }
 
   _createClass(Follower, [{
@@ -531,36 +611,72 @@ function () {
       this.mouse = mouse;
     }
   }, {
+    key: "setMagnet",
+    value: function setMagnet() {
+      var _this2 = this;
+
+      var magnet = this.rects.reduce(function (p, rect) {
+        if (rect.contains(_this2.mouse.x, _this2.mouse.y)) {
+          return {
+            match: true,
+            x: rect.left,
+            y: rect.bottom - 3,
+            width: rect.width,
+            height: 3,
+            radius: 0,
+            scale: 1,
+            opacity: 1
+          };
+        } else {
+          return p;
+        }
+      }, {
+        match: false,
+        x: this.mouse.x - size / 2,
+        y: this.mouse.y - size / 2,
+        width: size,
+        height: size,
+        radius: 75,
+        scale: 0.25,
+        opacity: 0.0
+      });
+      this.magnet = magnet;
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
-
       if (window.innerWidth >= 1024 && this.mouse.x && this.mouse.y) {
-        var magnet = this.rects.reduce(function (p, rect) {
-          if (rect.contains(_this.mouse.x, _this.mouse.y)) {
-            return {
-              match: true,
-              x: rect.left,
-              y: rect.bottom - 3,
-              width: rect.width,
-              height: 3,
-              radius: 0,
-              scale: 1,
-              opacity: 1
-            };
-          } else {
-            return p;
-          }
+        this.setMagnetThrottled();
+        var magnet = this.magnet; // console.log(magnet);
+
+        /*
+        const magnet = this.rects.reduce((p, rect) => {
+        	if (rect.contains(this.mouse.x, this.mouse.y)) {
+        		return {
+        			match: true,
+        			x: rect.left,
+        			y: rect.bottom - 3,
+        			width: rect.width,
+        			height: 3,
+        			radius: 0,
+        			scale: 1,
+        			opacity: 1,
+        		};
+        	} else {
+        		return p;
+        	}
         }, {
-          match: false,
-          x: this.mouse.x - size / 2,
-          y: this.mouse.y - size / 2,
-          width: size,
-          height: size,
-          radius: 75,
-          scale: 0.25,
-          opacity: 0.0
+        	match: false,
+        	x: this.mouse.x - size / 2,
+        	y: this.mouse.y - size / 2,
+        	width: size,
+        	height: size,
+        	radius: 75,
+        	scale: 0.25,
+        	opacity: 0.0,
         });
+        */
+
         this.x += (magnet.x - this.x) / friction;
         this.y += (magnet.y - this.y) / friction;
         this.x2 += (this.mouse.x - this.x2) / friction2;
@@ -598,7 +714,7 @@ function () {
 
 exports.default = Follower;
 
-},{}],4:[function(require,module,exports){
+},{"./utils":7}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -802,13 +918,10 @@ function () {
   }, {
     key: "appear",
     value: function appear() {
-      var _this = this;
-
       var position = this.position;
       TweenMax.to(this.node, 1.0, {
         opacity: 1,
-        onComplete: function onComplete() {
-          _this.rotate();
+        onComplete: function onComplete() {// this.rotate();
         },
         onCompleteScope: this,
         ease: Quint.easeInOut,
@@ -819,7 +932,7 @@ function () {
   }, {
     key: "rotate",
     value: function rotate() {
-      var _this2 = this;
+      var _this = this;
 
       var position = this.position;
       var i = position.x / _module - 1;
@@ -829,7 +942,7 @@ function () {
         x: position.x + '%',
         directionalRotation: '90_cw',
         onComplete: function onComplete() {
-          _this2.disappear();
+          _this.disappear();
         },
         onCompleteScope: this,
         ease: Quint.easeInOut,
@@ -840,20 +953,20 @@ function () {
   }, {
     key: "disappear",
     value: function disappear() {
-      var _this3 = this;
+      var _this2 = this;
 
       TweenMax.to(this.node, 1.0, {
         opacity: 0,
         onComplete: function onComplete() {
-          var position = _this3.getRandomPosition(_this3.parent);
+          var position = _this2.getRandomPosition(_this2.parent);
 
-          _this3.position = position;
-          TweenMax.set(_this3.node, {
+          _this2.position = position;
+          TweenMax.set(_this2.node, {
             opacity: 0,
             transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
           });
 
-          _this3.appear();
+          _this2.appear();
         },
         onCompleteScope: this,
         ease: Quint.easeInOut,
@@ -1034,6 +1147,40 @@ function () {
         }
 
         return result;
+      };
+    }
+  }, {
+    key: "debounce",
+    value: function debounce(callback) {
+      var _this = this,
+          _arguments = arguments;
+
+      var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+      var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var timeout;
+      return function () {
+        var context = _this,
+            args = _arguments;
+
+        var later = function later() {
+          timeout = null;
+
+          if (!immediate) {
+            callback.apply(context, args);
+          }
+        };
+
+        var callNow = immediate && !timeout;
+
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(later, wait);
+
+        if (callNow) {
+          callback.apply(context, args);
+        }
       };
     }
   }]);

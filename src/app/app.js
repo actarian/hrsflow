@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-/* global window, document, Swiper, TweenMax */
+/* global window, document, Swiper, TweenMax, TimelineMax */
 
 import Dom from './shared/dom';
 import Follower from './shared/follower';
@@ -63,7 +63,13 @@ export default class App {
 				dynamicBullets: true,
 			},
 		});
-		const swipers = [swiperHero, swiperHilights];
+		const swiperGallery = new Swiper('.swiper-container--gallery', {
+			loop: true,
+			slidesPerView: 'auto',
+			spaceBetween: 45,
+			speed: 600
+		});
+		const swipers = [swiperHero, swiperHilights, swiperGallery].filter(swiper => swiper.el !== undefined);
 		const videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map((node, i) => {
 			const video = new Video(node);
 			video.i = i;
@@ -76,9 +82,14 @@ export default class App {
 		});
 		const parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
 		const shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
+		const appears = [].slice.call(document.querySelectorAll('[appear]'));
 		const follower = new Follower(document.querySelector('.follower'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const mouse = { x: 0, y: 0 };
+		const timeline = new TimelineMax();
+		if (follower.enabled) {
+			body.classList.add('follower-enabled');
+		}
 		this.body = body;
 		this.page = page;
 		this.swiperHero = swiperHero;
@@ -88,9 +99,11 @@ export default class App {
 		this.triangles = triangles;
 		this.parallaxes = parallaxes;
 		this.shadows = shadows;
+		this.appears = appears;
 		this.follower = follower;
 		this.hrefs = hrefs;
 		this.mouse = mouse;
+		this.timeline = timeline;
 		this.onResize();
 		this.addListeners();
 	}
@@ -101,6 +114,11 @@ export default class App {
 			app.onResize();
 		});
 
+		/*
+		window.addEventListener('scroll', Utils.debounce(() => {
+			app.onScroll();
+		}));
+		*/
 		window.addEventListener('scroll', Utils.throttle(() => {
 			app.onScroll();
 		}, 1000 / 25));
@@ -132,11 +150,13 @@ export default class App {
 	onMouseMove(e) {
 		this.mouse.x = e.clientX / window.innerWidth - 0.5;
 		this.mouse.y = e.clientY / window.innerHeight - 0.5;
-		this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
-		this.follower.move({
-			x: e.clientX,
-			y: e.clientY
-		});
+		if (this.follower.enabled) {
+			this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+			this.follower.move({
+				x: e.clientX,
+				y: e.clientY
+			});
+		}
 	}
 
 	onResize() {
@@ -187,8 +207,10 @@ export default class App {
 		// shadows
 		this.shadows.forEach((node) => {
 			const xy = node.xy || { x: 0, y: 0 };
-			xy.x += (this.mouse.x - xy.x) / 8;
-			xy.y += (this.mouse.y - xy.y) / 8;
+			const dx = this.mouse.x - xy.x;
+			const dy = this.mouse.y - xy.y;
+			xy.x += dx / 8;
+			xy.y += dy / 8;
 			const shadow = node.getAttribute('data-parallax-shadow') || 90;
 			const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
 			const x = (xy.x * -100).toFixed(2);
@@ -231,42 +253,75 @@ export default class App {
 			}
 		});
 
-		// triangles
-		this.triangles.forEach((triangle, i) => {
-			const node = triangle.node;
-			let rect = Rect.fromNode(node);
-			const intersection = rect.intersection(this.windowRect);
-			if (intersection.y > 0) {
-				triangle.appear();
-			} else {
-				triangle.disappear();
-			}
-		});
+		if (!Dom.mobile) {
 
-		// parallax
-		this.parallaxes.forEach((node, i) => {
-			let currentY = node.currentY || 0;
-			let rect = Rect.fromNode(node);
-			rect = new Rect({
-				top: rect.top - currentY,
-				left: rect.left,
-				width: rect.width,
-				height: rect.height,
+			// triangles
+			this.triangles.forEach((triangle, i) => {
+				const node = triangle.node;
+				let rect = Rect.fromNode(node);
+				const intersection = rect.intersection(this.windowRect);
+				if (intersection.y > 0) {
+					triangle.appear();
+				} else {
+					triangle.disappear();
+				}
 			});
-			const intersection = rect.intersection(this.windowRect);
-			// if (intersection.y > 0) {}
-			currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
-			if (node.currentY !== currentY) {
-				node.currentY = currentY;
-				TweenMax.set(node, {
-					transform: 'translateY(' + currentY + 'px)',
-				});
-			}
-			// }
-		});
 
-		// follower
-		this.follower.render();
+			// parallax
+			/*
+			this.parallaxes.forEach((node, i) => {
+				let currentY = node.currentY || 0;
+				let rect = Rect.fromNode(node);
+				rect = new Rect({
+					top: rect.top - currentY,
+					left: rect.left,
+					width: rect.width,
+					height: rect.height,
+				});
+				const intersection = rect.intersection(this.windowRect);
+				currentY = intersection.center.y * parseInt(node.getAttribute('data-parallax'));
+				if (node.currentY !== currentY) {
+					node.currentY = currentY;
+					TweenMax.set(node, {
+						transform: 'translateY(' + currentY + 'px)',
+					});
+				}
+			});
+			*/
+
+			// appears
+			let fi = 0;
+			this.appears.forEach((node, i) => {
+				let rect = Rect.fromNode(node);
+				const intersection = rect.intersection(this.windowRect);
+				if (intersection.y > 0) {
+					fi = fi || i;
+					/*
+					let overlap = '-=0.3';
+					if (!this.timeline.isActive()) {
+						overlap = '+=0';
+					}
+					this.timeline.to(node, 0.5, { autoAlpha: 1 }, overlap);
+					*/
+					if (!node.to) {
+						node.to = setTimeout(() => {
+							node.classList.add('appeared');
+						}, 150 * (i - fi));
+					}
+				} else {
+					if (node.classList.contains('appeared')) {
+						node.to = null;
+						node.classList.remove('appeared');
+					}
+				}
+			});
+
+			// follower
+			if (this.follower.enabled) {
+				this.follower.render();
+			}
+
+		}
 
 	}
 

@@ -1,0 +1,171 @@
+$module: 116px;
+
+.section--product-hero {
+	height: 100vh;
+	min-height: 760px;
+	max-height: 980px;
+	overflow: hidden;
+	display: flex;
+	height: 100%;
+	align-items: center;
+
+	.background {
+		position: absolute;
+		width: 108%;
+		height: 100%;
+		top: 0;
+		left: -4%;
+		overflow: hidden;
+
+		img,
+		video {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			min-width: 100%;
+			min-height: 100%;
+		}
+
+		&:after {
+			content: '';
+			display: block;
+			position: absolute;
+			z-index: 0;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 320px;
+			background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+			background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+			background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
+			mix-blend-mode: darken;
+		}
+
+	}
+
+	.container {
+		position: relative;
+	}
+
+	.h1 {
+		.em {
+			color: #a5a1a1;
+			font-weight: 200;
+		}
+	}
+
+	.h4 {
+		font-size: 30px;
+		line-height: 35px;
+		font-weight: 200;
+	}
+
+	.triangles {
+		position: absolute;
+		width: 100%;
+		height: $module * 2;
+		bottom: 0;
+		left: 0;
+		z-index: 90;
+	}
+
+}
+
+.section--product-content {
+	padding-top: 110px;
+	padding-bottom: 30px;
+
+	.h3 {
+		.em {
+			color: #a5a1a1;
+			font-weight: 200;
+		}
+	}
+
+	.h4 {
+		font-size: 30px;
+		line-height: 35px;
+		font-weight: 200;
+		margin-bottom: 40px;
+		color: #a5a1a1;
+	}
+}
+
+.section--product-gallery {
+	position: relative;
+	padding-top: 110px;
+	padding-bottom: 30px;
+
+	.container {
+		position: relative;
+	}
+
+	.triangles {
+		position: absolute;
+		height: $module * 4;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+
+	.info {
+		margin-top: 20px;
+		font-size: 15px;
+
+		.em {
+			color: #a5a1a1;
+		}
+	}
+}
+
+.swiper-container--gallery {
+	overflow: visible;
+
+	.swiper-slide {
+		width: auto;
+	}
+
+}
+
+.section--product-related {
+	padding-top: 110px;
+	padding-bottom: 110px;
+}
+
+.related__item {
+
+	$transition: all 800ms 100ms ease-in-out;
+
+	position: relative;
+	width: 100%;
+	display: block;
+	margin-bottom: 90px;
+	@include transition();
+
+	.picture {
+		display: block;
+		width: 100%;
+
+		img {
+			width: 100%;
+		}
+	}
+
+	.title {
+		display: block;
+		font-size: 24px;
+		line-height: 60px;
+		font-weight: 200;
+		color: #272727;
+	}
+
+	.text {
+		display: block;
+		font-size: 14px;
+		line-height: 24px;
+		color: #a5a1a1;
+	}
+
+}

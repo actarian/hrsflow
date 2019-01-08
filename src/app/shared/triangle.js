@@ -63,7 +63,7 @@ export default class Triangle {
 		TweenMax.to(this.node, 1.0, {
 			opacity: 1,
 			onComplete: () => {
-				this.rotate();
+				// this.rotate();
 			},
 			onCompleteScope: this,
 			ease: Quint.easeInOut,
