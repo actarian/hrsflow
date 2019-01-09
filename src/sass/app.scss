@@ -13,6 +13,9 @@
 @import "components/swiper";
 @import "components/triangles";
 @import "components/follower";
+@import "components/detail";
+@import "components/gallery";
+@import "components/related";
 @import "components/appear";
 
 /*
@@ -25,7 +28,9 @@
 @import "views/footer";
 
 @import "views/home";
+@import "views/solution";
 @import "views/product";
+@import "views/market";
 
 html,
 body {

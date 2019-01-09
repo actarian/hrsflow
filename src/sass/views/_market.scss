@@ -1,8 +1,8 @@
 $module: 116px;
 
-.section--product-hero {
+.section--market-hero {
 	height: 100vh;
-	min-height: 760px;
+	min-height: 620px;
 	max-height: 980px;
 	overflow: hidden;
 	display: flex;
@@ -50,6 +50,9 @@ $module: 116px;
 	}
 
 	.h1 {
+		font-size: 74px;
+		line-height: 80px;
+
 		.em {
 			color: #a5a1a1;
 			font-weight: 200;
@@ -65,7 +68,7 @@ $module: 116px;
 	.triangles {
 		position: absolute;
 		width: 100%;
-		height: $module * 2;
+		height: $module * 1;
 		bottom: 0;
 		left: 0;
 		z-index: 90;
@@ -73,7 +76,7 @@ $module: 116px;
 
 }
 
-.section--product-content {
+.section--market-content {
 	padding-top: 110px;
 	padding-bottom: 30px;
 
@@ -93,11 +96,31 @@ $module: 116px;
 	}
 }
 
-.swiper-container--gallery {
-	overflow: visible;
+.section--related-solutions {
+	position: relative;
+	padding-top: 110px;
+	padding-bottom: 110px;
 
-	.swiper-slide {
-		width: auto;
+	.container {
+		position: relative;
+	}
+
+	.h3 {
+		max-width: 600px;
+		margin-bottom: 60px;
+
+		.em {
+			color: #a5a1a1;
+			font-weight: 200;
+		}
+	}
+
+	.triangles {
+		position: absolute;
+		height: $module * 3;
+		top: 0;
+		left: 0;
+		width: 100%;
 	}
 
 }

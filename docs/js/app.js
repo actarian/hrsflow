@@ -53,6 +53,9 @@ function () {
           disableOnInteraction: true
         },
         on: {
+          init: function init() {
+            this.el.classList.add('ready');
+          },
           slideChangeTransitionEnd: function slideChangeTransitionEnd() {
             // console.log('slideChange', this.slides.length, this.activeIndex);
             var slide = this.slides[this.activeIndex];
@@ -89,13 +92,23 @@ function () {
           el: '.swiper-pagination',
           clickable: true,
           dynamicBullets: true
+        },
+        on: {
+          init: function init() {
+            this.el.classList.add('ready');
+          }
         }
       });
       var swiperGallery = new Swiper('.swiper-container--gallery', {
         loop: true,
         slidesPerView: 'auto',
         spaceBetween: 45,
-        speed: 600
+        speed: 600,
+        on: {
+          init: function init() {
+            this.el.classList.add('ready');
+          }
+        }
       });
       var swipers = [swiperHero, swiperHilights, swiperGallery].filter(function (swiper) {
         return swiper.el !== undefined;
@@ -115,6 +128,7 @@ function () {
       var appears = [].slice.call(document.querySelectorAll('[appear]'));
       var follower = new _follower.default(document.querySelector('.follower'));
       var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+      var links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
       var mouse = {
         x: 0,
         y: 0
@@ -137,6 +151,7 @@ function () {
       this.appears = appears;
       this.follower = follower;
       this.hrefs = hrefs;
+      this.links = links;
       this.mouse = mouse;
       this.timeline = timeline;
       this.onResize();
@@ -185,7 +200,7 @@ function () {
       this.mouse.y = e.clientY / window.innerHeight - 0.5;
 
       if (this.follower.enabled) {
-        this.follower.follow(this.hrefs.map(function (x) {
+        this.follower.follow(this.links.map(function (x) {
           return _rect.default.fromNode(x);
         }));
         this.follower.move({
@@ -205,16 +220,30 @@ function () {
       });
       this.triangles.forEach(function (animation) {
         animation.resize();
-      }); // this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+      }); // this.follower.follow(this.links.map(x => Rect.fromNode(x)));
     }
   }, {
     key: "onScroll",
     value: function onScroll() {
-      if (_dom.default.scrollTop() > 80) {
+      var scrollTop = _dom.default.scrollTop(); // fastscroll mobile
+
+
+      if (_dom.default.fastscroll) {
+        var newTop = Math.round(scrollTop * 10) / 10;
+
+        if (this.page.previousTop !== newTop) {
+          this.page.previousTop = newTop;
+          _dom.default.scrolling = true;
+        } else {
+          _dom.default.scrolling = false;
+        }
+      }
+
+      if (scrollTop > 80) {
         this.body.classList.add('fixed');
       } else {
         this.body.classList.remove('fixed');
-      } // this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+      } // this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 
     }
   }, {
@@ -222,52 +251,60 @@ function () {
     value: function render() {
       var _this = this;
 
-      // smoothscroll
+      // smoothscroll desktop
       // if (!Dom.overscroll && !Dom.touch) {
       if (!_dom.default.fastscroll) {
+        var scrollTop = _dom.default.scrollTop();
+
         if (this.body.offsetHeight !== this.page.offsetHeight) {
           TweenMax.set(this.body, {
             height: this.page.offsetHeight
           });
         }
 
-        var top = this.page.top || 0;
-        top += (-_dom.default.scrollTop() - top) / 10;
-        top = Math.round(top * 10) / 10;
+        var newTop = this.page.previousTop || 0;
+        newTop += (scrollTop - newTop) / 10;
+        newTop = Math.round(newTop * 10) / 10;
 
-        if (this.page.top !== top) {
-          this.page.top = top;
+        if (this.page.previousTop !== newTop) {
+          this.page.previousTop = newTop;
           TweenMax.set(this.page, {
-            y: top
+            y: -newTop
           });
+          _dom.default.scrolling = true;
+        } else {
+          _dom.default.scrolling = false;
         }
       } else if (this.body.hasAttribute('style')) {
         this.body.removeAttribute('style');
-      } // shadows
+      }
 
+      if (!_dom.default.scrolling) {
+        // shadows
+        this.shadows.forEach(function (node) {
+          var xy = node.xy || {
+            x: 0,
+            y: 0
+          };
+          var dx = _this.mouse.x - xy.x;
+          var dy = _this.mouse.y - xy.y;
+          xy.x += dx / 8;
+          xy.y += dy / 8;
+          var shadow = node.getAttribute('data-parallax-shadow') || 90;
+          var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
+          var x = (xy.x * -100).toFixed(2);
+          var y = (xy.y * -50).toFixed(2);
+          var boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')'; // if (node.boxShadow !== boxShadow) {
+          // 	node.boxShadow = boxShadow;
 
-      this.shadows.forEach(function (node) {
-        var xy = node.xy || {
-          x: 0,
-          y: 0
-        };
-        var dx = _this.mouse.x - xy.x;
-        var dy = _this.mouse.y - xy.y;
-        xy.x += dx / 8;
-        xy.y += dy / 8;
-        var shadow = node.getAttribute('data-parallax-shadow') || 90;
-        var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
-        var x = (xy.x * -100).toFixed(2);
-        var y = (xy.y * -50).toFixed(2);
-        var boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')'; // if (node.boxShadow !== boxShadow) {
-        // 	node.boxShadow = boxShadow;
+          TweenMax.set(node, {
+            boxShadow: boxShadow
+          }); // }
 
-        TweenMax.set(node, {
-          boxShadow: boxShadow
-        }); // }
+          node.xy = xy;
+        });
+      } // swipers
 
-        node.xy = xy;
-      }); // swipers
 
       this.swipers.forEach(function (swiper, i) {
         var node = swiper.el;
@@ -339,7 +376,7 @@ function () {
         */
         // follower
 
-        if (this.follower.enabled) {
+        if (this.follower.enabled && !_dom.default.scrolling) {
           this.follower.render();
         }
       } // appears

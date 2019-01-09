@@ -61,7 +61,6 @@ h6 {
 	color: #272727;
 }
 
-
 @include media-breakpoint-down(md) {
 
 	.h1 {
@@ -89,4 +88,16 @@ h6 {
 		line-height: 20px;
 	}
 
+}
+
+.background--dark {
+	color: white;
+
+	.h1,
+	.h2,
+	.h3,
+	.h4,
+	.h5 {
+		color: white;
+	}
 }

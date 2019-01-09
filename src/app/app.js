@@ -28,6 +28,9 @@ export default class App {
 				disableOnInteraction: true,
 			},
 			on: {
+				init: function() {
+					this.el.classList.add('ready');
+				},
 				slideChangeTransitionEnd: function() {
 					// console.log('slideChange', this.slides.length, this.activeIndex);
 					const slide = this.slides[this.activeIndex];
@@ -62,12 +65,22 @@ export default class App {
 				clickable: true,
 				dynamicBullets: true,
 			},
+			on: {
+				init: function() {
+					this.el.classList.add('ready');
+				},
+			}
 		});
 		const swiperGallery = new Swiper('.swiper-container--gallery', {
 			loop: true,
 			slidesPerView: 'auto',
 			spaceBetween: 45,
-			speed: 600
+			speed: 600,
+			on: {
+				init: function() {
+					this.el.classList.add('ready');
+				},
+			}
 		});
 		const swipers = [swiperHero, swiperHilights, swiperGallery].filter(swiper => swiper.el !== undefined);
 		const videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map((node, i) => {
@@ -85,6 +98,7 @@ export default class App {
 		const appears = [].slice.call(document.querySelectorAll('[appear]'));
 		const follower = new Follower(document.querySelector('.follower'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
+		const links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
 		const mouse = { x: 0, y: 0 };
 		const timeline = new TimelineMax();
 		if (follower.enabled) {
@@ -102,6 +116,7 @@ export default class App {
 		this.appears = appears;
 		this.follower = follower;
 		this.hrefs = hrefs;
+		this.links = links;
 		this.mouse = mouse;
 		this.timeline = timeline;
 		this.onResize();
@@ -119,6 +134,7 @@ export default class App {
 			app.onScroll();
 		}));
 		*/
+
 		window.addEventListener('scroll', Utils.throttle(() => {
 			app.onScroll();
 		}, 1000 / 25));
@@ -151,7 +167,7 @@ export default class App {
 		this.mouse.x = e.clientX / window.innerWidth - 0.5;
 		this.mouse.y = e.clientY / window.innerHeight - 0.5;
 		if (this.follower.enabled) {
-			this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+			this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 			this.follower.move({
 				x: e.clientX,
 				y: e.clientY
@@ -169,61 +185,78 @@ export default class App {
 		this.triangles.forEach((animation) => {
 			animation.resize();
 		});
-		// this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 	}
 
 	onScroll() {
-		if (Dom.scrollTop() > 80) {
+		const scrollTop = Dom.scrollTop();
+		// fastscroll mobile
+		if (Dom.fastscroll) {
+			const newTop = Math.round(scrollTop * 10) / 10;
+			if (this.page.previousTop !== newTop) {
+				this.page.previousTop = newTop;
+				Dom.scrolling = true;
+			} else {
+				Dom.scrolling = false;
+			}
+		}
+		if (scrollTop > 80) {
 			this.body.classList.add('fixed');
 		} else {
 			this.body.classList.remove('fixed');
 		}
-		// this.follower.follow(this.hrefs.map(x => Rect.fromNode(x)));
+		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 	}
 
 	render() {
 
-		// smoothscroll
+		// smoothscroll desktop
 		// if (!Dom.overscroll && !Dom.touch) {
 		if (!Dom.fastscroll) {
+			const scrollTop = Dom.scrollTop();
 			if (this.body.offsetHeight !== this.page.offsetHeight) {
 				TweenMax.set(this.body, {
 					height: this.page.offsetHeight,
 				});
 			}
-			let top = this.page.top || 0;
-			top += (-Dom.scrollTop() - top) / 10;
-			top = Math.round(top * 10) / 10;
-			if (this.page.top !== top) {
-				this.page.top = top;
+			let newTop = this.page.previousTop || 0;
+			newTop += (scrollTop - newTop) / 10;
+			newTop = Math.round(newTop * 10) / 10;
+			if (this.page.previousTop !== newTop) {
+				this.page.previousTop = newTop;
 				TweenMax.set(this.page, {
-					y: top,
+					y: -newTop,
 				});
+				Dom.scrolling = true;
+			} else {
+				Dom.scrolling = false;
 			}
 		} else if (this.body.hasAttribute('style')) {
 			this.body.removeAttribute('style');
 		}
 
-		// shadows
-		this.shadows.forEach((node) => {
-			const xy = node.xy || { x: 0, y: 0 };
-			const dx = this.mouse.x - xy.x;
-			const dy = this.mouse.y - xy.y;
-			xy.x += dx / 8;
-			xy.y += dy / 8;
-			const shadow = node.getAttribute('data-parallax-shadow') || 90;
-			const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
-			const x = (xy.x * -100).toFixed(2);
-			const y = (xy.y * -50).toFixed(2);
-			const boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')';
-			// if (node.boxShadow !== boxShadow) {
-			// 	node.boxShadow = boxShadow;
-			TweenMax.set(node, {
-				boxShadow: boxShadow,
+		if (!Dom.scrolling) {
+			// shadows
+			this.shadows.forEach((node) => {
+				const xy = node.xy || { x: 0, y: 0 };
+				const dx = this.mouse.x - xy.x;
+				const dy = this.mouse.y - xy.y;
+				xy.x += dx / 8;
+				xy.y += dy / 8;
+				const shadow = node.getAttribute('data-parallax-shadow') || 90;
+				const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
+				const x = (xy.x * -100).toFixed(2);
+				const y = (xy.y * -50).toFixed(2);
+				const boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')';
+				// if (node.boxShadow !== boxShadow) {
+				// 	node.boxShadow = boxShadow;
+				TweenMax.set(node, {
+					boxShadow: boxShadow,
+				});
+				// }
+				node.xy = xy;
 			});
-			// }
-			node.xy = xy;
-		});
+		}
 
 		// swipers
 		this.swipers.forEach((swiper, i) => {
@@ -254,7 +287,6 @@ export default class App {
 		});
 
 		if (!Dom.mobile) {
-
 			// triangles
 			this.triangles.forEach((triangle, i) => {
 				const node = triangle.node;
@@ -290,7 +322,7 @@ export default class App {
 			*/
 
 			// follower
-			if (this.follower.enabled) {
+			if (this.follower.enabled && !Dom.scrolling) {
 				this.follower.render();
 			}
 

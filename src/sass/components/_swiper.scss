@@ -1,6 +1,11 @@
 .swiper-container {
 	width: 100%;
 	cursor: pointer;
+	visibility: hidden;
+
+	&.ready {
+		visibility: visible;
+	}
 }
 
 .swiper-container-horizontal {
