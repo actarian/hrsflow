@@ -174,18 +174,43 @@ button,
 }
 
 .btn--share {
+	display: inline-flex;
+	align-items: center;
+
 	@include transition();
 
 	i {
 		margin-left: 10px;
 		font-size: 22px;
 		vertical-align: middle;
+		opacity: 1;
 		@include transition();
+	}
+
+	.addthis_inline_share_toolbox {
+		display: inline-block;
+		line-height: 0;
+		opacity: 0;
+		pointer-events: none;
+		@include transition();
+
+		div {
+			display: inline-block !important;
+		}
+
+		a {
+			outline: none !important;
+		}
 	}
 
 	&:hover {
 		i {
-			margin-left: 15px;
+			opacity: 0;
+		}
+
+		.addthis_inline_share_toolbox {
+			opacity: 1;
+			pointer-events: auto;
 		}
 	}
 

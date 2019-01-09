@@ -11,6 +11,9 @@ header {
 	}
 
 	.brand {
+		display: inline-block;
+		position: relative;
+		z-index: 1;
 		height: 60px;
 		margin-left: -50px;
 
@@ -22,6 +25,8 @@ header {
 
 	.brand--black {
 		display: none;
+		position: relative;
+		z-index: 1;
 		height: 45px;
 		margin-left: 0;
 	}
@@ -29,6 +34,7 @@ header {
 	.flex-row {
 		align-items: center;
 		min-height: 80px;
+		position: static;
 	}
 
 	.fixed & {

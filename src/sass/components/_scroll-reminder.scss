@@ -31,3 +31,47 @@
 		transform: translateY(30px);
 	}
 }
+
+.mouse {
+	width: 40px;
+	position: absolute;
+	bottom: 50px;
+	left: 50%;
+	z-index: 1;
+	margin-left: -20px;
+}
+
+.mouse-icon {
+	width: 34px;
+	height: 54px;
+	border: 3px solid white;
+	border-radius: 17px;
+	position: relative;
+	text-align: center;
+}
+
+.mouse-wheel {
+	height: 10px;
+	margin: 2px auto 0;
+	display: block;
+	width: 5px;
+	border-radius: 5px;
+	background-color: white;
+	animation: 1.6s ease infinite wheel-up-down;
+}
+
+@keyframes wheel-up-down {
+	0% {
+		margin-top: 2px;
+		opacity: 0;
+	}
+
+	30% {
+		opacity: 1;
+	}
+
+	100% {
+		margin-top: 20px;
+		opacity: 0;
+	}
+}

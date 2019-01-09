@@ -510,35 +510,3 @@ $module: 116px;
 	}
 
 }
-
-.news__item {
-	padding-bottom: 40px;
-
-	@include media-breakpoint-up(lg) {
-		max-width: 340px;
-	}
-
-	.picture {
-		margin-bottom: 30px;
-		background: white;
-		// box-shadow: 30px 30px 30px -5px rgba(#474b58, 0.10);
-
-		img {
-			max-width: 100%;
-		}
-	}
-
-	.date {
-		font-size: 13px;
-		font-weight: 400;
-		margin-bottom: 30px;
-	}
-
-	.title {
-		font-size: 30px;
-		line-height: 36px;
-		font-weight: 200;
-		color: #272727;
-		margin-bottom: 20px;
-	}
-}
