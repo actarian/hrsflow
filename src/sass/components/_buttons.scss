@@ -176,6 +176,7 @@ button,
 .btn--share {
 	display: inline-flex;
 	align-items: center;
+	margin-bottom: 40px;
 
 	@include transition();
 
