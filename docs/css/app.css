@@ -426,6 +426,8 @@ button:disabled,
     padding-bottom: 60px; }
   li:hover > .liv2 {
     max-height: 100vh; }
+  .fixed .liv2 {
+    background: white; }
 
 .nav--primary__liv2 {
   width: 100%;
@@ -481,13 +483,11 @@ button:disabled,
                 transform: scale(1, 1); }
   .nav--primary__liv2 > li + li {
     margin-left: 30px; }
-  .fixed .nav--primary__liv2 {
-    background: white; }
-    .fixed .nav--primary__liv2 > li > span,
-    .fixed .nav--primary__liv2 > li > a {
-      color: #272727; }
-    .fixed .nav--primary__liv2 > li:hover > a, .fixed .nav--primary__liv2 > li:active > a, .fixed .nav--primary__liv2 > li.active > a {
-      color: #d90726; }
+  .fixed .nav--primary__liv2 > li > span,
+  .fixed .nav--primary__liv2 > li > a {
+    color: #272727; }
+  .fixed .nav--primary__liv2 > li:hover > a, .fixed .nav--primary__liv2 > li:active > a, .fixed .nav--primary__liv2 > li.active > a {
+    color: #d90726; }
 
 .nav--primary__liv3 {
   width: 100%;
@@ -1374,7 +1374,7 @@ header {
     transition: all 0.2s ease-in-out;
     -webkit-transform: translateY(0);
             transform: translateY(0); }
-    .fixed header .container {
+    .fixed header > .container {
       padding-top: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid #dedcdc; }

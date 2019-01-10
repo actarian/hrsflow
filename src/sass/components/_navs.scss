@@ -82,6 +82,10 @@
 	li:hover>& {
 		max-height: 100vh;
 	}
+
+	.fixed & {
+		background: white;
+	}
 }
 
 .nav--primary__liv2 {
@@ -143,8 +147,6 @@
 	}
 
 	.fixed & {
-		background: white;
-
 		&>li {
 
 			&>span,
