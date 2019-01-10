@@ -873,22 +873,22 @@ button:disabled,
       height: 60px;
       font-size: 26px;
       margin-right: 15px; }
-      .nav--advantages > li i:before,
-      .nav--video-and-brochures > li i:before {
-        -webkit-transition: all 250ms ease-in-out;
-        transition: all 250ms ease-in-out; }
-    .nav--advantages > li:hover a, .nav--advantages > li:active a, .nav--advantages > li.active a,
-    .nav--video-and-brochures > li:hover a,
-    .nav--video-and-brochures > li:active a,
-    .nav--video-and-brochures > li.active a {
+    .nav--advantages > li > a > i:before,
+    .nav--video-and-brochures > li > a > i:before {
+      -webkit-transition: all 250ms ease-in-out;
+      transition: all 250ms ease-in-out; }
+    .nav--advantages > li:hover > a, .nav--advantages > li:active > a, .nav--advantages > li.active > a,
+    .nav--video-and-brochures > li:hover > a,
+    .nav--video-and-brochures > li:active > a,
+    .nav--video-and-brochures > li.active > a {
       color: #050505; }
-    .nav--advantages > li:hover i:before, .nav--advantages > li:active i:before, .nav--advantages > li.active i:before,
-    .nav--video-and-brochures > li:hover i:before,
-    .nav--video-and-brochures > li:active i:before,
-    .nav--video-and-brochures > li.active i:before {
-      -webkit-transform: scale3d(1.2, 1.2, 1);
-              transform: scale3d(1.2, 1.2, 1);
-      text-shadow: 0px 10px 8px rgba(0, 0, 0, 0.15); }
+      .nav--advantages > li:hover > a > i:before, .nav--advantages > li:active > a > i:before, .nav--advantages > li.active > a > i:before,
+      .nav--video-and-brochures > li:hover > a > i:before,
+      .nav--video-and-brochures > li:active > a > i:before,
+      .nav--video-and-brochures > li.active > a > i:before {
+        -webkit-transform: scale3d(1.2, 1.2, 1);
+                transform: scale3d(1.2, 1.2, 1);
+        text-shadow: 0px 10px 8px rgba(0, 0, 0, 0.15); }
 
 .nav--advantages > li i {
   border: 2px solid rgba(217, 8, 39, 0.2);
