@@ -100,7 +100,7 @@ function () {
         }
       });
       var swiperGallery = new Swiper('.swiper-container--gallery', {
-        loop: true,
+        loop: false,
         slidesPerView: 'auto',
         spaceBetween: 45,
         speed: 600,
@@ -308,19 +308,21 @@ function () {
 
 
       this.swipers.forEach(function (swiper, i) {
-        var node = swiper.el;
+        if (swiper.params.autoplay.enabled) {
+          var node = swiper.el;
 
-        var rect = _rect.default.fromNode(node);
+          var rect = _rect.default.fromNode(node);
 
-        var intersection = rect.intersection(_this.windowRect);
+          var intersection = rect.intersection(_this.windowRect);
 
-        if (intersection.y > 0) {
-          if (!swiper.autoplay.running) {
-            swiper.autoplay.start();
-          }
-        } else {
-          if (swiper.autoplay.running) {
-            swiper.autoplay.stop();
+          if (intersection.y > 0) {
+            if (!swiper.autoplay.running) {
+              swiper.autoplay.start();
+            }
+          } else {
+            if (swiper.autoplay.running) {
+              swiper.autoplay.stop();
+            }
           }
         }
       }); // videos

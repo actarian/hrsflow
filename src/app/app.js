@@ -72,7 +72,7 @@ export default class App {
 			}
 		});
 		const swiperGallery = new Swiper('.swiper-container--gallery', {
-			loop: true,
+			loop: false,
 			slidesPerView: 'auto',
 			spaceBetween: 45,
 			speed: 600,
@@ -261,16 +261,18 @@ export default class App {
 
 		// swipers
 		this.swipers.forEach((swiper, i) => {
-			const node = swiper.el;
-			let rect = Rect.fromNode(node);
-			const intersection = rect.intersection(this.windowRect);
-			if (intersection.y > 0) {
-				if (!swiper.autoplay.running) {
-					swiper.autoplay.start();
-				}
-			} else {
-				if (swiper.autoplay.running) {
-					swiper.autoplay.stop();
+			if (swiper.params.autoplay.enabled) {
+				const node = swiper.el;
+				let rect = Rect.fromNode(node);
+				const intersection = rect.intersection(this.windowRect);
+				if (intersection.y > 0) {
+					if (!swiper.autoplay.running) {
+						swiper.autoplay.start();
+					}
+				} else {
+					if (swiper.autoplay.running) {
+						swiper.autoplay.stop();
+					}
 				}
 			}
 		});
