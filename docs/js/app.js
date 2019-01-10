@@ -123,9 +123,9 @@ function () {
         triangles.i = i;
         return triangles;
       });
-      var parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
-      var shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
-      var appears = [].slice.call(document.querySelectorAll('[appear]'));
+      var parallaxes = [].slice.call(document.querySelectorAll('[data-img-parallax]'));
+      var shadows = [].slice.call(document.querySelectorAll('[data-shadow]'));
+      var appears = [].slice.call(document.querySelectorAll('[data-appear]'));
       var follower = new _follower.default(document.querySelector('.follower'));
       var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
       var links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
@@ -156,6 +156,7 @@ function () {
       this.timeline = timeline;
       this.onResize();
       this.addListeners();
+      body.classList.add('ready');
     }
   }, {
     key: "addListeners",
@@ -290,7 +291,7 @@ function () {
           var dy = _this.mouse.y - xy.y;
           xy.x += dx / 8;
           xy.y += dy / 8;
-          var shadow = node.getAttribute('data-parallax-shadow') || 90;
+          var shadow = node.getAttribute('data-shadow') || 90;
           var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
           var x = (xy.x * -100).toFixed(2);
           var y = (xy.y * -50).toFixed(2);
@@ -374,7 +375,33 @@ function () {
         	}
         });
         */
-        // follower
+
+        this.parallaxes.forEach(function (node, i) {
+          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-img-parallax')) || 5);
+          var direction = i % 2 === 0 ? 1 : -1;
+          var currentY = node.currentY || 0;
+
+          var rect = _rect.default.fromNode(node);
+
+          rect = new _rect.default({
+            top: rect.top - currentY,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height
+          });
+          var intersection = rect.intersection(_this.windowRect);
+
+          if (intersection.y > 0) {
+            var y = Math.min(1, Math.max(-1, intersection.center.y));
+            var s = (100 + parallax * 2) / 100;
+            currentY = (y * parallax * direction).toFixed(3);
+
+            if (node.currentY !== currentY) {
+              node.currentY = currentY;
+              node.setAttribute('style', 'left: 50%; transform: translateX(-50%) translateY(' + currentY + '%) scale3d(' + s + ',' + s + ',1.0);');
+            }
+          }
+        }); // follower
 
         if (this.follower.enabled && !_dom.default.scrolling) {
           this.follower.render();

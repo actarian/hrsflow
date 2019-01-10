@@ -93,9 +93,9 @@ export default class App {
 			triangles.i = i;
 			return triangles;
 		});
-		const parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
-		const shadows = [].slice.call(document.querySelectorAll('[data-parallax-shadow]'));
-		const appears = [].slice.call(document.querySelectorAll('[appear]'));
+		const parallaxes = [].slice.call(document.querySelectorAll('[data-img-parallax]'));
+		const shadows = [].slice.call(document.querySelectorAll('[data-shadow]'));
+		const appears = [].slice.call(document.querySelectorAll('[data-appear]'));
 		const follower = new Follower(document.querySelector('.follower'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
@@ -121,6 +121,7 @@ export default class App {
 		this.timeline = timeline;
 		this.onResize();
 		this.addListeners();
+		body.classList.add('ready');
 	}
 
 	addListeners() {
@@ -243,7 +244,7 @@ export default class App {
 				const dy = this.mouse.y - xy.y;
 				xy.x += dx / 8;
 				xy.y += dy / 8;
-				const shadow = node.getAttribute('data-parallax-shadow') || 90;
+				const shadow = node.getAttribute('data-shadow') || 90;
 				const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
 				const x = (xy.x * -100).toFixed(2);
 				const y = (xy.y * -50).toFixed(2);
@@ -320,6 +321,28 @@ export default class App {
 				}
 			});
 			*/
+			this.parallaxes.forEach((node, i) => {
+				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-img-parallax')) || 5);
+				const direction = i % 2 === 0 ? 1 : -1;
+				let currentY = node.currentY || 0;
+				let rect = Rect.fromNode(node);
+				rect = new Rect({
+					top: rect.top - currentY,
+					left: rect.left,
+					width: rect.width,
+					height: rect.height,
+				});
+				const intersection = rect.intersection(this.windowRect);
+				if (intersection.y > 0) {
+					const y = Math.min(1, Math.max(-1, intersection.center.y));
+					const s = (100 + parallax * 2) / 100;
+					currentY = (y * parallax * direction).toFixed(3);
+					if (node.currentY !== currentY) {
+						node.currentY = currentY;
+						node.setAttribute('style', 'left: 50%; transform: translateX(-50%) translateY(' + currentY + '%) scale3d(' + s + ',' + s + ',1.0);');
+					}
+				}
+			});
 
 			// follower
 			if (this.follower.enabled && !Dom.scrolling) {

@@ -1,0 +1,11 @@
+.picture {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+
+	img {
+		display: block;
+		position: relative;
+		transform: translateY(0);
+	}
+}

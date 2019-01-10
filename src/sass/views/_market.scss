@@ -9,42 +9,6 @@ $module: 116px;
 	height: 100%;
 	align-items: center;
 
-	.background {
-		position: absolute;
-		width: 108%;
-		height: 100%;
-		top: 0;
-		left: -4%;
-		overflow: hidden;
-
-		img,
-		video {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translateX(-50%) translateY(-50%);
-			min-width: 100%;
-			min-height: 100%;
-		}
-
-		&:after {
-			content: '';
-			display: block;
-			position: absolute;
-			z-index: 0;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 320px;
-			background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-			background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-			background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
-			mix-blend-mode: darken;
-		}
-
-	}
-
 	.container {
 		position: relative;
 	}
