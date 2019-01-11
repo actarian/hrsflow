@@ -76,6 +76,11 @@ export default class App {
 			slidesPerView: 'auto',
 			spaceBetween: 45,
 			speed: 600,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+				dynamicBullets: true,
+			},
 			on: {
 				init: function() {
 					this.el.classList.add('ready');
@@ -93,12 +98,13 @@ export default class App {
 			triangles.i = i;
 			return triangles;
 		});
-		const parallaxes = [].slice.call(document.querySelectorAll('[data-img-parallax]'));
+		const parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
 		const shadows = [].slice.call(document.querySelectorAll('[data-shadow]'));
 		const appears = [].slice.call(document.querySelectorAll('[data-appear]'));
 		const follower = new Follower(document.querySelector('.follower'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
+		const togglers = [].slice.call(document.querySelectorAll('[toggle]'));
 		const mouse = { x: 0, y: 0 };
 		const timeline = new TimelineMax();
 		if (follower.enabled) {
@@ -117,6 +123,7 @@ export default class App {
 		this.follower = follower;
 		this.hrefs = hrefs;
 		this.links = links;
+		this.togglers = togglers;
 		this.mouse = mouse;
 		this.timeline = timeline;
 		this.onResize();
@@ -159,6 +166,21 @@ export default class App {
 			node.addEventListener('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+			});
+		});
+
+		this.togglers.forEach((node) => {
+			node.addEventListener('click', (e) => {
+				let target = node.getAttribute('toggle');
+				target = target ? document.querySelector(target) : node;
+				let toggle = node.getAttribute('toggle-class') || 'active';
+				if (target.classList.contains(toggle)) {
+					target.classList.remove(toggle);
+				} else {
+					target.classList.add(toggle);
+				}
+				e.preventDefault();
+				e.stopImmediatePropagation();
 			});
 		});
 
@@ -216,18 +238,25 @@ export default class App {
 		if (!Dom.fastscroll) {
 			const scrollTop = Dom.scrollTop();
 			if (this.body.offsetHeight !== this.page.offsetHeight) {
+				this.body.setAttribute('style', `height: ${this.page.offsetHeight}px;`);
+				/*
 				TweenMax.set(this.body, {
 					height: this.page.offsetHeight,
 				});
+				*/
 			}
 			let newTop = this.page.previousTop || 0;
 			newTop += (scrollTop - newTop) / 10;
 			newTop = Math.round(newTop * 10) / 10;
 			if (this.page.previousTop !== newTop) {
 				this.page.previousTop = newTop;
+				// this.page.setAttribute('style', `top: ${-newTop}px;`);
+				this.page.setAttribute('style', `transform: translateY(${-newTop}px);`);
+				/*
 				TweenMax.set(this.page, {
 					y: -newTop,
 				});
+				*/
 				Dom.scrolling = true;
 			} else {
 				Dom.scrolling = false;
@@ -248,12 +277,15 @@ export default class App {
 				const alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
 				const x = (xy.x * -100).toFixed(2);
 				const y = (xy.y * -50).toFixed(2);
-				const boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')';
+				const boxShadow = `${x}px ${y}px ${shadow}px -10px rgba(0, 0, 0, ${alpha})`;
 				// if (node.boxShadow !== boxShadow) {
 				// 	node.boxShadow = boxShadow;
+				node.setAttribute('style', `box-shadow: ${boxShadow}`);
+				/*
 				TweenMax.set(node, {
 					boxShadow: boxShadow,
 				});
+				*/
 				// }
 				node.xy = xy;
 			});
@@ -290,6 +322,7 @@ export default class App {
 		});
 
 		if (!Dom.mobile) {
+
 			// triangles
 			this.triangles.forEach((triangle, i) => {
 				const node = triangle.node;
@@ -324,7 +357,7 @@ export default class App {
 			});
 			*/
 			this.parallaxes.forEach((node, i) => {
-				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-img-parallax')) || 5);
+				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5);
 				const direction = i % 2 === 0 ? 1 : -1;
 				let currentY = node.currentY || 0;
 				let rect = Rect.fromNode(node);
@@ -341,13 +374,14 @@ export default class App {
 					currentY = (y * parallax * direction).toFixed(3);
 					if (node.currentY !== currentY) {
 						node.currentY = currentY;
-						node.setAttribute('style', 'left: 50%; transform: translateX(-50%) translateY(' + currentY + '%) scale3d(' + s + ',' + s + ',1.0);');
+						// node.setAttribute('style', `left: 50%; top:${currentY}%;`);
+						node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
 					}
 				}
 			});
 
 			// follower
-			if (this.follower.enabled && !Dom.scrolling) {
+			if (this.follower.enabled) {
 				this.follower.render();
 			}
 

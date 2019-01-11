@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 /* global TweenMax */
 
-const module = 98;
+const module = 59; // 98;
 
 export default class Triangle {
 
@@ -43,19 +43,26 @@ export default class Triangle {
 	}
 
 	resize(node, pool) {
+		const w2 = window.innerWidth / 2 - node.offsetLeft;
 		let position = this.getRandomPosition(node);
 		let t = 0;
-		while (pool[position.i] !== undefined && t < 5) {
+		while (
+			(pool[position.i] !== undefined || (position.x > w2 - 2 * module && position.x < w2 + 2 * module)) &&
+			t < 5
+		) {
 			position = this.getRandomPosition(node);
 			t++;
 		}
 		pool[position.i] = position.i;
 		this.position = position;
 		this.parent = node;
+		this.node.setAttribute('style', `opacity: 0; top: ${position.y}px; left: ${position.x}px; transform: rotate(${position.r}deg);`);
+		/*
 		TweenMax.set(this.node, {
 			opacity: 0,
 			transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
 		});
+		*/
 	}
 
 	appear() {
@@ -96,10 +103,13 @@ export default class Triangle {
 			onComplete: () => {
 				const position = this.getRandomPosition(this.parent);
 				this.position = position;
+				this.node.setAttribute('style', `opacity:0; top: ${position.y}px; left: ${position.x}px; transform: rotate(${position.r}deg);`);
+				/*
 				TweenMax.set(this.node, {
 					opacity: 0,
 					transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
 				});
+				*/
 				this.appear();
 			},
 			onCompleteScope: this,

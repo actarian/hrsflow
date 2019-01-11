@@ -104,6 +104,11 @@ function () {
         slidesPerView: 'auto',
         spaceBetween: 45,
         speed: 600,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+          dynamicBullets: true
+        },
         on: {
           init: function init() {
             this.el.classList.add('ready');
@@ -123,12 +128,13 @@ function () {
         triangles.i = i;
         return triangles;
       });
-      var parallaxes = [].slice.call(document.querySelectorAll('[data-img-parallax]'));
+      var parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
       var shadows = [].slice.call(document.querySelectorAll('[data-shadow]'));
       var appears = [].slice.call(document.querySelectorAll('[data-appear]'));
       var follower = new _follower.default(document.querySelector('.follower'));
       var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
       var links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
+      var togglers = [].slice.call(document.querySelectorAll('[toggle]'));
       var mouse = {
         x: 0,
         y: 0
@@ -152,6 +158,7 @@ function () {
       this.follower = follower;
       this.hrefs = hrefs;
       this.links = links;
+      this.togglers = togglers;
       this.mouse = mouse;
       this.timeline = timeline;
       this.onResize();
@@ -191,6 +198,22 @@ function () {
         node.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
+        });
+      });
+      this.togglers.forEach(function (node) {
+        node.addEventListener('click', function (e) {
+          var target = node.getAttribute('toggle');
+          target = target ? document.querySelector(target) : node;
+          var toggle = node.getAttribute('toggle-class') || 'active';
+
+          if (target.classList.contains(toggle)) {
+            target.classList.remove(toggle);
+          } else {
+            target.classList.add(toggle);
+          }
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
         });
       });
     }
@@ -258,9 +281,12 @@ function () {
         var scrollTop = _dom.default.scrollTop();
 
         if (this.body.offsetHeight !== this.page.offsetHeight) {
+          this.body.setAttribute('style', "height: ".concat(this.page.offsetHeight, "px;"));
+          /*
           TweenMax.set(this.body, {
-            height: this.page.offsetHeight
+          	height: this.page.offsetHeight,
           });
+          */
         }
 
         var newTop = this.page.previousTop || 0;
@@ -268,10 +294,15 @@ function () {
         newTop = Math.round(newTop * 10) / 10;
 
         if (this.page.previousTop !== newTop) {
-          this.page.previousTop = newTop;
+          this.page.previousTop = newTop; // this.page.setAttribute('style', `top: ${-newTop}px;`);
+
+          this.page.setAttribute('style', "transform: translateY(".concat(-newTop, "px);"));
+          /*
           TweenMax.set(this.page, {
-            y: -newTop
+          	y: -newTop,
           });
+          */
+
           _dom.default.scrolling = true;
         } else {
           _dom.default.scrolling = false;
@@ -295,12 +326,16 @@ function () {
           var alpha = (0.2 + 0.3 * (Math.abs(xy.x) + Math.abs(xy.y)) / 2).toFixed(3);
           var x = (xy.x * -100).toFixed(2);
           var y = (xy.y * -50).toFixed(2);
-          var boxShadow = x + 'px ' + y + 'px ' + shadow + 'px -10px rgba(0, 0, 0, ' + alpha + ')'; // if (node.boxShadow !== boxShadow) {
+          var boxShadow = "".concat(x, "px ").concat(y, "px ").concat(shadow, "px -10px rgba(0, 0, 0, ").concat(alpha, ")"); // if (node.boxShadow !== boxShadow) {
           // 	node.boxShadow = boxShadow;
 
+          node.setAttribute('style', "box-shadow: ".concat(boxShadow));
+          /*
           TweenMax.set(node, {
-            boxShadow: boxShadow
-          }); // }
+          	boxShadow: boxShadow,
+          });
+          */
+          // }
 
           node.xy = xy;
         });
@@ -379,7 +414,7 @@ function () {
         */
 
         this.parallaxes.forEach(function (node, i) {
-          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-img-parallax')) || 5);
+          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5);
           var direction = i % 2 === 0 ? 1 : -1;
           var currentY = node.currentY || 0;
 
@@ -399,13 +434,14 @@ function () {
             currentY = (y * parallax * direction).toFixed(3);
 
             if (node.currentY !== currentY) {
-              node.currentY = currentY;
-              node.setAttribute('style', 'left: 50%; transform: translateX(-50%) translateY(' + currentY + '%) scale3d(' + s + ',' + s + ',1.0);');
+              node.currentY = currentY; // node.setAttribute('style', `left: 50%; top:${currentY}%;`);
+
+              node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
             }
           }
         }); // follower
 
-        if (this.follower.enabled && !_dom.default.scrolling) {
+        if (this.follower.enabled) {
           this.follower.render();
         }
       } // appears
@@ -606,6 +642,26 @@ function () {
       // window.scrollY;
       */
     }
+    /*
+    static on(event, target, callback) {
+    	if (typeof callback === 'function') {
+    		const listener = Dom.listeners[target + event] = (e) => {
+    			const node = document.querySelector(selector);
+    			if (node && e.target === node || node.contains(e.target)) {
+    				callback(e);
+    			}
+    		};
+    		document.addEventListener(event, listener);
+    	}
+    }
+    	static off(event, selector) {
+    	const listener = Dom.listeners[selector + event];
+    	if (listener) {
+    		document.removeEventListener(event, listener);
+    	}
+    }
+    */
+
   }]);
 
   return Dom;
@@ -631,8 +687,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var friction = 5;
-var friction2 = 1;
+var friction = 8;
+var friction2 = 2;
 var size = 20;
 
 var Follower =
@@ -643,7 +699,7 @@ function () {
 
     _classCallCheck(this, Follower);
 
-    this.enabled = false;
+    this.enabled = true;
     this.node = node;
     this.div1 = node.querySelectorAll('div')[0];
     this.div2 = node.querySelectorAll('div')[1];
@@ -686,26 +742,33 @@ function () {
         if (rect.contains(_this2.mouse.x, _this2.mouse.y)) {
           return {
             match: true,
+
+            /*
             x: rect.left,
             y: rect.bottom - 3,
             width: rect.width,
             height: 3,
+            */
+            x: _this2.mouse.x,
+            y: _this2.mouse.y,
+            width: size,
+            height: size,
             radius: 0,
             scale: 1,
-            opacity: 1
+            opacity: 0.05
           };
         } else {
           return p;
         }
       }, {
         match: false,
-        x: this.mouse.x - size / 2,
-        y: this.mouse.y - size / 2,
+        x: this.mouse.x,
+        y: this.mouse.y,
         width: size,
         height: size,
         radius: 75,
         scale: 0.25,
-        opacity: 0.0
+        opacity: 0.15
       });
       this.magnet = magnet;
     }
@@ -714,64 +777,44 @@ function () {
     value: function render() {
       if (window.innerWidth >= 1024 && this.mouse.x && this.mouse.y) {
         this.setMagnetThrottled();
-        var magnet = this.magnet; // console.log(magnet);
-
-        /*
-        const magnet = this.rects.reduce((p, rect) => {
-        	if (rect.contains(this.mouse.x, this.mouse.y)) {
-        		return {
-        			match: true,
-        			x: rect.left,
-        			y: rect.bottom - 3,
-        			width: rect.width,
-        			height: 3,
-        			radius: 0,
-        			scale: 1,
-        			opacity: 1,
-        		};
-        	} else {
-        		return p;
-        	}
-        }, {
-        	match: false,
-        	x: this.mouse.x - size / 2,
-        	y: this.mouse.y - size / 2,
-        	width: size,
-        	height: size,
-        	radius: 75,
-        	scale: 0.25,
-        	opacity: 0.0,
-        });
-        */
+        var magnet = this.magnet; //
 
         this.x += (magnet.x - this.x) / friction;
         this.y += (magnet.y - this.y) / friction;
-        this.x2 += (this.mouse.x - this.x2) / friction2;
-        this.y2 += (this.mouse.y - this.y2) / friction2;
         this.w += (magnet.width - this.w) / friction;
         this.h += (magnet.height - this.h) / friction;
-        this.r += (magnet.radius - this.r) / friction; // this.s += (magnet.scale - this.s) / friction;
-        // this.o += (magnet.opacity - this.o) / friction;
+        this.r += (magnet.radius - this.r) / friction;
+        this.s += (magnet.scale - this.s) / friction;
+        this.o += (magnet.opacity - this.o) / friction; //
 
+        this.x2 += (this.mouse.x - this.x2) / friction2;
+        this.y2 += (this.mouse.y - this.y2) / friction2;
+        this.div1.setAttribute('style', "opacity: ".concat(this.o, "; left:").concat(this.x - this.s * 50, "px; top:").concat(this.y - this.s * 50, "px; width:").concat(this.s * 100, "px; height:").concat(this.s * 100, "px;"));
+        this.div2.setAttribute('style', "opacity: 1; left:".concat(this.x2, "px; top:").concat(this.y2, "px;")); // this.div1.setAttribute('style', `opacity: ${this.o}; transform: translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.s},${this.s},1.0);`);
+        // this.div2.setAttribute('style', `opacity: 1; transform: translateX(${this.x2}px) translateY(${this.y2}px);`);
+
+        /*
         TweenMax.set(this.div1, {
-          opacity: 1,
-          // width: `${this.w}px`,
-          // height: `${this.h}px`,
-          // transform: `translateX(${this.x}px) translateY(${this.y}px)`,
-          // borderRadius: `${magnet.radius}px`,
-          transform: "translateX(".concat(this.x + this.w / 2 - 50, "px) translateY(").concat(this.y + this.h / 2 - 50, "px) scale3d(").concat(this.w / 100, ",").concat(this.h / 100, ",1.0)")
+        	opacity: this.o,
+        	// transform: `translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.w / 100},${this.h / 100},1.0)`,
+        	transform: `translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.s},${this.s},1.0)`,
         });
         TweenMax.set(this.div2, {
-          opacity: 1,
-          transform: "translateX(".concat(this.x2, "px) translateY(").concat(this.y2, "px)")
+        	opacity: 1,
+        	transform: `translateX(${this.x2}px) translateY(${this.y2}px)`,
         });
+        */
       } else {
+        this.div1.setAttribute('style', "opacity: 0;");
+        this.div2.setAttribute('style', "opacity: 0;");
+        /*
         TweenMax.set(this.div1, {
-          opacity: 0
+        	opacity: 0,
         });
         TweenMax.set(this.div2, {
-          opacity: 0
+        	opacity: 0,
         });
+        */
       }
     }
   }]);
@@ -917,7 +960,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /* jshint esversion: 6 */
 
 /* global TweenMax */
-var _module = 98;
+var _module = 59; // 98;
 
 var Triangle =
 /*#__PURE__*/
@@ -966,10 +1009,11 @@ function () {
   }, {
     key: "resize",
     value: function resize(node, pool) {
+      var w2 = window.innerWidth / 2 - node.offsetLeft;
       var position = this.getRandomPosition(node);
       var t = 0;
 
-      while (pool[position.i] !== undefined && t < 5) {
+      while ((pool[position.i] !== undefined || position.x > w2 - 2 * _module && position.x < w2 + 2 * _module) && t < 5) {
         position = this.getRandomPosition(node);
         t++;
       }
@@ -977,10 +1021,13 @@ function () {
       pool[position.i] = position.i;
       this.position = position;
       this.parent = node;
+      this.node.setAttribute('style', "opacity: 0; top: ".concat(position.y, "px; left: ").concat(position.x, "px; transform: rotate(").concat(position.r, "deg);"));
+      /*
       TweenMax.set(this.node, {
-        opacity: 0,
-        transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
+      	opacity: 0,
+      	transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
       });
+      */
     }
   }, {
     key: "appear",
@@ -1028,10 +1075,15 @@ function () {
           var position = _this2.getRandomPosition(_this2.parent);
 
           _this2.position = position;
-          TweenMax.set(_this2.node, {
-            opacity: 0,
-            transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)'
+
+          _this2.node.setAttribute('style', "opacity:0; top: ".concat(position.y, "px; left: ").concat(position.x, "px; transform: rotate(").concat(position.r, "deg);"));
+          /*
+          TweenMax.set(this.node, {
+          	opacity: 0,
+          	transform: 'translateX(' + position.x + '%) translateY(' + position.y + '%) rotateZ(' + position.r + 'deg)',
           });
+          */
+
 
           _this2.appear();
         },

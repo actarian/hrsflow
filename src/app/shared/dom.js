@@ -88,4 +88,25 @@ export default class Dom {
 		*/
 	}
 
+	/*
+	static on(event, target, callback) {
+		if (typeof callback === 'function') {
+			const listener = Dom.listeners[target + event] = (e) => {
+				const node = document.querySelector(selector);
+				if (node && e.target === node || node.contains(e.target)) {
+					callback(e);
+				}
+			};
+			document.addEventListener(event, listener);
+		}
+	}
+
+	static off(event, selector) {
+		const listener = Dom.listeners[selector + event];
+		if (listener) {
+			document.removeEventListener(event, listener);
+		}
+	}
+	*/
+
 }

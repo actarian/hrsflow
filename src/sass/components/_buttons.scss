@@ -71,7 +71,8 @@ button,
 		color: white;
 	}
 
-	.fixed & {
+	.fixed &,
+	.opened & {
 		color: #484848;
 		text-shadow: none;
 
@@ -79,6 +80,20 @@ button,
 		&:active,
 		&.active {
 			color: black;
+		}
+	}
+
+	.icon-close {
+		display: none;
+	}
+
+	.opened & {
+		.icon-menu {
+			display: none;
+		}
+
+		.icon-close {
+			display: inline-block;
 		}
 	}
 

@@ -49,6 +49,11 @@ body {
 	background: $white;
 	color: $black;
 	-webkit-overflow-scrolling: touch;
+
+	&.opened {
+		height: 100vh !important;
+		overflow: hidden;
+	}
 }
 
 main {

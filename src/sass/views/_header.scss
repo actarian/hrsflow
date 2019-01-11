@@ -37,7 +37,8 @@ header {
 		position: static;
 	}
 
-	.fixed & {
+	.fixed &,
+	.opened & {
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -60,7 +61,60 @@ header {
 		.brand--black {
 			display: block;
 		}
+	}
 
+	.opened & {
+		height: 100vh;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	@include media-breakpoint-down(md) {
+		.nav {
+			display: none;
+		}
+
+		.opened & {
+
+			.nav {
+				display: flex;
+			}
+
+			.flex-row {
+				flex-direction: column;
+				padding: 40px 0;
+			}
+
+			.nav--primary {
+				flex-direction: column;
+				align-items: stretch;
+				width: 100%;
+			}
+
+			.nav--secondary {
+				flex-direction: column;
+				align-items: stretch;
+				width: 100%;
+			}
+
+			.nav--i18n {
+				flex-direction: column;
+				align-items: stretch;
+				width: 100%;
+			}
+
+			.btn--menu {
+				position: absolute;
+				top: 45px;
+				right: 40px;
+			}
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+		.btn--menu {
+			display: none;
+		}
 	}
 
 }
