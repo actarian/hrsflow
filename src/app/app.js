@@ -228,6 +228,7 @@ export default class App {
 		} else {
 			this.body.classList.remove('fixed');
 		}
+		this.appears = [].slice.call(document.querySelectorAll('[data-appear]'));
 		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 	}
 

@@ -267,8 +267,9 @@ function () {
         this.body.classList.add('fixed');
       } else {
         this.body.classList.remove('fixed');
-      } // this.follower.follow(this.links.map(x => Rect.fromNode(x)));
+      }
 
+      this.appears = [].slice.call(document.querySelectorAll('[data-appear]')); // this.follower.follow(this.links.map(x => Rect.fromNode(x)));
     }
   }, {
     key: "render",
