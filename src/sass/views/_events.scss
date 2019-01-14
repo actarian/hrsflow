@@ -67,4 +67,29 @@
 		color: inherit;
 		box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.25);
 	}
+
+	@include media-breakpoint-down(sm) {
+		align-items: flex-start;
+		flex-wrap: wrap;
+
+		.title {
+			order: 0;
+			padding-bottom: 40px;
+			width: 100%;
+			flex: 1 0 100%;
+		}
+
+		.date {
+			order: 1;
+
+		}
+
+		.location {
+			order: 2;
+		}
+
+		.btn--discover {
+			order: 3;
+		}
+	}
 }
