@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" ng-app>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,110 +32,8 @@
 
 <body>
 
-	<svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
-		<defs>
-			<symbol id="triangle-60" viewBox="0 0 60 60">
-				<path fill="#E6E3E3" d="M2,4.8L55.2,58H2V4.8 M0,0v60h60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-60-fill" viewBox="0 0 60 60">
-				<path fill="#E6E3E3" d="M0,0v60h60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-120" viewBox="0 0 120 120">
-				<path fill="#E6E3E3" d="M2,4.8L57.2,60L2,115.2V4.8 M0,0v120l60-60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-120-fill" viewBox="0 0 120 120">
-				<path fill="#E6E3E3" d="M0,0v120l60-60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-60-white" viewBox="0 0 60 60">
-				<path fill="#FFFFFF" d="M2,4.8L55.2,58H2V4.8 M0,0v60h60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-60-fill-white" viewBox="0 0 60 60">
-				<path fill="#FFFFFF" d="M0,0v60h60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-120-white" viewBox="0 0 120 120">
-				<path fill="#FFFFFF" d="M2,4.8L57.2,60L2,115.2V4.8 M0,0v120l60-60L0,0L0,0z"></path>
-			</symbol>
-			<symbol id="triangle-120-fill-white" viewBox="0 0 120 120">
-				<path fill="#FFFFFF" d="M0,0v120l60-60L0,0L0,0z"></path>
-			</symbol>
-		</defs>
-	</svg>
-
-	<!-- HEADER -->
-	<header>
-		<div class="container flex-row">
-			<a href="index.html"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
-			<ul class="nav nav--primary">
-				<li><a href="solution.html"><span>Solutions</span></a></li>
-				<li>
-					<a href="product.html"><span>Products</span></a>
-					<div class="liv2">
-						<div class="container">
-							<ul class="nav nav--primary__liv2">
-								<li>
-									<a href="#"><span>HRSFlow Hot Runner Systems</span></a>
-									<ul class="nav nav--primary__liv3">
-										<li><a href="#"><span>Screwed-in Systems</span></a></li>
-										<li><a href="#"><span>Face to Face Systems</span></a></li>
-										<li><a href="#"><span>Hot-Halves</span></a></li>
-										<li><a href="#"><span>Stack Mold</span></a></li>
-										<li><a href="#"><span>Single Nozzle</span></a></li>
-										<li><a href="#"><span>Valve Gate Group Single N.</span></a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#"><span>Flexflow family</span></a>
-									<ul class="nav nav--primary__liv3">
-										<li><a href="#"><span>FLEXFlow</span></a></li>
-										<li><a href="#"><span>FLEXFlow ONE</span></a></li>
-										<li><a href="#"><span>FLEXFlow Ready</span></a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#"><span>Inject line</span></a>
-									<ul class="nav nav--primary__liv3">
-										<li><a href="#"><span>Inject</span></a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#"><span>Control unit</span></a>
-									<ul class="nav nav--primary__liv3">
-										<li><a href="#"><span>T-Tech</span></a></li>
-										<li><a href="#"><span>V0-Tech</span></a></li>
-										<li><a href="#"><span>V-Tech</span></a></li>
-										<li><a href="#"><span>V3-Tech</span></a></li>
-										<li><a href="#"><span>VT-Tech</span></a></li>
-										<li><a href="#"><span>Simply</span></a></li>
-										<li><a href="#"><span>S.T.C.</span></a></li>
-										<li><a href="#"><span>H.C.U.</span></a></li>
-										<li><a href="#"><span>P.M.U.</span></a></li>
-										<li><a href="#"><span>PDS</span></a></li>
-										<li><a href="#"><span>HSD</span></a></li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-				<li><a href="market.html"><span>Markets</span></a></li>
-				<li><a href="#"><span>Service & Support</span></a></li>
-			</ul>
-			<ul class="nav nav--secondary">
-				<li><a href="#"><span>About Us</span></a></li>
-				<li><a href="#"><span>Downloads</span></a></li>
-				<li><a href="#"><span>Careers</span></a></li>
-				<li><a href="#"><span>WW Contacts</span></a></li>
-			</ul>
-			<ul class="nav nav--i18n">
-				<li><a href="#"><i class="icon-search"></i><span>Search</span></a></li>
-				<li><a href="#"><i class="icon-world"></i><span>Eng</span></a></li>
-			</ul>
-			<button type="button" class="btn btn--menu" toggle="body" toggle-class="opened">
-				<i class="icon-menu"></i>
-				<i class="icon-close"></i>
-			</button>
-		</div>
-	</header>
+	<ng-include src="'partials/svg.html'"></ng-include>
+	<ng-include src="'partials/header.html'"></ng-include>
 
 	<div class="page">
 		<!-- HERO -->
@@ -162,7 +60,7 @@
 							<div class="h3">Two different product ranges dedicated to the different requirements of <span class="em">front lenses and rear lenses</span></div>
 						</div>
 						<div class="detail__item" data-appear>
-							<div class="h2">Diamond Lux</div>
+							<div class="h3">Diamond Lux</div>
 							<p>The Diamond Lux range is based on the technology of threaded system technology, while the lighting range is based on face to face system technology. Numerous design details make up the two product ranges to achieve the quality standards demanded by this challenging market.</p>
 							<div class="btn--group">
 								<a href="#" class="btn btn--discover"><span>Discover more</span></a>
@@ -173,7 +71,7 @@
 							<div class="info"><span>Front light</span> <span class="em">stelvio</span></div>
 						</div>
 						<div class="detail__item" data-appear>
-							<div class="h2">Angled solutions</div>
+							<div class="h3">Angled solutions</div>
 							<p>Injection compression differs from traditional moulding in the injection phase, which is performed with an open mould; this is then followed by closure of the half-moulds and the compression phase.</p>
 							<p>Thanks to reduced stress of polymers, this technique is used to produce thin parts with high surface quality, such as in the case of optical applications, glazing for the automotive sector, electronic and lighting systems.</p>
 							<div class="btn--group">
@@ -185,14 +83,14 @@
 							<div class="info"><span>Rear light</span> <span class="em">peugeot</span></div>
 						</div>
 						<div class="detail__item" data-appear>
-							<div class="h2">Multilevel solutions</div>
+							<div class="h3">Multilevel solutions</div>
 							<p>The injection compression technology, low pressure moulding, obtains components virtually free of internal stress, a requirement needed to ensure resistance to atmospheric agents and effective application of the anti-abrasion coating.</p>
 							<div class="btn--group">
 								<a href="#" class="btn btn--discover"><span>Discover more</span></a>
 							</div>
 						</div>
 						<div class="detail__item" data-appear>
-							<div class="h2">HP Gate</div>
+							<div class="h3">HP Gate</div>
 							<p>Thanks to reduced stress of polymers, this technique is used to produce thin parts with high surface quality, such as in the case of optical applications, glazing for the automotive sector, electronic and lighting systems.</p>
 							<div class="btn--group">
 								<a href="#" class="btn btn--discover"><span>Discover more</span></a>
@@ -218,7 +116,7 @@
 							</ul>
 						</div>
 						<div class="video-and-brochures">
-							<div class="h4">Video & Brochures</div>
+							<div class="h4">Downloads</div>
 							<ul class="nav nav--video-and-brochures">
 								<li><a><i class="icon-video"></i> <span>flexflow_family_eng.mp4 (7.5Mb)</span></a></li>
 								<li><a><i class="icon-download"></i> <span>flyer_automotive_bassa_eng.pdf (4.5Mb)</span></a></li>
@@ -238,33 +136,33 @@
 				<div class="swiper-container swiper-container--gallery">
 					<div class="swiper-wrapper">
 						<!-- SWIPER-SLIDE -->
-						<div class="swiper-slide gallery__item">
-							<div class="picture" data-shadow>
+						<a class="swiper-slide gallery__item" href="img/solution/gallery-01.jpg" data-fancybox="gallery" data-caption="Caption #1">
+							<span class="picture" data-shadow>
 								<img src="img/solution/gallery-01.jpg" data-parallax="5" />
-							</div>
-							<div class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></div>
-						</div>
+							</span>
+							<span class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></span>
+						</a>
 						<!-- SWIPER-SLIDE -->
-						<div class="swiper-slide gallery__item">
-							<div class="picture" data-shadow>
+						<a class="swiper-slide gallery__item" href="img/solution/gallery-02.jpg" data-fancybox="gallery" data-caption="Caption #2">
+							<span class="picture" data-shadow>
 								<img src="img/solution/gallery-02.jpg" data-parallax="5" />
-							</div>
-							<div class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></div>
-						</div>
+							</span>
+							<span class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></span>
+						</a>
 						<!-- SWIPER-SLIDE -->
-						<div class="swiper-slide gallery__item">
-							<div class="picture" data-shadow>
+						<a class="swiper-slide gallery__item" href="img/solution/gallery-03.jpg" data-fancybox="gallery" data-caption="Caption #3">
+							<span class="picture" data-shadow>
 								<img src="img/solution/gallery-03.jpg" data-parallax="5" />
-							</div>
-							<div class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></div>
-						</div>
+							</span>
+							<span class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></span>
+						</a>
 						<!-- SWIPER-SLIDE -->
-						<div class="swiper-slide gallery__item">
-							<div class="picture" data-shadow>
+						<a class="swiper-slide gallery__item" href="img/solution/gallery-01.jpg" data-fancybox="gallery" data-caption="Caption #1">
+							<span class="picture" data-shadow>
 								<img src="img/solution/gallery-01.jpg" data-parallax="5" />
-							</div>
-							<div class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></div>
-						</div>
+							</span>
+							<span class="info"><span>Injection system</span> <span class="em">screwed-in systems</span></span>
+						</a>
 						<!-- SWIPER-SLIDE -->
 					</div>
 					<div class="swiper-pagination"></div>
@@ -272,19 +170,19 @@
 				<!-- SWIPER -->
 			</div>
 		</section>
-		<!-- RELATED PRODUCTS -->
+		<!-- RELATED SOLUTIONS -->
 		<section class="section section--related-items">
 			<div class="container">
-				<div class="h3">Other Products</div>
+				<div class="h3">Other Solutions</div>
 				<div class="row">
 					<!-- RELATED ITEM -->
 					<div class="col-md-6 col-lg-4 col-xl-3">
 						<a href="#" class="related__item" data-appear>
 							<span class="picture" data-shadow>
-								<img src="img/solution/related-01.jpg" alt="Automotive lighting" data-parallax="5" />
+								<img src="img/solution/gallery-01.jpg" alt="Automotive lighting" data-parallax="5" />
 							</span>
 							<span class="content">
-								<span class="title">Screwed-in Systems</span>
+								<span class="title">Diamond LUX</span>
 								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
 							</span>
 						</a>
@@ -293,10 +191,10 @@
 					<div class="col-md-6 col-lg-4 col-xl-3">
 						<a href="#" class="related__item" data-appear>
 							<span class="picture" data-shadow>
-								<img src="img/solution/related-02.jpg" alt="Automotive lighting" data-parallax="5" />
+								<img src="img/solution/gallery-02.jpg" alt="Automotive lighting" data-parallax="5" />
 							</span>
 							<span class="content">
-								<span class="title">Face to Face Systems</span>
+								<span class="title">Angle solution</span>
 								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
 							</span>
 						</a>
@@ -305,70 +203,10 @@
 					<div class="col-md-6 col-lg-4 col-xl-3">
 						<a href="#" class="related__item" data-appear>
 							<span class="picture" data-shadow>
-								<img src="img/solution/related-03.jpg" alt="Automotive lighting" data-parallax="5" />
+								<img src="img/solution/gallery-03.jpg" alt="Automotive lighting" data-parallax="5" />
 							</span>
 							<span class="content">
-								<span class="title">Hot Halves</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="#" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/solution/related-04.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Stack Mold</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="#" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/solution/related-05.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Single Nozzle</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="#" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/solution/related-06.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Valve gate group single nozzle</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="#" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/solution/related-07.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Diamond Lux line</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="#" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/solution/related-08.jpg" alt="Automotive lighting" />
-							</span>
-							<span class="content">
-								<span class="title">Inject line</span>
+								<span class="title">Multilevel solution</span>
 								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
 							</span>
 						</a>
@@ -405,163 +243,10 @@
 			</div>
 		</section>
 		<!-- FOOTER -->
-		<footer>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6" style="z-index: 1;">
-						<div class="row">
-							<div class="picture--customer-service">
-								<img src="img/customer-service.jpg" />
-							</div>
-							<div class="col-md-6 offset-md-6">
-								<div class="customer-service" data-shadow data-appear>
-									<div class="h6">Customer Service 24/7</div>
-									<ul class="nav nav--footer-primary">
-										<li>
-											<span>Europe</span>
-											<ul class="nav">
-												<li>
-													<span>24/7 Service Hotline 0039 0422 750 555</span>
-													<span>German speaking hotline 0049 69 668159666</span>
-													<span><a href="mailto:service@hrsflow.com">service@hrsflow.com</a></span>
-												</li>
-											</ul>
-										</li>
-										<li>
-											<span>North America</span>
-											<ul class="nav">
-												<li>
-													<span>24/7 Service Hotline 001 855 477 3569</span>
-													<span><a href="mailto:usa.service@hrsflow.com">usa.service@hrsflow.com</a></span>
-												</li>
-											</ul>
-										</li>
-										<li>
-											<span>Asia</span>
-											<ul class="nav">
-												<li>
-													<span>Customer service 24/7 - 0086 18858181211</span>
-													<span><a href="mailto:service@hrsflow.com">service@hrsflow.com</a></span>
-												</li>
-											</ul>
-										</li>
-									</ul>
-									<div class="btn--group">
-										<a href="#" class="btn btn--discover"><span>See more</span></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="headline">
-							<img class="brand" src="img/logo-black.svg" /> <img class="slogan" src="img/slogan.svg" />
-						</div>
-						<div class="row">
-							<div class="col-sm-6 col-md-4">
-								<ul class="nav nav--footer-primary hidden-md-down">
-									<li data-appear>
-										<span>Products</span>
-										<ul class="nav">
-											<li><a href="#"><span>HRSflow Hot Runner Systems</span></a></li>
-											<li><a href="#"><span>FLEXflow FAMILY</span></a></li>
-											<li><a href="#"><span>INject line</span></a></li>
-										</ul>
-									</li>
-									<li data-appear>
-										<span>Markets</span>
-										<ul class="nav">
-											<li><a href="#"><span>Electric and Autonomous Vehicles</span></a></li>
-											<li><a href="#"><span>Automotive Interior</span></a></li>
-											<li><a href="#"><span>Automotive Exterior</span></a></li>
-											<li><a href="#"><span>Automotive Lighting</span></a></li>
-											<li><a href="#"><span>Automotive Underhood</span></a></li>
-											<li><a href="#"><span>Transportation</span></a></li>
-											<li><a href="#"><span>Domestic Appliances</span></a></li>
-											<li><a href="#"><span>Technical Applications</span></a></li>
-											<li><a href="#"><span>Houseware</span></a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-							<div class="col-md-4">
-								<ul class="nav nav--footer-primary hidden-md-down">
-									<li data-appear>
-										<span>Downloads</span>
-										<ul class="nav">
-											<li><a href="#"><span>2D-3D Catalogue</span></a></li>
-											<li><a href="#"><span>PDF Catalogues</span></a></li>
-											<li><a href="#"><span>Company Brochure</span></a></li>
-											<li><a href="#"><span>Flyers</span></a></li>
-											<li><a href="#"><span>Certications</span></a></li>
-											<li><a href="#"><span>Sustainability Report</span></a></li>
-										</ul>
-									</li>
-									<li data-appear>
-										<span>Service & Support</span>
-										<ul class="nav">
-											<li><a href="#"><span>Rheological Analysis</span></a></li>
-											<li><a href="#"><span>Customer Service 24/7</span></a></li>
-											<li><a href="#"><span>Warranty</span></a></li>
-											<li><a href="#"><span>Training & Know-How</span></a></li>
-											<li><a href="#"><span>Spare parts</span></a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-							<div class="col-md-4">
-								<ul class="nav nav--footer-primary">
-									<li class="hidden-md-down" data-appear>
-										<span>About Us</span>
-										<ul class="nav">
-											<li><a href="#"><span>Company</span></a></li>
-											<li><a href="#"><span>Why HRSflow</span></a></li>
-											<li><a href="#"><span>Hot Runner Systems</span></a></li>
-											<li><a href="#"><span>Our History</span></a></li>
-											<li><a href="#"><span>Social Responsibility</span></a></li>
-											<li><a href="#"><span>News & Press</span></a></li>
-											<li><a href="#"><span>Events</span></a></li>
-											<li><a href="#"><span>Patents</span></a></li>
-										</ul>
-									</li>
-									<li data-appear>
-										<span>Follow us</span>
-										<ul class="nav nav--footer-social">
-											<li><a href="https://www.facebook.com/HRSflow-1220781874608204/" target="_blank"><i class="icon-facebook"></i> <span>Facebook</span></a></li>
-											<li><a href="https://twitter.com/HRSflow" target="_blank"><i class="icon-twitter"></i> <span>Twitter</span></a></li>
-											<li><a href="http://www.linkedin.com/company/inglass-hrsflow" target="_blank"><i class="icon-linkedin"></i> <span>LinkedIn</span></a></li>
-											<li><a href="http://www.youtube.com/channel/UC_QczGEo5eCtMSVq4pbcHyw" target="_blank"><i class="icon-youtube"></i> <span>Youtube</span></a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="flex-row">
-					<ul class="nav nav--footer-secondary">
-						<li><a href="#"><span>© Inglass Spa</span></a></li>
-						<li><span>Tax code 03577410263</span></li>
-						<li><a href="#"><span>Privacy Policy</span></a></li>
-						<li><a href="#"><span>Company info</span></a></li>
-					</ul>
-					<ul class="nav nav--footer-secondary">
-						<li><a href="https://www.websolute.com/"><span>Websolute</span> <i class="icon-websolute"></i></a></li>
-					</ul>
-				</div>
-			</div>
-		</footer>
+		<ng-include src="'partials/footer.html'"></ng-include>
 	</div>
 
-	<!-- SERVICE -->
-	<ul class="nav nav--service">
-		<li><a href="#"><i class="icon-2d-3d"></i> <span>2D-3D Catalogue</span></a></li>
-		<li><a href="#"><i class="icon-support"></i> <span>Customer Service 24/7</span></a></li>
-		<li><a href="#"><i class="icon-world"></i> <span>WW Contacts</span></a></li>
-		<li><a href="#"><i class="icon-contact"></i> <span>Careers</span></a></li>
-	</ul>
+	<ng-include src="'partials/service.html'"></ng-include>
 
 	<div class="follower">
 		<div></div>
@@ -572,6 +257,8 @@
 		<img class="brand" src="img/logo.svg" />
 	</div>
 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+	<!-- angular può essere rimosso caricando i partials server side -->
 	<script src="js/vendors.min.js"></script>
 	<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c35ff0b6bd15a1c" type="text/javascript"></script>
 	<script src="js/app.min.js"></script>

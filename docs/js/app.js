@@ -290,10 +290,10 @@ function () {
         }
 
         var newTop = this.page.previousTop || 0;
-        newTop += (scrollTop - newTop) / 10;
+        newTop += (scrollTop - newTop) / 3;
         newTop = Math.round(newTop * 10) / 10;
 
-        if (this.page.previousTop !== newTop) {
+        if (newTop && !Number.isNaN(newTop) && this.page.previousTop !== newTop) {
           this.page.previousTop = newTop; // this.page.setAttribute('style', `top: ${-newTop}px;`);
 
           this.page.setAttribute('style', "transform: translateY(".concat(-newTop, "px);"));
@@ -343,7 +343,7 @@ function () {
 
 
       this.swipers.forEach(function (swiper, i) {
-        if (swiper.params.autoplay.enabled) {
+        if (swiper.params.autoplay.enabled && !swiper.params.autoplay.disableOnInteraction) {
           var node = swiper.el;
 
           var rect = _rect.default.fromNode(node);
@@ -434,9 +434,13 @@ function () {
             currentY = (y * parallax * direction).toFixed(3);
 
             if (node.currentY !== currentY) {
-              node.currentY = currentY; // node.setAttribute('style', `left: 50%; top:${currentY}%;`);
+              node.currentY = currentY;
 
-              node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
+              if (node.parentNode.classList.contains('background')) {
+                node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
+              } else {
+                node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%);"));
+              }
             }
           }
         }); // follower

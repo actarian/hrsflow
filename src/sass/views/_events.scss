@@ -1,0 +1,70 @@
+.section--listing {
+	.h2 {
+		max-width: 760px;
+	}
+}
+
+.events-listing {
+	width: 100%;
+}
+
+.event__item {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	color: inherit;
+	padding: 20px 15px;
+	margin-bottom: 20px;
+	border-top: 1px solid #eee;
+
+	&:last-child {
+		border-bottom: 1px solid #eee;
+	}
+
+	.date {
+		display: block;
+		font-size: 15px;
+		font-weight: 400;
+		margin-right: 30px;
+		white-space: nowrap;
+
+	}
+
+	.title {
+		display: block;
+		font-size: 30px;
+		line-height: 36px;
+		font-weight: 200;
+		color: #272727;
+		margin-right: 30px;
+		flex: 1 1 auto;
+
+		&>span {
+			display: inline-block;
+			max-width: 700px;
+		}
+	}
+
+	.location {
+		display: block;
+		font-size: 18px;
+		line-height: 20px;
+		font-weight: 200;
+		color: #272727;
+		margin-right: 30px;
+		max-width: 200px;
+		flex: 0 0 200px;
+	}
+
+	.btn--discover {
+		white-space: nowrap;
+	}
+
+	&:hover,
+	&:active,
+	&:visited {
+		color: inherit;
+		box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.25);
+	}
+}

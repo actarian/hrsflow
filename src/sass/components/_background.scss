@@ -31,4 +31,9 @@
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
 		mix-blend-mode: darken;
 	}
+
+	[data-parallax] {
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+
 }

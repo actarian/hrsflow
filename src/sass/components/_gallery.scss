@@ -27,6 +27,13 @@ $module: 116px;
 }
 
 .gallery__item {
+	display: block;
+	color: inherit;
+	outline: none;
+
+	.picture {
+		display: block;
+	}
 
 	.info {
 		margin-top: 20px;
@@ -39,4 +46,10 @@ $module: 116px;
 		}
 	}
 
+	&:hover,
+	&:active,
+	&:visited {
+		color: inherit;
+		outline: none;
+	}
 }

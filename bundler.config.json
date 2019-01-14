@@ -16,6 +16,8 @@
 	}
 }, {
 	"inputFiles": [
+		"node_modules/jquery/dist/jquery.js",
+		"node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js",
 		"node_modules/gsap/src/uncompressed/easing/EasePack.js",
         "node_modules/gsap/src/uncompressed/TweenLite.js",
 		"node_modules/gsap/src/uncompressed/TweenMax.js",
@@ -27,6 +29,7 @@
 	}
 }, {
 	"inputFiles": [
+		"node_modules/@fancyapps/fancybox/dist/jquery.fancybox.css",
         "node_modules/swiper/dist/css/swiper.css"
     ],
 	"outputFileName": "docs/css/vendors.css",

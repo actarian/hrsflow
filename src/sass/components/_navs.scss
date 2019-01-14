@@ -84,7 +84,7 @@
 
 	@include media-breakpoint-up(lg) {
 		position: absolute;
-		top: 0;
+		top: -1px;
 		left: 0;
 		background: #272727;
 		overflow: hidden;
@@ -102,12 +102,13 @@
 		.fixed &,
 		.opened & {
 			background: white;
-
-			li:hover>&,
-			li:hover>& {
-				border-bottom-color: #dedcdc;
-			}
 		}
+
+		.fixed li:hover>&,
+		.opened li:hover>& {
+			border-bottom-color: #dedcdc;
+		}
+
 	}
 
 }
@@ -115,22 +116,26 @@
 .nav--primary__liv2 {
 	width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 
 	&>li {
 		display: block;
 		position: relative;
-		flex: 1 1 25%;
+		flex: 1 1 calc(25% - 30px);
 
 		&>span,
 		&>a {
 			font-size: 20px;
 			line-height: 36px;
 			font-weight: 600;
+			margin-bottom: 5px;
 			color: #a5a1a1;
 			display: inline-block;
+			white-space: nowrap;
 		}
 
-		&>a {
+		&>a,
+		&>span {
 			display: block;
 			position: relative;
 			width: 100%;
@@ -189,12 +194,13 @@
 	}
 
 	@include media-breakpoint-up(lg) {
+		width: calc(100% + 30px);
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: flex-start;
 
-		&>li+li {
-			margin-left: 30px;
+		&>li {
+			margin-right: 30px;
 		}
 
 	}
@@ -254,8 +260,8 @@
 		}
 	}
 
-	&>li+li {
-		margin-top: 10px;
+	&>li {
+		margin-bottom: 5px;
 	}
 
 	.fixed &,

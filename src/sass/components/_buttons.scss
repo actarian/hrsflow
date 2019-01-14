@@ -147,8 +147,38 @@ button,
 		@include transition();
 	}
 
-	&:hover {
+	&:hover,
+	a:hover & {
 		color: #d90726;
+
+		&:before {
+			transform: scale(0, 1);
+		}
+	}
+
+}
+
+.btn--nav {
+	display: inline-block;
+	position: relative;
+	font-size: 15px;
+	line-height: 20px;
+	font-weight: 600;
+	color: white;
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		bottom: 0;
+		background: white;
+		@include transition();
+	}
+
+	&:hover {
+		color: white;
 
 		&:before {
 			transform: scale(0, 1);
@@ -234,6 +264,15 @@ button,
 
 .btn--group {
 	margin-top: 50px;
+
+	&>a,
+	&>button {
+		margin-right: 10px;
+	}
+}
+
+.btn--group-center {
+	text-align: center;
 }
 
 .btn--block {

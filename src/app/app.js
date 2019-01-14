@@ -246,9 +246,9 @@ export default class App {
 				*/
 			}
 			let newTop = this.page.previousTop || 0;
-			newTop += (scrollTop - newTop) / 10;
+			newTop += (scrollTop - newTop) / 3;
 			newTop = Math.round(newTop * 10) / 10;
-			if (this.page.previousTop !== newTop) {
+			if (newTop && !Number.isNaN(newTop) && this.page.previousTop !== newTop) {
 				this.page.previousTop = newTop;
 				// this.page.setAttribute('style', `top: ${-newTop}px;`);
 				this.page.setAttribute('style', `transform: translateY(${-newTop}px);`);
@@ -293,7 +293,7 @@ export default class App {
 
 		// swipers
 		this.swipers.forEach((swiper, i) => {
-			if (swiper.params.autoplay.enabled) {
+			if (swiper.params.autoplay.enabled && !swiper.params.autoplay.disableOnInteraction) {
 				const node = swiper.el;
 				let rect = Rect.fromNode(node);
 				const intersection = rect.intersection(this.windowRect);
@@ -374,8 +374,11 @@ export default class App {
 					currentY = (y * parallax * direction).toFixed(3);
 					if (node.currentY !== currentY) {
 						node.currentY = currentY;
-						// node.setAttribute('style', `left: 50%; top:${currentY}%;`);
-						node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
+						if (node.parentNode.classList.contains('background')) {
+							node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
+						} else {
+							node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
+						}
 					}
 				}
 			});

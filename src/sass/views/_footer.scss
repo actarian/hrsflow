@@ -26,10 +26,12 @@ footer {
 	}
 
 	.customer-service {
-		padding: 30px;
-		background: white;
-		border: 1px solid #dedcdc;
-		// box-shadow: -30px 30px 30px -5px rgba(#474b58, 0.15);
+		.inner {
+			padding: 30px;
+			background: white;
+			border: 1px solid #dedcdc;
+			// box-shadow: -30px 30px 30px -5px rgba(#474b58, 0.15);
+		}
 
 		.h6 {
 			font-size: 24px;

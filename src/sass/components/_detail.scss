@@ -51,10 +51,19 @@
 
 	.h4 {
 		font-size: 30px;
-		line-height: 00px;
+		line-height: 35px;
 		font-weight: 200;
 		margin-bottom: 40px;
 		color: #272727;
+	}
+
+	.h5 {
+		margin-bottom: 10px;
+		color: #a9a9a9;
+		font-size: 16px;
+		line-height: 16px;
+		vertical-align: middle;
+		font-weight: 400;
 	}
 
 	.btn--group {
@@ -71,6 +80,25 @@
 			color: #a5a1a1;
 			font-weight: 200;
 		}
+	}
+
+	@include media-breakpoint-up(sm) {
+		.h5 {
+			&:before {
+				content: '';
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 10px;
+				width: 0;
+				height: 0;
+				line-height: 0;
+				border-style: solid;
+				border-width: 0 18px 18px 0;
+				border-color: transparent #d3d3d3 transparent transparent;
+				margin-left: -28px;
+			}
+		}
+
 	}
 
 }
