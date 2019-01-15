@@ -1521,7 +1521,14 @@ button:disabled,
   position: fixed;
   width: 100vw;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: white;
   overflow-x: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   left: 0;
   /*
 	.overscroll &,
