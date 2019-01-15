@@ -58,7 +58,7 @@ export default class Dom {
 			let now = Utils.now();
 			if (Dom.lastScrollTime) {
 				const diff = now - Dom.lastScrollTime;
-				if (diff < 10) {
+				if (diff < 5) {
 					document.removeEventListener('scroll', onScroll);
 					Dom.fastscroll = true;
 					node.classList.add('fastscroll');

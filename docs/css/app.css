@@ -1098,7 +1098,8 @@ button:disabled,
 .picture {
   display: inline-block;
   position: relative;
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0 0 10px 0; }
   .picture img {
     display: block;
     position: relative;
@@ -1366,12 +1367,17 @@ button:disabled,
   .section--detail table {
     border: none;
     padding: 0;
-    margin: 0; }
+    margin: 0 0 40px 0; }
     .section--detail table td {
       padding: 10px 0 5px 0;
       min-width: 120px;
       line-height: 25px;
-      border-bottom: 1px solid #eee; }
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      font-weight: 600; }
+      .section--detail table td:first-child {
+        font-weight: 200;
+        text-transform: lowercase; }
     .section--detail table td + td {
       padding-left: 15px; }
 
@@ -1395,8 +1401,11 @@ button:disabled,
   .detail__item .btn--group {
     margin-top: 15px;
     margin-bottom: 50px; }
+  .detail__item .picture {
+    margin-bottom: 0px; }
   .detail__item .info {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     font-size: 15px;
     font-weight: 600; }
     .detail__item .info .em {
@@ -1440,7 +1449,9 @@ button:disabled,
   .gallery__item .picture {
     display: block; }
   .gallery__item .info {
-    margin-top: 20px;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 0;
     font-size: 15px;
     font-weight: 600; }
     .gallery__item .info .em {
@@ -2437,6 +2448,41 @@ footer a {
         -webkit-box-ordinal-group: 4;
             -ms-flex-order: 3;
                 order: 3; } }
+
+.section--case-study-hero {
+  height: 100vh;
+  min-height: 620px;
+  max-height: 980px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .section--case-study-hero .container {
+    position: relative; }
+  .section--case-study-hero .category {
+    font-size: 14px;
+    margin-bottom: 15px; }
+  .section--case-study-hero .h1 {
+    font-size: 74px;
+    line-height: 80px; }
+    .section--case-study-hero .h1 .em {
+      color: #a5a1a1;
+      font-weight: 200; }
+  .section--case-study-hero .h4 {
+    font-size: 30px;
+    line-height: 35px;
+    font-weight: 200; }
+  .section--case-study-hero .triangles {
+    position: absolute;
+    width: 100%;
+    height: 116px;
+    bottom: 0;
+    left: 0;
+    z-index: 90; }
 
 html,
 body {

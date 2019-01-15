@@ -26,13 +26,20 @@
 	table {
 		border: none;
 		padding: 0;
-		margin: 0;
+		margin: 0 0 40px 0;
 
 		td {
 			padding: 10px 0 5px 0;
 			min-width: 120px;
 			line-height: 25px;
 			border-bottom: 1px solid #eee;
+			font-size: 14px;
+			font-weight: 600;
+
+			&:first-child {
+				font-weight: 200;
+				text-transform: lowercase;
+			}
 		}
 
 		td+td {
@@ -71,8 +78,13 @@
 		margin-bottom: 50px;
 	}
 
+	.picture {
+		margin-bottom: 0px;
+	}
+
 	.info {
-		margin-top: 20px;
+		margin-top: 10px;
+		margin-bottom: 20px;
 		font-size: 15px;
 		font-weight: 600;
 

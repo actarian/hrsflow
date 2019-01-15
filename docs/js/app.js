@@ -279,8 +279,6 @@ function () {
       // smoothscroll desktop
       // if (!Dom.overscroll && !Dom.touch) {
       if (!_dom.default.fastscroll) {
-        var scrollTop = _dom.default.scrollTop();
-
         if (this.body.offsetHeight !== this.page.offsetHeight) {
           this.body.setAttribute('style', "height: ".concat(this.page.offsetHeight, "px;"));
           /*
@@ -290,11 +288,16 @@ function () {
           */
         }
 
+        var scrollTop = _dom.default.scrollTop();
+
         var newTop = this.page.previousTop || 0;
         newTop += (scrollTop - newTop) / 3;
-        newTop = Math.round(newTop * 10) / 10;
 
-        if (newTop && !Number.isNaN(newTop) && this.page.previousTop !== newTop) {
+        if (Math.abs(scrollTop - newTop < 0.15)) {
+          newTop = scrollTop;
+        }
+
+        if (newTop !== undefined && !Number.isNaN(newTop) && this.page.previousTop !== newTop) {
           this.page.previousTop = newTop; // this.page.setAttribute('style', `top: ${-newTop}px;`);
 
           this.page.setAttribute('style', "transform: translateY(".concat(-newTop, "px);"));
@@ -310,6 +313,7 @@ function () {
         }
       } else if (this.body.hasAttribute('style')) {
         this.body.removeAttribute('style');
+        this.page.removeAttribute('style');
       }
 
       if (!_dom.default.scrolling) {
@@ -611,7 +615,7 @@ function () {
         if (Dom.lastScrollTime) {
           var diff = now - Dom.lastScrollTime;
 
-          if (diff < 10) {
+          if (diff < 5) {
             document.removeEventListener('scroll', onScroll);
             Dom.fastscroll = true;
             node.classList.add('fastscroll');
