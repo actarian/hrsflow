@@ -247,8 +247,8 @@ export default class App {
 			}
 			const scrollTop = Dom.scrollTop();
 			let newTop = this.page.previousTop || 0;
-			newTop += (scrollTop - newTop) / 3;
-			if (Math.abs(scrollTop - newTop < 0.15)) {
+			newTop += (scrollTop - newTop) / 5;
+			if (Math.abs(scrollTop - newTop) < 0.15) {
 				newTop = scrollTop;
 			}
 			if (newTop !== undefined && !Number.isNaN(newTop) && this.page.previousTop !== newTop) {
@@ -318,7 +318,7 @@ export default class App {
 			const node = video.node;
 			let rect = Rect.fromNode(node);
 			const intersection = rect.intersection(this.windowRect);
-			if (intersection.y > 0) {
+			if (intersection.y > 0 && intersection.x > 0) {
 				video.appear();
 			} else {
 				video.disappear();
@@ -361,12 +361,12 @@ export default class App {
 			});
 			*/
 			this.parallaxes.forEach((node, i) => {
-				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5);
+				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
 				const direction = i % 2 === 0 ? 1 : -1;
 				let currentY = node.currentY || 0;
 				let rect = Rect.fromNode(node);
 				rect = new Rect({
-					top: rect.top - currentY,
+					top: rect.top,
 					left: rect.left,
 					width: rect.width,
 					height: rect.height,
@@ -375,13 +375,13 @@ export default class App {
 				if (intersection.y > 0) {
 					const y = Math.min(1, Math.max(-1, intersection.center.y));
 					const s = (100 + parallax * 2) / 100;
-					currentY = (y * parallax * direction).toFixed(3);
+					currentY = (-50 + y * parallax * direction).toFixed(3);
 					if (node.currentY !== currentY) {
 						node.currentY = currentY;
 						if (node.parentNode.classList.contains('background')) {
-							node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
+							node.setAttribute('style', `top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
 						} else {
-							node.setAttribute('style', `left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
+							node.setAttribute('style', `top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
 						}
 					}
 				}

@@ -291,9 +291,9 @@ function () {
         var scrollTop = _dom.default.scrollTop();
 
         var newTop = this.page.previousTop || 0;
-        newTop += (scrollTop - newTop) / 3;
+        newTop += (scrollTop - newTop) / 5;
 
-        if (Math.abs(scrollTop - newTop < 0.15)) {
+        if (Math.abs(scrollTop - newTop) < 0.15) {
           newTop = scrollTop;
         }
 
@@ -374,7 +374,7 @@ function () {
 
         var intersection = rect.intersection(_this.windowRect);
 
-        if (intersection.y > 0) {
+        if (intersection.y > 0 && intersection.x > 0) {
           video.appear();
         } else {
           video.disappear();
@@ -419,14 +419,14 @@ function () {
         */
 
         this.parallaxes.forEach(function (node, i) {
-          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5);
+          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
           var direction = i % 2 === 0 ? 1 : -1;
           var currentY = node.currentY || 0;
 
           var rect = _rect.default.fromNode(node);
 
           rect = new _rect.default({
-            top: rect.top - currentY,
+            top: rect.top,
             left: rect.left,
             width: rect.width,
             height: rect.height
@@ -436,15 +436,15 @@ function () {
           if (intersection.y > 0) {
             var y = Math.min(1, Math.max(-1, intersection.center.y));
             var s = (100 + parallax * 2) / 100;
-            currentY = (y * parallax * direction).toFixed(3);
+            currentY = (-50 + y * parallax * direction).toFixed(3);
 
             if (node.currentY !== currentY) {
               node.currentY = currentY;
 
               if (node.parentNode.classList.contains('background')) {
-                node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
+                node.setAttribute('style', "top: 50%; left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
               } else {
-                node.setAttribute('style', "left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%);"));
+                node.setAttribute('style', "top: 50%; left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%);"));
               }
             }
           }
@@ -799,7 +799,7 @@ function () {
         this.x2 += (this.mouse.x - this.x2) / friction2;
         this.y2 += (this.mouse.y - this.y2) / friction2;
         this.div1.setAttribute('style', "opacity: ".concat(this.o, "; left:").concat(this.x - this.s * 50, "px; top:").concat(this.y - this.s * 50, "px; width:").concat(this.s * 100, "px; height:").concat(this.s * 100, "px;"));
-        this.div2.setAttribute('style', "opacity: 1; left:".concat(this.x2, "px; top:").concat(this.y2, "px;")); // this.div1.setAttribute('style', `opacity: ${this.o}; transform: translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.s},${this.s},1.0);`);
+        this.div2.setAttribute('style', "opacity: 1; left:".concat(this.x2 - 2, "px; top:").concat(this.y2 - 2, "px;")); // this.div1.setAttribute('style', `opacity: ${this.o}; transform: translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.s},${this.s},1.0);`);
         // this.div2.setAttribute('style', `opacity: 1; transform: translateX(${this.x2}px) translateY(${this.y2}px);`);
 
         /*
@@ -1340,12 +1340,44 @@ function () {
     _classCallCheck(this, Video);
 
     this.node = node;
+    this.addListeners();
   }
 
   _createClass(Video, [{
+    key: "addListeners",
+    value: function addListeners() {
+      var _this = this;
+
+      var click = function click() {
+        if (!_this.paused) {
+          _this.paused = true;
+
+          _this.disappear();
+
+          _this.node.parentNode.classList.add('onpause');
+
+          setTimeout(function () {
+            _this.node.parentNode.classList.remove('onpause');
+          }, 1500);
+        } else {
+          _this.paused = false;
+
+          _this.appear();
+
+          _this.node.parentNode.classList.add('onplay');
+
+          setTimeout(function () {
+            _this.node.parentNode.classList.remove('onplay');
+          }, 1500);
+        }
+      };
+
+      this.node.addEventListener('click', click);
+    }
+  }, {
     key: "appear",
     value: function appear() {
-      if (!this.visible) {
+      if (!this.visible && !this.paused) {
         this.visible = true;
         this.node.play();
       }
@@ -1355,7 +1387,9 @@ function () {
     value: function disappear() {
       if (this.visible) {
         this.visible = false;
+        console.log(this.node);
         this.node.pause();
+        console.log('video.disappear');
       }
     }
   }]);

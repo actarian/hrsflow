@@ -194,13 +194,16 @@ $module: 116px;
 	overflow: hidden;
 
 	.picture {
-		display: block;
 		position: relative;
-		z-index: 0;
 		width: 100%;
-		top: 0;
-		left: 0;
+		z-index: 0;
+		@include aspect(10, 8);
 
+		img {
+			transition: all 350ms 0ms ease-in-out;
+		}
+
+		/*
 		img {
 			position: relative;
 			z-index: 0;
@@ -209,58 +212,52 @@ $module: 116px;
 			object-fit: cover;
 			transition: all 350ms 0ms ease-in-out;
 		}
+		*/
+		.inner {
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				z-index: 1;
+				width: 100%;
+				height: 100%;
+				right: 50%;
+				top: 0;
+				background: #d90726;
+				mix-blend-mode: darken;
+				transform: skewX(0deg) translateX(-101%);
+				transition: $transition;
+			}
 
-		&:before {
-			content: '';
-			display: block;
-			position: absolute;
-			z-index: 1;
-			width: 100%;
-			height: 100%;
-			right: 50%;
-			top: 0;
-			background: #d90726;
-			mix-blend-mode: darken;
-			transform: skewX(0deg) translateX(-101%);
-			transition: $transition;
-		}
-
-		&:after {
-			content: '';
-			display: block;
-			position: absolute;
-			z-index: 2;
-			width: 100%;
-			height: 100%;
-			left: 50%;
-			top: 0;
-			background: #d90726;
-			mix-blend-mode: darken;
-			transform: skewX(0deg) translateX(101%);
-			transition: $transition;
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				z-index: 2;
+				width: 100%;
+				height: 100%;
+				left: 50%;
+				top: 0;
+				background: #d90726;
+				mix-blend-mode: darken;
+				transform: skewX(0deg) translateX(101%);
+				transition: $transition;
+			}
 		}
 	}
 
 	@include media-breakpoint-up(sm) {
 		width: calc(50% - 10px);
 		flex: 1 1 calc(50% - 10px);
-		// padding-bottom: calc(50% - 10px);
 	}
 
 	@include media-breakpoint-up(md) {
 		width: calc(25% - 10px);
 		flex: 1 1 calc(25% - 10px);
-		// padding-bottom: calc(25% - 10px);
 
 		.picture {
-
-			img {
-				max-height: 320px;
-				object-fit: cover;
-				transition: all 350ms 0ms ease-in-out;
-			}
+			max-height: 375px;
 		}
-
 	}
 
 	.inner {
@@ -324,16 +321,19 @@ $module: 116px;
 		}
 
 		.picture {
+			.inner {
+
+				&:before {
+					transform: skewX(45deg) translateX(0);
+				}
+
+				&:after {
+					transform: skewX(45deg) translateX(0);
+				}
+			}
+
 			img {
-				transform: scale3d(1.2, 1.2, 1.2);
-			}
-
-			&:before {
-				transform: skewX(45deg) translateX(0);
-			}
-
-			&:after {
-				transform: skewX(45deg) translateX(0);
+				transform: translateX(-50%) translateY(-50%) scale3d(1.2, 1.2, 1.2);
 			}
 		}
 

@@ -90,7 +90,7 @@ export default class Follower {
 			this.x2 += (this.mouse.x - this.x2) / friction2;
 			this.y2 += (this.mouse.y - this.y2) / friction2;
 			this.div1.setAttribute('style', `opacity: ${this.o}; left:${this.x - this.s * 50}px; top:${this.y - this.s * 50}px; width:${this.s * 100}px; height:${this.s * 100}px;`);
-			this.div2.setAttribute('style', `opacity: 1; left:${this.x2}px; top:${this.y2}px;`);
+			this.div2.setAttribute('style', `opacity: 1; left:${this.x2 - 2}px; top:${this.y2 - 2}px;`);
 			// this.div1.setAttribute('style', `opacity: ${this.o}; transform: translateX(${this.x + this.w / 2 - 50}px) translateY(${this.y + this.h / 2 - 50}px) scale3d(${this.s},${this.s},1.0);`);
 			// this.div2.setAttribute('style', `opacity: 1; transform: translateX(${this.x2}px) translateY(${this.y2}px);`);
 			/*

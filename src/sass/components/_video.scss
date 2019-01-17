@@ -1,0 +1,54 @@
+video {}
+
+.onpause,
+.onplay {
+
+	&:after {
+		content: '';
+		font-family: 'HRSFlow';
+		font-size: 30px;
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60px;
+		height: 60px;
+		top: 50%;
+		left: 50%;
+		margin: -30px 0 0 -30px;
+		border-radius: 30px;
+		background: rgba(0, 0, 0, 0.15);
+		color: white;
+		animation-duration: 600ms;
+		animation-fill-mode: both;
+		animation-delay: 900ms;
+		animation-name: fadeOut;
+	}
+
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.onpause {
+
+	&:after {
+		content: 'B';
+	}
+
+}
+
+.onplay {
+
+	&:after {
+		content: 'C';
+	}
+
+}

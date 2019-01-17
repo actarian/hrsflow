@@ -1095,19 +1095,155 @@ button:disabled,
     .nav--breadcrumb > li:last-child:after {
       color: transparent; }
 
+/*
+@function pow($number, $exp) {
+    $value: 1;
+
+    @if $exp > 0 {
+        @for $i from 1 through $exp {
+            $value: $value * $number;
+        }
+    }
+    @else if $exp < 0 {
+        @for $i from 1 through -$exp {
+            $value: $value / $number;
+        }
+    }
+
+    @return $value;
+}
+*/
+/*
+@import "mixins/buttons";
+@import "mixins/clearfix";
+@import "mixins/filters";
+@import "mixins/gradients";
+@import "mixins/grid";
+@import "mixins/layouts";
+@import "mixins/transforms";
+@import "mixins/transitions";
+@import "mixins/scrollbars";
+*/
+/*
 .picture {
-  display: inline-block;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	margin: 0 0 10px 0;
+
+	img {
+		display: block;
+		position: relative;
+		max-width: 100%;
+		transform: translateY(0);
+		margin-top: -30px;
+		margin-bottom: -30px;
+	}
+}
+*/
+/*
+.picture {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	padding-bottom: 61%;
+	// 330 / 534 * 100
+
+	img,
+	video {
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 140%;
+		object-fit: cover;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+}
+*/
+.picture {
   position: relative;
   overflow: hidden;
-  margin: 0 0 10px 0; }
-  .picture img {
+  width: 100%;
+  display: grid;
+  /*
+	&::before {
+		content: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+	}
+	*/ }
+  .picture:before,
+  .picture > * {
+    grid-area: 1 / 1 / 2 / 2; }
+  .picture:before {
+    content: '';
     display: block;
-    position: relative;
-    max-width: 100%;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-    margin-top: -30px;
-    margin-bottom: -30px; }
+    padding-top: calc(6 / 10 * 100%); }
+  .picture img,
+  .picture video {
+    display: block;
+    position: absolute;
+    width: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%); }
+    .picture img[data-parallax],
+    .picture video[data-parallax] {
+      height: 140%; }
+
+.onpause:after,
+.onplay:after {
+  content: '';
+  font-family: 'HRSFlow';
+  font-size: 30px;
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  margin: -30px 0 0 -30px;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.15);
+  color: white;
+  -webkit-animation-duration: 600ms;
+          animation-duration: 600ms;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-delay: 900ms;
+          animation-delay: 900ms;
+  -webkit-animation-name: fadeOut;
+          animation-name: fadeOut; }
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+.onpause:after {
+  content: 'B'; }
+
+.onplay:after {
+  content: 'C'; }
 
 .background {
   position: absolute;
@@ -1119,7 +1255,7 @@ button:disabled,
   .background img,
   .background video {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
             transform: translateX(-50%) translateY(-50%);
@@ -1312,7 +1448,7 @@ button:disabled,
 .follower {
   display: none;
   position: fixed;
-  z-index: 9999;
+  z-index: 9999999;
   pointer-events: none;
   top: 0;
   left: 0; }
@@ -1330,10 +1466,10 @@ button:disabled,
   .follower div:last-child {
     position: absolute;
     opacity: 1;
-    width: 3px;
-    height: 3px;
-    top: -1.5px;
-    left: -1.5px;
+    width: 4px;
+    height: 4px;
+    top: -2px;
+    left: -2px;
     border-radius: 1.5px;
     background: #d90726; }
   @media (max-width: 1023.98px) {
@@ -1447,7 +1583,7 @@ button:disabled,
   color: inherit;
   outline: none; }
   .gallery__item .picture {
-    display: block; }
+    width: 534px; }
   .gallery__item .info {
     display: block;
     margin-top: 10px;
@@ -1485,7 +1621,6 @@ button:disabled,
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out; }
   .related__item .picture {
-    display: block;
     width: 100%; }
     .related__item .picture img {
       width: 100%; }
@@ -1900,22 +2035,36 @@ footer a {
       -webkit-transition: none;
       transition: none; } }
   .case-studies__item .picture {
-    display: block;
     position: relative;
-    z-index: 0;
     width: 100%;
-    top: 0;
-    left: 0; }
+    z-index: 0;
+    display: grid;
+    /*
+	&::before {
+		content: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+	}
+	*/
+    /*
+		img {
+			position: relative;
+			z-index: 0;
+			width: 100%;
+			max-height: 320px;
+			object-fit: cover;
+			transition: all 350ms 0ms ease-in-out;
+		}
+		*/ }
+    .case-studies__item .picture:before,
+    .case-studies__item .picture > * {
+      grid-area: 1 / 1 / 2 / 2; }
+    .case-studies__item .picture:before {
+      content: '';
+      display: block;
+      padding-top: calc(8 / 10 * 100%); }
     .case-studies__item .picture img {
-      position: relative;
-      z-index: 0;
-      width: 100%;
-      max-height: 320px;
-      -o-object-fit: cover;
-         object-fit: cover;
       -webkit-transition: all 350ms 0ms ease-in-out;
       transition: all 350ms 0ms ease-in-out; }
-    .case-studies__item .picture:before {
+    .case-studies__item .picture .inner:before {
       content: '';
       display: block;
       position: absolute;
@@ -1930,7 +2079,7 @@ footer a {
               transform: skewX(0deg) translateX(-101%);
       -webkit-transition: all 800ms 100ms ease-in-out;
       transition: all 800ms 100ms ease-in-out; }
-    .case-studies__item .picture:after {
+    .case-studies__item .picture .inner:after {
       content: '';
       display: block;
       position: absolute;
@@ -1957,12 +2106,8 @@ footer a {
       -webkit-box-flex: 1;
           -ms-flex: 1 1 calc(25% - 10px);
               flex: 1 1 calc(25% - 10px); }
-      .case-studies__item .picture img {
-        max-height: 320px;
-        -o-object-fit: cover;
-           object-fit: cover;
-        -webkit-transition: all 350ms 0ms ease-in-out;
-        transition: all 350ms 0ms ease-in-out; } }
+      .case-studies__item .picture {
+        max-height: 375px; } }
   .case-studies__item .inner {
     position: absolute;
     z-index: 1;
@@ -2025,15 +2170,15 @@ footer a {
               animation-timing-function: cubic-bezier(0.5, 0, 0.35, 1);
       -webkit-animation-fill-mode: both;
               animation-fill-mode: both; }
+    .case-studies__item:hover .picture .inner:before {
+      -webkit-transform: skewX(45deg) translateX(0);
+              transform: skewX(45deg) translateX(0); }
+    .case-studies__item:hover .picture .inner:after {
+      -webkit-transform: skewX(45deg) translateX(0);
+              transform: skewX(45deg) translateX(0); }
     .case-studies__item:hover .picture img {
-      -webkit-transform: scale3d(1.2, 1.2, 1.2);
-              transform: scale3d(1.2, 1.2, 1.2); }
-    .case-studies__item:hover .picture:before {
-      -webkit-transform: skewX(45deg) translateX(0);
-              transform: skewX(45deg) translateX(0); }
-    .case-studies__item:hover .picture:after {
-      -webkit-transform: skewX(45deg) translateX(0);
-              transform: skewX(45deg) translateX(0); }
+      -webkit-transform: translateX(-50%) translateY(-50%) scale3d(1.2, 1.2, 1.2);
+              transform: translateX(-50%) translateY(-50%) scale3d(1.2, 1.2, 1.2); }
     .case-studies__item:hover .inner {
       background: rgba(0, 0, 0, 0); }
     .case-studies__item:hover .category:before {
@@ -2343,7 +2488,6 @@ footer a {
     .news__item {
       max-width: 340px; } }
   .news__item .picture {
-    display: block;
     margin-bottom: 30px;
     background: white; }
     .news__item .picture img {
