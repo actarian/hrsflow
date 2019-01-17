@@ -2509,8 +2509,11 @@ footer a {
   .news__item:hover, .news__item:active, .news__item:visited {
     color: inherit; }
 
-.section--listing .h2 {
-  max-width: 760px; }
+.section--listing {
+  padding: 200px 0 50px 0; }
+  .section--listing .h2 {
+    max-width: 760px;
+    margin-bottom: 0; }
 
 .events-listing {
   width: 100%; }
