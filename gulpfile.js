@@ -1,34 +1,48 @@
 /* jshint esversion: 6 */
 
 const fs = require('fs'),
-	gulp = require('gulp'),
-	gulpif = require('gulp-if'),
-	merge = require("merge-stream"),
+	path = require('path'),
 	autoprefixer = require('gulp-autoprefixer'),
+	browserify = require('browserify'),
 	concat = require('gulp-concat'),
 	concatutil = require('gulp-concat-util'),
 	cssmin = require('gulp-cssmin'),
+	gulpif = require('gulp-if'),
 	html2js = require('gulp-html2js'),
-	path = require('path'),
 	plumber = require('gulp-plumber'),
 	rename = require('gulp-rename'),
 	scss = require('gulp-sass'),
-	sourcemaps = require('gulp-sourcemaps'),
+	through2 = require('through2'),
+	tfs = require('gulp-tfs'),
+	tsify = require('tsify'),
 	uglify = require('gulp-uglify'),
 	webserver = require('gulp-webserver'),
-	browserify = require('browserify'),
-	tsify = require('tsify'),
-	through2 = require('through2');
+	yargs = require('yargs');
 
-const bundler = './bundler.config.json';
-const compiler = './compiler.config.json';
+const { src, dest, watch, parallel, series } = require('gulp');
 
-// COMPILE
-gulp.task('compile:scss', () => {
-	const tasks = getCompilers('.scss').map((compile) => {
-		return gulp.src(compile.inputFile, {
-				base: '.'
-			})
+const argv = yargs.argv;
+const detaultTarget = argv.target || 'browser';
+
+let target = detaultTarget;
+let configuration = getJson('./gulpfile.config.json');
+
+const compileTask = parallel(compileScss, compileJs, compileTs); // compilePartials, compileSnippets
+const bundleTask = parallel(bundleCss, bundleJs);
+
+exports.compile = compileTask;
+exports.bundle = bundleTask;
+exports.build = series(compileTask, bundleTask);
+exports.watch = watchTask;
+exports.serve = serveTask;
+exports.start = series(compileTask, bundleTask, watchTask);
+exports.default = series(compileTask, bundleTask, serveTask, watchTask);
+
+// COMPILERS
+function compileScss(done) {
+	const items = getCompilers('.scss');
+	const tasks = items.map(item => function itemTask() {
+		return src(item.inputFile, { base: '.', sourcemaps: true })
 			.pipe(plumber())
 			.pipe(scss({
 				includePaths: ['./node_modules/', __dirname + '/node_modules', 'node_modules'],
@@ -36,40 +50,39 @@ gulp.task('compile:scss', () => {
 				logger.error('compile:scss', error);
 			}))
 			.pipe(autoprefixer())
-			.pipe(rename(compile.outputFile))
-			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./'))
-			.on('end', () => logger.log('compile', compile.outputFile));
+			.pipe(rename(item.outputFile))
+			.pipe(gulpif(configuration.options.tfs, tfs.checkout()))
+			.pipe(dest('./', { sourcemaps: true }))
+			.on('end', () => logger.log('compile', item.outputFile));
 	});
-	return merge(tasks);
-});
-gulp.task('compile:js', () => {
-	const tasks = getCompilers('.js').map((compile) => {
-		return gulp.src(compile.inputFile, {
-				base: '.'
-			})
+	return tasks.length ? parallel(...tasks)(done) : done();
+}
+
+function compileJs(done) {
+	const items = getCompilers('.js');
+	const tasks = items.map(item => function itemTask(done) {
+		return src(item.inputFile, { base: '.', sourcemaps: true })
 			.pipe(plumber())
-			.pipe(sourcemaps.init())
 			.pipe(through2.obj((file, enc, next) => {
 					browserify(file.path)
 						.plugin(tsify)
 						.transform('babelify', {
 							global: true,
 							presets: [
-								["@babel/preset-env", {
+                            ["@babel/preset-env", {
 									targets: {
 										chrome: '58',
 										ie: '11'
 									},
-								}]
-							],
+                            }]
+                        ],
 							extensions: ['.js']
 						})
 						.bundle((error, response) => {
 							if (error) {
 								logger.error('compile:js', error);
 							} else {
-								logger.log('browserify.bundle.success', compile.outputFile);
+								logger.log('browserify.bundle.success', item.outputFile);
 								file.contents = response;
 								next(null, file);
 							}
@@ -82,21 +95,20 @@ gulp.task('compile:js', () => {
 					logger.log('through2.done', error);
 				}*/
 			))
-			.pipe(rename(compile.outputFile))
-			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./'))
-			.on('end', () => logger.log('compile', compile.outputFile));
+			.pipe(rename(item.outputFile))
+			.pipe(gulpif(configuration.options.tfs, tfs.checkout()))
+			.pipe(dest('.', { sourcemaps: true }))
+			.on('end', () => logger.log('compile', item.outputFile));
 	});
-	return merge(tasks);
-});
-gulp.task('compile:ts', () => {
-	const tasks = getCompilers('.ts').map((compile) => {
-		logger.log(compile.inputFile);
-		return gulp.src(compile.inputFile, {
-				base: '.'
-			})
+	return tasks.length ? parallel(...tasks)(done) : done();
+}
+
+function compileTs(done) {
+	const items = getCompilers('.ts');
+	const tasks = items.map(item => function itemTask(done) {
+		logger.log(item.inputFile);
+		return src(item.inputFile, { base: '.', sourcemaps: true })
 			.pipe(plumber())
-			.pipe(sourcemaps.init())
 			.pipe(through2.obj((file, enc, next) => {
 					browserify(file.path)
 						.plugin(tsify)
@@ -117,17 +129,16 @@ gulp.task('compile:ts', () => {
 					logger.log('through2.done', error);
 				}*/
 			))
-			.pipe(rename(compile.outputFile))
-			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('./'))
-			.on('end', () => logger.log('compile', compile.outputFile));
+			.pipe(rename(item.outputFile))
+			.pipe(gulpif(configuration.options.tfs, tfs.checkout()))
+			.pipe(dest('.', { sourcemaps: true }))
+			.on('end', () => logger.log('compile', item.outputFile));
 	});
-	return merge(tasks);
-});
-gulp.task('compile:partials', () => {
-	return gulp.src('./src/artisan/**/*.html', {
-			base: './src/artisan/'
-		})
+	return tasks.length ? parallel(...tasks)(done) : done();
+}
+
+function compilePartials() {
+	return src('./src/artisan/**/*.html', { base: './src/artisan/' })
 		.pipe(plumber())
 		.pipe(rename((path) => {
 			path.dirname = path.dirname.split('\\').join('/');
@@ -146,17 +157,17 @@ gulp.task('compile:partials', () => {
 			singleModule: true,
 			useStrict: true,
 		}))
-		.pipe(gulp.dest('./docs/js/'))
-		.pipe(sourcemaps.init())
+		.pipe(dest('./docs/js/'))
+		.pipe(src('.', { sourcemaps: true }))
 		.pipe(uglify())
 		.pipe(rename({
 			extname: '.min.js'
 		}))
-		.pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest('./docs/js/'));
-});
-gulp.task('compile:snippets', () => {
-	return gulp.src('./src/snippets/**/*.glsl', {
+		.pipe(dest('./docs/js/', { sourcemaps: true }));
+}
+
+function compileSnippets() {
+	return src('./src/snippets/**/*.glsl', {
 			base: './src/snippets/'
 		})
 		.pipe(plumber())
@@ -190,74 +201,107 @@ gulp.task('compile:snippets', () => {
 				return "{\n" + source + "\n}";
 			}
 		}))
-		.pipe(gulp.dest('./snippets/'));
-});
-gulp.task('compile', ['compile:scss', 'compile:js', 'compile:ts']);
-// gulp.task('compile', ['compile:scss', 'compile:js', 'compile:ts', 'compile:partials', 'compile:snippets']);
+		.pipe(dest('./snippets/'));
+}
 
-// BUNDLE
-gulp.task('bundle:css', () => {
-	const tasks = getBundles('.css').map((bundle) => {
-		return doCssBundle(gulp.src(bundle.inputFiles, {
-			base: '.'
-		}), bundle);
+// BUNDLERS
+function bundleCss(done) {
+	const items = getBundles('.css');
+	const tasks = items.map(item => function itemTask(done) {
+		return doCssBundle(item);
 	});
-	return merge(tasks);
-});
-gulp.task('bundle:js', () => {
-	const tasks = getBundles('.js').map((bundle) => {
-		return doJsBundle(gulp.src(bundle.inputFiles, {
-			base: '.'
-		}), bundle);
+	return parallel(...tasks)(done);
+}
+
+function bundleJs(done) {
+	const items = getBundles('.js');
+	const tasks = items.map(item => function itemTask(done) {
+		return doJsBundle(item);
 	});
-	return merge(tasks);
-});
-gulp.task('bundle', ['bundle:css', 'bundle:js']);
+	return parallel(...tasks)(done);
+}
+
+function doCssBundle(item) {
+	const skip = item.inputFiles.length === 1 && item.inputFiles[0] === item.outputFileName;
+	return src(item.inputFiles, { base: '.', sourcemaps: true })
+		.pipe(plumber())
+		.pipe(gulpif(!skip, concat(item.outputFileName)))
+		.pipe(gulpif(!skip && configuration.options.tfs, tfs.checkout()))
+		.pipe(gulpif(!skip, dest('.')))
+		.on('end', () => logger.log('bundle', item.outputFileName))
+		.pipe(gulpif(item.minify && item.minify.enabled, cssmin()))
+		.pipe(rename({ extname: '.min.css' }))
+		.pipe(gulpif(configuration.options.tfs, tfs.checkout()))
+		.pipe(dest('.', { sourcemaps: true }));
+}
+
+function doJsBundle(item) {
+	const skip = item.inputFiles.length === 1 && item.inputFiles[0] === item.outputFileName;
+	return src(item.inputFiles, { base: '.', sourcemaps: true })
+		.pipe(plumber())
+		.pipe(gulpif(!skip, concat(item.outputFileName)))
+		.pipe(gulpif(!skip && configuration.options.tfs, tfs.checkout()))
+		.pipe(gulpif(!skip, dest('.')))
+		.on('end', () => logger.log('bundle', item.outputFileName))
+		.pipe(gulpif(item.minify && item.minify.enabled, uglify()))
+		.pipe(rename({ extname: '.min.js' }))
+		.pipe(gulpif(configuration.options.tfs, tfs.checkout()))
+		.pipe(dest('.', { sourcemaps: true }));
+}
 
 // WATCH
-gulp.task('watch', (done) => {
-	const scssSources = getCompilers('.scss').map(x => {
-		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.scss');
-	});
-	if (scssSources.length > 0) {
-		gulp.watch(scssSources, ['compile:scss']).on('change', logWatch);
-	}
-	const jsSources = getCompilers('.js').map(x => {
-		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.js');
-	});
-	if (jsSources.length > 0) {
-		gulp.watch(jsSources, ['compile:js']).on('change', logWatch);
-	}
-	const tsSources = getCompilers('.ts').map(x => {
-		return x.inputFile.replace(/\/[^\/]*$/, '/**/*.ts');
-	});
-	if (tsSources.length > 0) {
-		gulp.watch(tsSources, ['compile:ts']).on('change', logWatch);
-	}
-	// gulp.watch('./src/artisan/**/*.html', ['compile:partials']).on('change', logWatch);
-	// gulp.watch('./src/snippets/**/*.glsl', ['compile:snippets']).on('change', logWatch);
-	getBundles('.css').forEach((bundle) => {
-		gulp.watch(bundle.inputFiles, () => {
-			return doCssBundle(gulp.src(bundle.inputFiles, {
-				base: '.'
-			}), bundle);
-		}).on('change', logWatch);
-	});
-	getBundles('.js').forEach((bundle) => {
-		gulp.watch(bundle.inputFiles, () => {
-			return doJsBundle(gulp.src(bundle.inputFiles, {
-				base: '.'
-			}), bundle);
-		}).on('change', logWatch);
-	});
-	gulp.watch(compiler, ['compile', 'bundle']).on('change', logWatch);
-	gulp.watch(bundler, ['bundle']).on('change', logWatch);
-	done();
-});
+let watchers = [];
 
-// WEBSERVER
-gulp.task('webserver', () => {
-	return gulp.src('./docs/')
+function watchTask(done) {
+	while (watchers.length) {
+		const w = watchers.shift();
+		w.close();
+	}
+	// watch compile files
+	// scss
+	const scssWatch = watch(getCompilersGlobs('.scss'), compileScss).on('change', logWatch);
+	// js
+	const jsWatch = watch(getCompilersGlobs('.js'), compileJs).on('change', logWatch);
+	// ts
+	const tsWatch = watch(getCompilersGlobs('.ts'), compileTs).on('change', logWatch);
+
+	// watch bundle files
+	// css
+	const cssWatches = getBundles('.css').map((item) => {
+		return watch(item.inputFiles, function bundleCss(done) {
+			return doCssBundle(item);
+		}).on('change', logWatch);
+	});
+	// js
+	const jsWatches = getBundles('.js').map((item) => {
+		return watch(item.inputFiles, function bundleJs(done) {
+			return doJsBundle(item);
+		}).on('change', logWatch);
+	});
+
+	// CONFIG
+	const configWatch = watch('./gulpfile.config.json', function config(done) {
+		configuration = getJson('./gulpfile.config.json');
+		return series(compileTask, bundleTask, watchTask)(done);
+	}).on('change', logWatch);
+
+	watchers = [].concat([scssWatch, jsWatch, tsWatch], cssWatches, jsWatches, [configWatch]);
+	// watch('./src/artisan/**/*.html', ['compile:partials']).on('change', logWatch);
+	// watch('./src/snippets/**/*.glsl', ['compile:snippets']).on('change', logWatch);
+	done();
+}
+
+function watchAll() {
+	watch(['**/*.*', '!node_modules/**/*.*'], function watch(done) {
+		done();
+	}).on('change', (path) => {
+		logWatch(...arguments);
+	});
+}
+
+// SERVE
+function serveTask() {
+	return src('./docs/')
 		.pipe(webserver({
 			port: 6001,
 			fallback: 'index.html',
@@ -265,48 +309,14 @@ gulp.task('webserver', () => {
 			livereload: true,
 			directoryListing: false,
 		}));
-});
-
-gulp.task('default', ['compile', 'bundle', 'webserver', 'watch']);
-
-gulp.task('start', ['compile', 'bundle', 'watch']);
-
-// METHODS
-function doCssBundle(glob, bundle) {
-	return glob
-		.pipe(plumber())
-		.pipe(concat(bundle.outputFileName))
-		.pipe(gulp.dest('.'))
-		.on('end', () => logger.log('bundle', bundle.outputFileName))
-		// .pipe(sourcemaps.init())
-		.pipe(gulpif(bundle.minify && bundle.minify.enabled, cssmin()))
-		.pipe(rename({
-			extname: '.min.css'
-		}))
-		// .pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('.'));
 }
 
-function doJsBundle(glob, bundle) {
-	return glob
-		.pipe(plumber())
-		.pipe(concat(bundle.outputFileName))
-		.pipe(gulp.dest('.'))
-		.on('end', () => logger.log('bundle', bundle.outputFileName))
-		.pipe(sourcemaps.init())
-		.pipe(gulpif(bundle.minify && bundle.minify.enabled, uglify()))
-		.pipe(rename({
-			extname: '.min.js'
-		}))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('.'));
-}
-
+// UTILS
 function getCompilers(ext) {
-	const data = getJson(compiler);
-	if (data) {
-		return data.filter((compile) => {
-			return new RegExp(`${ext}$`).test(compile.inputFile);
+	const options = configuration.targets[target];
+	if (options) {
+		return options.compile.filter((item) => {
+			return new RegExp(`${ext}$`).test(item.inputFile);
 		});
 	} else {
 		return [];
@@ -314,14 +324,20 @@ function getCompilers(ext) {
 }
 
 function getBundles(ext) {
-	const data = getJson(bundler);
-	if (data) {
-		return data.filter((bundle) => {
-			return new RegExp(`${ext}$`).test(bundle.outputFileName);
+	const options = configuration.targets[target];
+	if (options) {
+		return options.bundle.filter((item) => {
+			return new RegExp(`${ext}$`).test(item.outputFileName);
 		});
 	} else {
 		return [];
 	}
+}
+
+function getCompilersGlobs(ext) {
+	return getCompilers(ext).map(x => {
+		return x.inputFile.replace(/\/[^\/]*$/, '/**/*' + ext);
+	});
 }
 
 function getJson(path) {
@@ -342,6 +358,7 @@ function stripBom(text) {
 	return text;
 }
 
+// LOGGER
 const palette = {
 	Reset: '\x1b[0m',
 	Bright: '\x1b[1m',
@@ -405,6 +422,6 @@ class logger {
 	}
 }
 
-function logWatch(e) {
-	logger.log(e.type, e.path);
+function logWatch(path, stats) {
+	logger.log('changed', path);
 }
