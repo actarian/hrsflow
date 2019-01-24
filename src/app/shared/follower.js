@@ -10,7 +10,7 @@ const size = 20;
 export default class Follower {
 
 	constructor(node) {
-		this.enabled = true;
+		this.enabled = false;
 		this.node = node;
 		this.div1 = node.querySelectorAll('div')[0];
 		this.div2 = node.querySelectorAll('div')[1];

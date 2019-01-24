@@ -85,6 +85,10 @@ main {
 	// max-width: 1320px;
 }
 
+[data-shadow] {
+	box-shadow: 10px 20px 20px -8px rgba(0, 0, 0, 0.15);
+}
+
 [unselectable] {
 	-webkit-touch-callout: none;
 	user-select: none;

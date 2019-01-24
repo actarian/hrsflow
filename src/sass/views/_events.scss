@@ -1,10 +1,11 @@
-.section--listing {
+.section--events-listing {
 	padding: 200px 0 50px 0;
 
 	.h2 {
 		max-width: 760px;
 		margin-bottom: 0;
 	}
+
 }
 
 .events-listing {
@@ -27,17 +28,16 @@
 
 	.date {
 		display: block;
-		font-size: 15px;
-		font-weight: 400;
+		font-size: 14px;
+		font-weight: 900;
+		line-height: 23px;
 		margin-right: 30px;
-		white-space: nowrap;
-
 	}
 
 	.title {
 		display: block;
-		font-size: 30px;
-		line-height: 36px;
+		font-size: 22px; // 30px;
+		line-height: 25px; // 36px;
 		font-weight: 200;
 		color: #272727;
 		margin-right: 30px;

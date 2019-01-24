@@ -132,8 +132,8 @@ $module: 116px;
 		padding-bottom: 100px;
 
 		.pictures {
-			margin-left: -15px;
-			margin-right: -15px;
+			// margin-left: -15px;
+			// margin-right: -15px;
 
 			.picture-b {
 				margin-left: 0;
@@ -256,7 +256,14 @@ $module: 116px;
 		flex: 1 1 calc(25% - 10px);
 
 		.picture {
-			max-height: 375px;
+			max-height: 180px;
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+
+		.picture {
+			max-height: 276px;
 		}
 	}
 
@@ -374,6 +381,8 @@ $module: 116px;
 	.picture {
 		max-width: 120px;
 		margin-bottom: 30px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.number {

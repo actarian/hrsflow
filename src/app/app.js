@@ -8,6 +8,8 @@ import Triangles from './shared/triangles';
 import Utils from './shared/utils';
 import Video from './shared/video';
 
+const shadowsEnabled = false;
+
 export default class App {
 
 	constructor() {}
@@ -173,14 +175,14 @@ export default class App {
 			node.addEventListener('click', (e) => {
 				let target = node.getAttribute('toggle');
 				target = target ? document.querySelector(target) : node;
-				let toggle = node.getAttribute('toggle-class') || 'active';
+				const toggle = node.getAttribute('toggle-class') || 'active';
 				if (target.classList.contains(toggle)) {
 					target.classList.remove(toggle);
 				} else {
 					target.classList.add(toggle);
 				}
-				e.preventDefault();
-				e.stopImmediatePropagation();
+				// e.preventDefault();
+				e.stopPropagation();
 			});
 		});
 
@@ -269,7 +271,7 @@ export default class App {
 			this.page.removeAttribute('style');
 		}
 
-		if (!Dom.scrolling) {
+		if (shadowsEnabled && !Dom.scrolling) {
 			// shadows
 			this.shadows.forEach((node) => {
 				const xy = node.xy || { x: 0, y: 0 };
