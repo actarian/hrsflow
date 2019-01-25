@@ -1,6 +1,6 @@
 $module: 116px;
 
-.section--downloads-hero {
+.section--contacts-hero {
 	height: 100vh;
 	min-height: 620px;
 	max-height: 980px;
@@ -45,10 +45,11 @@ $module: 116px;
 
 }
 
-.downloads__item {
+.contacts__item {
 	display: block;
 	padding-bottom: 40px;
 	color: inherit;
+	cursor: pointer;
 
 	@include media-breakpoint-up(lg) {
 		max-width: 340px;
@@ -63,12 +64,13 @@ $module: 116px;
 		}
 	}
 
-	.date {
+	.pin {
 		display: block;
-		font-size: 13px;
-		font-weight: 400;
-		margin-bottom: 30px;
-		text-transform: uppercase;
+		font-size: 35px;
+		margin-top: 10px;
+		margin-bottom: 6px;
+		margin-left: -5px;
+		color: #bbb;
 	}
 
 	.title {
@@ -84,9 +86,10 @@ $module: 116px;
 		display: block;
 	}
 
-	.btn--group {
-		display: block;
-		margin-top: 30px;
+	a {
+		color: #d90726;
+		font-weight: 400;
+		font-size: 14px;
 	}
 
 	&:hover,
@@ -97,7 +100,11 @@ $module: 116px;
 
 }
 
-.section--downloads-listing {
+.section--map {
+	margin-bottom: 40px;
+}
+
+.section--contacts-listing {
 	padding: 180px 0 50px;
 
 	.h2 {
@@ -113,11 +120,10 @@ $module: 116px;
 		margin-left: -1px;
 	}
 
-	/*
-	.downloads__item {
+	.contacts__item {
 		.picture {
 			display: none;
 		}
 	}
-	*/
+
 }

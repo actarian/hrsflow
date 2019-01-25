@@ -9,6 +9,7 @@ import Utils from './shared/utils';
 import Video from './shared/video';
 
 const shadowsEnabled = false;
+let menuStyle = 1;
 
 export default class App {
 
@@ -16,6 +17,7 @@ export default class App {
 
 	init() {
 		const body = document.querySelector('body');
+		menuStyle = body.classList.contains('fixed') ? 0 : 1;
 		const page = document.querySelector('.page');
 		Dom.detect(body);
 		const swiperHero = new Swiper('.swiper-container--home-hero', {
@@ -270,7 +272,7 @@ export default class App {
 		}
 		if (scrollTop > 80) {
 			this.body.classList.add('fixed');
-		} else {
+		} else if (menuStyle === 1) {
 			this.body.classList.remove('fixed');
 		}
 		// !!! this.appears = [].slice.call(document.querySelectorAll('[data-appear]'));

@@ -1,31 +1,39 @@
 @font-face {
 	font-family: 'Aktiv Grotesk';
-	src: url('../fonts/aktiv-grotesk/aktiv-grotesk6-light-webfont.woff2') format('woff2'),
-		url('../fonts/aktiv-grotesk/aktiv-grotesk6-light-webfont.woff') format('woff');
+	src: url('../fonts/aktivgrotesk/aktivgrotesk-thin-webfont.woff2') format('woff2'),
+		url('../fonts/aktivgrotesk/aktivgrotesk-thin-webfont.woff') format('woff');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Aktiv Grotesk';
+	src: url('../fonts/aktivgrotesk/aktivgrotesk-light-webfont.woff2') format('woff2'),
+		url('../fonts/aktivgrotesk/aktivgrotesk-light-webfont.woff') format('woff');
 	font-weight: 200;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Aktiv Grotesk';
-	src: url('../fonts/aktiv-grotesk/aktiv-grotesk-regular-webfont.woff2') format('woff2'),
-		url('../fonts/aktiv-grotesk/aktiv-grotesk-regular-webfont.woff') format('woff');
+	src: url('../fonts/aktivgrotesk/aktivgrotesk-regular-webfont.woff2') format('woff2'),
+		url('../fonts/aktivgrotesk/aktivgrotesk-regular-webfont.woff') format('woff');
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Aktiv Grotesk';
-	src: url('../fonts/aktiv-grotesk/aktiv-grotesk-medium-webfont.woff2') format('woff2'),
-		url('../fonts/aktiv-grotesk/aktiv-grotesk-medium-webfont.woff') format('woff');
+	src: url('../fonts/aktivgrotesk/aktivgrotesk-medium-webfont.woff2') format('woff2'),
+		url('../fonts/aktivgrotesk/aktivgrotesk-medium-webfont.woff') format('woff');
 	font-weight: 600;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Aktiv Grotesk';
-	src: url('../fonts/aktiv-grotesk/aktiv-grotesk-bold-webfont.woff2') format('woff2'),
-		url('../fonts/aktiv-grotesk/aktiv-grotesk-bold-webfont.woff') format('woff');
+	src: url('../fonts/aktivgrotesk/aktivgrotesk-bold-webfont.woff2') format('woff2'),
+		url('../fonts/aktivgrotesk/aktivgrotesk-bold-webfont.woff') format('woff');
 	font-weight: 800;
 	font-style: normal;
 }
