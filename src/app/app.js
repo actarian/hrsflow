@@ -89,7 +89,23 @@ export default class App {
 				},
 			}
 		});
-		const swipers = [swiperHero, swiperHilights, swiperGallery].filter(swiper => swiper.el !== undefined);
+		const swiperMedia = new Swiper('.swiper-container--media', {
+			loop: true,
+			slidesPerView: 1,
+			spaceBetween: 0,
+			speed: 600,
+			simulateTouch: false,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+			},
+			on: {
+				init: function() {
+					this.el.classList.add('ready');
+				},
+			}
+		});
+		const swipers = [swiperHero, swiperHilights, swiperGallery, swiperMedia].filter(swiper => swiper.el !== undefined);
 		const videos = [].slice.call(document.querySelectorAll('video[playsinline]')).map((node, i) => {
 			const video = new Video(node);
 			video.i = i;
@@ -103,10 +119,25 @@ export default class App {
 		const parallaxes = [].slice.call(document.querySelectorAll('[data-parallax]'));
 		const shadows = [].slice.call(document.querySelectorAll('[data-shadow]'));
 		const appears = [].slice.call(document.querySelectorAll('[data-appear]'));
+		appears.forEach((node) => {
+			// node.appearingIndex = [].slice.call(node.parentNode.childNodes).filter(x => x.nodeType === 1 && x.hasAttribute('data-appear')).indexOf(node);
+			let section = node.parentNode;
+			let p = node;
+			while (p) {
+				p = p.parentNode;
+				if (p && p.classList && p.classList.contains('section')) {
+					section = p;
+					p = null;
+				}
+			}
+			node.appearingIndex = [].slice.call(section.querySelectorAll('[data-appear]')).indexOf(node);
+		});
 		const follower = new Follower(document.querySelector('.follower'));
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
 		const togglers = [].slice.call(document.querySelectorAll('[toggle]'));
+		const stickys = [].slice.call(document.querySelectorAll('[sticky]'));
+		stickys.forEach(x => x.content = x.querySelector('[sticky-content]'));
 		const mouse = { x: 0, y: 0 };
 		const timeline = new TimelineMax();
 		if (follower.enabled) {
@@ -122,6 +153,7 @@ export default class App {
 		this.parallaxes = parallaxes;
 		this.shadows = shadows;
 		this.appears = appears;
+		this.stickys = stickys;
 		this.follower = follower;
 		this.hrefs = hrefs;
 		this.links = links;
@@ -230,7 +262,7 @@ export default class App {
 		} else {
 			this.body.classList.remove('fixed');
 		}
-		this.appears = [].slice.call(document.querySelectorAll('[data-appear]'));
+		// !!! this.appears = [].slice.call(document.querySelectorAll('[data-appear]'));
 		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 	}
 
@@ -397,12 +429,12 @@ export default class App {
 		}
 
 		// appears
-		let fi = 0;
+		// let firstVisibleIndex = 0;
 		this.appears.forEach((node, i) => {
 			let rect = Rect.fromNode(node);
 			const intersection = rect.intersection(this.windowRect);
 			if (intersection.y > 0) {
-				fi = fi || i;
+				// 	firstVisibleIndex = firstVisibleIndex || i;
 				/*
 				let overlap = '-=0.3';
 				if (!this.timeline.isActive()) {
@@ -413,13 +445,25 @@ export default class App {
 				if (!node.to) {
 					node.to = setTimeout(() => {
 						node.classList.add('appeared');
-					}, 150 * (i - fi));
+					}, 150 * node.appearingIndex); // (i - firstVisibleIndex));
 				}
 			} else {
 				if (node.classList.contains('appeared')) {
 					node.to = null;
 					node.classList.remove('appeared');
 				}
+			}
+		});
+
+		this.stickys.forEach((node, i) => {
+			let top = parseInt(node.getAttribute('sticky')) || 0;
+			let rect = Rect.fromNode(node);
+			const maxtop = node.offsetHeight - node.content.offsetHeight;
+			if (rect.left > 30) {
+				top = Math.max(0, Math.min(maxtop, top - rect.top));
+				node.content.setAttribute('style', `transform: translateY(${top}px);`);
+			} else {
+				node.content.setAttribute('style', `transform: none;`);
 			}
 		});
 

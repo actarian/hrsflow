@@ -1,8 +1,8 @@
 $module: 116px;
 
-.section--gallery-items {
+.media-items {
 	position: relative;
-	padding-top: 110px;
+	padding-top: 30px;
 	padding-bottom: 30px;
 
 	.h3 {
@@ -21,18 +21,16 @@ $module: 116px;
 		width: 100%;
 	}
 
-	.swiper-pagination-bullets {
-		bottom: -60px;
-	}
 }
 
-.gallery__item {
+.media__item {
+	width: 100%;
 	display: block;
 	color: inherit;
 	outline: none;
 
 	.picture {
-		width: 534px;
+		width: 100%;
 	}
 
 	.info {

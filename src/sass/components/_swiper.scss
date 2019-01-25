@@ -9,7 +9,7 @@
 }
 
 .swiper-container-horizontal {
-	&>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+	&>.swiper-pagination-bullets {
 
 		.swiper-pagination-bullet {
 			transition: all ease-in-out 350ms;
@@ -26,7 +26,7 @@
 
 }
 
-.swiper-pagination-bullets-dynamic {
+.swiper-pagination-bullets {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -79,4 +79,145 @@
 	&:before {
 		background: #d90726;
 	}
+}
+
+//
+
+.swiper-container--home-hero {
+	height: 100vh;
+	min-height: 760px;
+	max-height: 980px;
+
+	.swiper-wrapper {
+		height: 100%;
+	}
+
+	.swiper-slide {
+		display: flex;
+		height: 100%;
+		align-items: center;
+
+		.background {
+
+			img,
+			video {
+				top: 50%;
+			}
+		}
+
+		.container {
+			position: relative;
+		}
+
+	}
+
+}
+
+.swiper-container--gallery {
+	overflow: visible;
+
+	.swiper-slide {
+		width: auto;
+	}
+}
+
+.swiper-container--media {
+	width: 100%;
+	overflow: hidden;
+	padding: 0 0 100px 0;
+
+	.swiper-slide {
+		width: auto;
+	}
+
+	&.swiper-container-horizontal {
+
+		&>.swiper-pagination-bullets,
+		.swiper-pagination-custom,
+		.swiper-pagination-fraction {
+			width: auto;
+		}
+
+		&>.swiper-pagination-bullets {
+			bottom: 40px;
+			left: 0;
+			transform: none;
+		}
+	}
+
+}
+
+.swiper-container--hilights {
+	.swiper-wrapper {}
+
+	.swiper-slide {
+		padding-top: 290px;
+		padding-bottom: 120px;
+
+		.container {
+			position: relative;
+		}
+
+		.pictures {
+
+			/*
+			.picture-b {
+				img {
+					max-height: 70vh;
+				}
+			}
+			*/
+
+			.picture-a {
+				display: block;
+				position: absolute;
+				max-width: 75%;
+				z-index: 1;
+				right: 40px;
+				top: 50%;
+				margin-top: -20%;
+
+				img {
+					max-width: 100%;
+					position: relative;
+				}
+			}
+		}
+
+		.h3 {
+			color: #272727;
+
+			.em {
+				color: #a5a1a1;
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			padding-top: 60px;
+			padding-bottom: 100px;
+
+			.pictures {
+				// margin-left: -15px;
+				// margin-right: -15px;
+
+				.picture-b {
+					margin-left: 0;
+
+					img {
+						max-width: 50vw;
+					}
+				}
+
+				.picture-a {
+					max-width: 60%;
+					right: 0;
+					top: 50%;
+					margin-top: -20vw;
+				}
+
+			}
+
+		}
+	}
+
 }
