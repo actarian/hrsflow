@@ -89,12 +89,18 @@
 			<div class="triangles"></div>
 			<div class="container">
 				<div class="h3">Automotive Exterior Case Study</div>
-				<ul class="nav nav--related">
+				<ul class="nav nav--related hidden-sm-down">
 					<li ng-class="{ 'active': active == 0 }"><a href="#" ng-click="active = 0"><span>HRSFlow Hot Runner Systems</span></a></li>
 					<li ng-class="{ 'active': active == 1 }"><a href="#" ng-click="active = 1"><span>Flexflow family</span></a></li>
 					<li ng-class="{ 'active': active == 2 }"><a href="#" ng-click="active = 2"><span>Inject line</span></a></li>
 					<li ng-class="{ 'active': active == 3 }"><a href="#" ng-click="active = 3"><span>Control unit</span></a></li>
 				</ul>
+				<select class="form-control hidden-md-up" name="downloads" ng-model="active">
+					<option ng-value="0">HRSFlow Hot Runner Systems</option>
+					<option ng-value="1">Flexflow family</option>
+					<option ng-value="2">Inject line</option>
+					<option ng-value="3">Control unit</option>
+				</select>
 				<div class="paginer" ng-class="'paginer--index-' + active">
 					<div class="paginer__pages">
 						<div class="pages__item section">

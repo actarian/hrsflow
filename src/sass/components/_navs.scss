@@ -631,9 +631,15 @@
 		flex-direction: row;
 		justify-content: space-around;
 		background: #d90726;
+		transform: translateY(110%);
+		transition: transform ease-in-out 500ms;
 
 		span {
 			display: none;
+		}
+
+		.scroll-up & {
+			transform: translateY(0);
 		}
 	}
 

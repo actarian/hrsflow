@@ -45,7 +45,7 @@
 		</section>
 		<section class="section section--downloads-listing" style="padding:0 0 50px 0;">
 			<div class="container">
-				<ul class="nav nav--related">
+				<ul class="nav nav--related hidden-sm-down">
 					<li ng-class="{ 'active': active == 0 }"><a href="#" ng-click="active = 0"><span>2D/3D Catalogue</span></a></li>
 					<li ng-class="{ 'active': active == 1 }"><a href="#" ng-click="active = 1"><span>Catalogues</span></a></li>
 					<li ng-class="{ 'active': active == 2 }"><a href="#" ng-click="active = 2"><span>Company Brochures</span></a></li>
@@ -53,6 +53,14 @@
 					<li ng-class="{ 'active': active == 4 }"><a href="#" ng-click="active = 4"><span>Certifications</span></a></li>
 					<li ng-class="{ 'active': active == 5 }"><a href="#" ng-click="active = 5"><span>Sustainability Reports</span></a></li>
 				</ul>
+				<select class="form-control hidden-md-up" name="downloads" ng-model="active">
+					<option ng-value="0">2D/3D Catalogue</option>
+					<option ng-value="1">Catalogues</option>
+					<option ng-value="2">Company Brochures</option>
+					<option ng-value="3">Flyers</option>
+					<option ng-value="4">Certifications</option>
+					<option ng-value="5">Sustainability Reports</option>
+				</select>
 				<div class="paginer" ng-class="'paginer--index-' + active">
 					<div class="paginer__pages">
 						<div class="pages__item section">

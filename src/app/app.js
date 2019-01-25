@@ -181,6 +181,10 @@ export default class App {
 			app.onScroll();
 		}, 1000 / 25));
 
+		window.addEventListener('wheel', (e) => {
+			app.onWheel(e);
+		});
+
 		document.addEventListener('mousemove', (e) => {
 			app.onMouseMove(e);
 		});
@@ -245,7 +249,7 @@ export default class App {
 		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
 	}
 
-	onScroll() {
+	onScroll(e) {
 		const scrollTop = Dom.scrollTop();
 		// fastscroll mobile
 		if (Dom.fastscroll) {
@@ -253,6 +257,13 @@ export default class App {
 			if (this.page.previousTop !== newTop) {
 				this.page.previousTop = newTop;
 				Dom.scrolling = true;
+				if (newTop > this.page.previousTop) {
+					this.body.classList.add('scroll-up');
+					this.body.classList.remove('scroll-down');
+				} else {
+					this.body.classList.remove('scroll-up');
+					this.body.classList.add('scroll-down');
+				}
 			} else {
 				Dom.scrolling = false;
 			}
@@ -264,6 +275,16 @@ export default class App {
 		}
 		// !!! this.appears = [].slice.call(document.querySelectorAll('[data-appear]'));
 		// this.follower.follow(this.links.map(x => Rect.fromNode(x)));
+	}
+
+	onWheel(e) {
+		if (e.deltaY > 0) {
+			this.body.classList.add('scroll-up');
+			this.body.classList.remove('scroll-down');
+		} else {
+			this.body.classList.remove('scroll-up');
+			this.body.classList.add('scroll-down');
+		}
 	}
 
 	render() {
