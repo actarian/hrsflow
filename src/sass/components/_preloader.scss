@@ -12,7 +12,7 @@
 	pointer-events: none;
 
 	opacity: 1;
-	transition: opacity 300ms 250ms cubic-bezier(0.670, 0.005, 0.210, 1.000);
+	transition: opacity 300ms 0ms cubic-bezier(0.670, 0.005, 0.210, 1.000);
 
 	.ready & {
 		opacity: 0;

@@ -1,0 +1,31 @@
+.paginer {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+.paginer__pages {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: auto;
+
+	transform: translateX(0);
+	transition: transform ease-in-out 500ms;
+}
+
+@for $i from 0 through 15 {
+	.paginer--index-#{$i} {
+		.paginer__pages {
+			transform: translateX(-100% * $i);
+		}
+	}
+}
+
+.pages__item {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	flex: 0 0 100%;
+	padding: 1px;
+}

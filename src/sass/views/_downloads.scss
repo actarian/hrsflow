@@ -1,0 +1,123 @@
+$module: 116px;
+
+.section--downloads-hero {
+	height: 100vh;
+	min-height: 620px;
+	max-height: 980px;
+	overflow: hidden;
+	display: flex;
+	height: 100%;
+	align-items: center;
+
+	.container {
+		position: relative;
+	}
+
+	.date {
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
+
+	.h1 {
+		font-size: 74px;
+		line-height: 80px;
+
+		.em {
+			color: #a5a1a1;
+			font-weight: 200;
+		}
+	}
+
+	.h4 {
+		font-size: 30px;
+		line-height: 35px;
+		font-weight: 200;
+	}
+
+	.triangles {
+		position: absolute;
+		width: 100%;
+		height: $module * 1;
+		bottom: 0;
+		left: 0;
+		z-index: 90;
+	}
+
+}
+
+.downloads__item {
+	display: block;
+	padding-bottom: 40px;
+	color: inherit;
+
+	@include media-breakpoint-up(lg) {
+		max-width: 340px;
+	}
+
+	.picture {
+		margin-bottom: 30px;
+		background: white;
+
+		img {
+			max-width: 100%;
+		}
+	}
+
+	.date {
+		display: block;
+		font-size: 13px;
+		font-weight: 400;
+		margin-bottom: 30px;
+		text-transform: uppercase;
+	}
+
+	.title {
+		display: block;
+		font-size: 30px;
+		line-height: 36px;
+		font-weight: 200;
+		color: #272727;
+		margin-bottom: 20px;
+	}
+
+	.text {
+		display: block;
+	}
+
+	.btn--group {
+		display: block;
+		margin-top: 30px;
+	}
+
+	&:hover,
+	&:active,
+	&:visited {
+		color: inherit;
+	}
+
+}
+
+.section--downloads-listing {
+	padding: 200px 0 50px 0;
+
+	.h2 {
+		max-width: 760px;
+		margin-bottom: 0;
+	}
+
+	.col-md-4 {
+		border: 1px solid #ccc;
+		padding-top: 15px;
+		padding-bottom: 10px;
+		margin-top: -1px;
+		margin-left: -1px;
+	}
+
+	/*
+	.downloads__item {
+		.picture {
+			display: none;
+		}
+	}
+	*/
+}

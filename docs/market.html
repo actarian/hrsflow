@@ -85,112 +85,218 @@
 			</div>
 		</section>
 		<!-- RELATED CASE -->
-		<section class="section section--related-items">
+		<section class="section section--related-items" ng-init="active = 0">
 			<div class="triangles"></div>
 			<div class="container">
 				<div class="h3">Automotive Exterior Case Study</div>
 				<ul class="nav nav--related">
-					<li class="active"><a href="#"><span>HRSFlow Hot Runner Systems</span></a></li>
-					<li><a href="#"><span>Flexflow family</span></a></li>
-					<li><a href="#"><span>Inject line</span></a></li>
-					<li><a href="#"><span>Control unit</span></a></li>
+					<li ng-class="{ 'active': active == 0 }"><a href="#" ng-click="active = 0"><span>HRSFlow Hot Runner Systems</span></a></li>
+					<li ng-class="{ 'active': active == 1 }"><a href="#" ng-click="active = 1"><span>Flexflow family</span></a></li>
+					<li ng-class="{ 'active': active == 2 }"><a href="#" ng-click="active = 2"><span>Inject line</span></a></li>
+					<li ng-class="{ 'active': active == 3 }"><a href="#" ng-click="active = 3"><span>Control unit</span></a></li>
 				</ul>
-				<div class="row">
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Screwed-in Systems</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Face to Face Systems</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Hot Halves</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Stack Mold</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Single Nozzle</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Valve gate group single nozzle</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Diamond Lux line</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
-					</div>
-					<!-- RELATED ITEM -->
-					<div class="col-md-6 col-lg-4 col-xl-3">
-						<a href="case-study.html" class="related__item" data-appear>
-							<span class="picture" data-shadow>
-								<img src="img/market/case-study-01.jpg" alt="Automotive lighting" data-parallax="5" />
-							</span>
-							<span class="content">
-								<span class="title">Inject line</span>
-								<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
-							</span>
-						</a>
+				<div class="paginer" ng-class="'paginer--index-' + active">
+					<div class="paginer__pages">
+						<div class="pages__item section">
+							<div class="row">
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-02.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-03.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-02.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-03.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-02.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="pages__item section">
+							<div class="row">
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-03.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-02.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-03.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-02.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-03.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+								<!-- RELATED ITEM -->
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<a href="case-study.html" class="related__item" data-appear>
+										<span class="picture" data-shadow>
+											<img src="img/solution/gallery-01.jpg" data-parallax="10" alt="@Title" />
+										</span>
+										<span class="content">
+											<span class="title">Screwed-in Systems</span>
+											<span class="text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</span> <span class="btn btn--see">see more</span></span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
