@@ -95,12 +95,14 @@
 					<li ng-class="{ 'active': active == 2 }"><a href="#" ng-click="active = 2"><span>Inject line</span></a></li>
 					<li ng-class="{ 'active': active == 3 }"><a href="#" ng-click="active = 3"><span>Control unit</span></a></li>
 				</ul>
-				<select class="form-control hidden-md-up" name="downloads" ng-model="active">
-					<option ng-value="0">HRSFlow Hot Runner Systems</option>
-					<option ng-value="1">Flexflow family</option>
-					<option ng-value="2">Inject line</option>
-					<option ng-value="3">Control unit</option>
-				</select>
+				<div class="form-group form-group-select hidden-md-up">
+					<select class="form-control" name="downloads" ng-model="active">
+						<option ng-value="0">HRSFlow Hot Runner Systems</option>
+						<option ng-value="1">Flexflow family</option>
+						<option ng-value="2">Inject line</option>
+						<option ng-value="3">Control unit</option>
+					</select>
+				</div>
 				<div class="paginer" ng-class="'paginer--index-' + active">
 					<div class="paginer__pages">
 						<div class="pages__item section">

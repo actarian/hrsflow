@@ -112,6 +112,20 @@ $module: 116px;
 		margin-bottom: 0;
 	}
 
+	.h5 {
+		font-size: 19px;
+		line-height: 35px;
+		text-transform: none;
+		font-weight: 200;
+		padding: 0;
+		margin: 15px 0 0 0;
+		max-width: 560px;
+
+		.em {
+			color: #a5a1a1;
+		}
+	}
+
 	.col-md-4 {
 		border: 1px solid #ccc;
 		padding-top: 15px;

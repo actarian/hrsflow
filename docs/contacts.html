@@ -37,11 +37,18 @@
 	<ng-include src="'partials/svg.html'"></ng-include>
 	<ng-include src="'partials/header.html'"></ng-include>
 
-	<div class="page">
+	<div class="page" ng-init="area = 2; country = 8; type = 0">
 		<!-- NEWS -->
 		<section class="section section--contacts-listing">
 			<div class="container">
-				<div class="h2"><span class="">World Wide Contacts</span></div>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="h2"><span class="">Global Service, <br>Local Support.</span></div>
+					</div>
+					<div class="col-lg-6">
+						<div class="h5">Thanks to our wide-spread global presence, HRSflow works with clients from all around the world every day to enable them to reduce their time-to-market and improve their overall operating efficiency. Sharing knowledge and organisational methods on a global scale enables us to offer the best support, regardless of the complexity and location of the project.</div>
+					</div>
+				</div>
 			</div>
 		</section>
 		<style type="text/css">
@@ -85,23 +92,39 @@
 				var map = new google.maps.Map(mapElement, mapOptions);
 				// Let's also add a marker while we're at it
 				var navs = [].slice.call(document.querySelectorAll('[nav-map]'));
+				var infowindow = new google.maps.InfoWindow({
+					content: ''
+				});
+				var current = null;
 				navs.forEach(function(node) {
 					var latlng = node.getAttribute('nav-map').split(',').map(function(x) {
 						return parseFloat(x);
 					});
 					var marker = new google.maps.Marker({
-						position: latlng,
+						position: new google.maps.LatLng(latlng[0], latlng[1]),
 						map: map,
+						icon: './img/contacts/pin.png',
 						title: node.querySelector('.title').innerHTML,
 					});
 
+					function onMarkerDidSelect() {
+						infowindow.setContent('<strong>' + node.querySelector('.title').innerHTML + '</strong>');
+						infowindow.open(map, marker);
+					}
+					marker.addListener('click', onMarkerDidSelect);
+
 					function panTo(e) {
-						var ll = new google.maps.LatLng(latlng[0], latlng[1]);
-						map.panTo(ll);
+						if (current !== marker) {
+							current = marker;
+							var ll = new google.maps.LatLng(latlng[0], latlng[1]);
+							map.panTo(ll);
+							onMarkerDidSelect();
+						}
 					}
 					node.addEventListener('click', panTo);
 					node.addEventListener('mouseover', panTo);
 				});
+				/*
 				var methods = {};
 				for (var id in map) {
 					try {
@@ -115,6 +138,7 @@
 				Object.keys(methods).forEach(function(key) {
 					console.log('map.' + key + '()');
 				});
+				*/
 			}
 
 		</script>
@@ -124,6 +148,49 @@
 		</section>
 		<section class="section section--contacts-listing" style="padding:0 0 50px 0;">
 			<div class="container">
+				<div class="row">
+					<div class="col-md-4 form-group form-group-select">
+						<select class="form-control" name="area" ng-model="area">
+							<option ng-value="0">Africa</option>
+							<option ng-value="1">Asia</option>
+							<option ng-value="2">Europe</option>
+							<option ng-value="3">North America</option>
+							<option ng-value="4">Oceania</option>
+							<option ng-value="5">South America</option>
+						</select>
+					</div>
+					<div class="col-md-4 form-group form-group-select">
+						<select class="form-control" name="country" ng-model="country">
+							<option ng-value="0">Austria</option>
+							<option ng-value="1">Bielorussia</option>
+							<option ng-value="2">Czech Republic</option>
+							<option ng-value="3">Denmark</option>
+							<option ng-value="4">Finland</option>
+							<option ng-value="5">France</option>
+							<option ng-value="6">Germany</option>
+							<option ng-value="7">Hungary</option>
+							<option ng-value="8">Italy</option>
+							<option ng-value="9">Netherland</option>
+							<option ng-value="10">Poland</option>
+							<option ng-value="11">Portugal</option>
+							<option ng-value="12">Romania</option>
+							<option ng-value="13">Russia</option>
+							<option ng-value="14">Slovakia</option>
+							<option ng-value="15">Spain</option>
+							<option ng-value="16">Sweden</option>
+							<option ng-value="17">Switzerland</option>
+							<option ng-value="18">Turkey</option>
+							<option ng-value="19">United Kingdom</option>
+						</select>
+					</div>
+					<div class="col-md-4 form-group form-group-select">
+						<select class="form-control" name="type" ng-model="type">
+							<option ng-value="0">Headquarter</option>
+							<option ng-value="1">Office</option>
+							<option ng-value="2">Service Hotline</option>
+						</select>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-4" data-appear>
 						<div class="contacts__item" nav-map="45.0934868,7.5021683">

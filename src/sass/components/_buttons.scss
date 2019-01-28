@@ -265,9 +265,23 @@ button,
 .btn--group {
 	margin-top: 50px;
 
-	&>a,
-	&>button {
-		margin-right: 10px;
+	@include media-breakpoint-down(sm) {
+
+		&>a,
+		&>button {
+			display: block;
+			width: auto;
+		}
+	}
+
+	@include media-breakpoint-up(md) {
+
+		&>a+a,
+		&>button+button,
+		&>a+button,
+		&>button+a {
+			margin-left: 10px;
+		}
 	}
 }
 

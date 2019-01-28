@@ -1,9 +1,33 @@
+.form-group {
+	border: 1px solid #ccc;
+	padding-top: 15px;
+	padding-bottom: 10px;
+	margin-top: -1px;
+	margin-left: -1px;
+}
+
+.form-group-select {
+	position: relative;
+
+	&:after {
+		content: 'o';
+		font-family: HRSFlow;
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		margin-top: -19px;
+		font-size: 22px;
+		color: #aaa;
+	}
+}
+
 .form-control {
 	display: block;
 	width: 100%;
-	margin: 5px 0 20px 0;
-	padding: 7px 5px 0 5px;
-	border: 2px solid #eee;
+	margin: 0;
+	padding: 12px 5px 15px 5px;
+	border: none;
+	appearance: none;
 
 	background: white;
 	color: #444;
@@ -11,5 +35,5 @@
 	font-size: 20px;
 	font-weight: 100;
 	line-height: 20px;
-
+	outline: none;
 }

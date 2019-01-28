@@ -83,6 +83,24 @@ $module: 116px;
 		display: block;
 	}
 
+	.location {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		line-height: 23px;
+
+		i {
+			margin-right: 6px;
+			font-size: 19px;
+			line-height: 18px;
+		}
+	}
+
+	.btn--group {
+		display: block;
+		margin-top: 30px;
+	}
+
 	&:hover,
 	&:active,
 	&:visited {
@@ -107,10 +125,12 @@ $module: 116px;
 		margin-left: -1px;
 	}
 
+	/*
 	.news__item {
 		.picture {
 			display: none;
 		}
 	}
+	*/
 
 }

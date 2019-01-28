@@ -12,10 +12,10 @@ const fs = require('fs'),
 	plumber = require('gulp-plumber'),
 	rename = require('gulp-rename'),
 	scss = require('gulp-sass'),
+	terser = require('gulp-terser'),
 	through2 = require('through2'),
 	tfs = require('tfs'),
 	tsify = require('tsify'),
-	uglify = require('gulp-uglify'),
 	webserver = require('gulp-webserver'),
 	yargs = require('yargs');
 
@@ -101,7 +101,7 @@ function compileJs(done) {
 			.pipe(tfsCheckout())
 			.pipe(dest('.', { sourcemaps: true }))
 			.on('end', () => logger.log('compile', item.output))
-			.pipe(gulpif(item.minify, uglify()))
+			.pipe(gulpif(item.minify, terser()))
 			.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 			.pipe(tfsCheckout(!item.minify))
 			.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
@@ -150,7 +150,7 @@ function compileTs(done) {
 			.pipe(tfsCheckout())
 			.pipe(dest('.', { sourcemaps: true }))
 			.on('end', () => logger.log('compile', item.output))
-			.pipe(gulpif(item.minify, uglify()))
+			.pipe(gulpif(item.minify, terser()))
 			.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 			.pipe(tfsCheckout(!item.minify))
 			.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
@@ -180,7 +180,7 @@ function compilePartials() {
 		}))
 		.pipe(dest('./docs/js/'))
 		.pipe(src('.', { sourcemaps: true }))
-		.pipe(uglify())
+		.pipe(terser())
 		.pipe(rename({
 			extname: '.min.js'
 		}))
@@ -264,7 +264,7 @@ function doJsBundle(item) {
 		.pipe(tfsCheckout(skip))
 		.pipe(gulpif(!skip, dest('.')))
 		.on('end', () => logger.log('bundle', item.output))
-		.pipe(gulpif(item.minify, uglify()))
+		.pipe(gulpif(item.minify, terser()))
 		.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 		.pipe(tfsCheckout(!item.minify))
 		.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
