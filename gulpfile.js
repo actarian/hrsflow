@@ -7,6 +7,7 @@ const fs = require('fs'),
 	concat = require('gulp-concat'),
 	concatutil = require('gulp-concat-util'),
 	cssmin = require('gulp-cssmin'),
+	filter = require('gulp-filter'),
 	gulpif = require('gulp-if'),
 	html2js = require('gulp-html2js'),
 	plumber = require('gulp-plumber'),
@@ -51,12 +52,14 @@ function compileScss(done) {
 			.pipe(autoprefixer())
 			.pipe(rename(item.output))
 			.pipe(tfsCheckout())
-			.pipe(dest('.', { sourcemaps: true }))
+			.pipe(dest('.', item.minify ? null : { sourcemaps: '.' }))
+			.pipe(filter('**/*.css'))
 			.on('end', () => logger.log('compile', item.output))
 			.pipe(gulpif(item.minify, cssmin()))
 			.pipe(gulpif(item.minify, rename({ extname: '.min.css' })))
 			.pipe(tfsCheckout(!item.minify))
-			.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
+			.pipe(gulpif(item.minify, dest('.', { sourcemaps: '.' })))
+			.pipe(filter('**/*.css'));
 	});
 	return tasks.length ? parallel(...tasks)(done) : done();
 }
@@ -99,12 +102,14 @@ function compileJs(done) {
 			))
 			.pipe(rename(item.output))
 			.pipe(tfsCheckout())
-			.pipe(dest('.', { sourcemaps: true }))
+			.pipe(dest('.', item.minify ? null : { sourcemaps: '.' }))
+			.pipe(filter('**/*.js'))
 			.on('end', () => logger.log('compile', item.output))
 			.pipe(gulpif(item.minify, terser()))
 			.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 			.pipe(tfsCheckout(!item.minify))
-			.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
+			.pipe(gulpif(item.minify, dest('.', { sourcemaps: '.' })))
+			.pipe(filter('**/*.js'));
 	});
 	return tasks.length ? parallel(...tasks)(done) : done();
 }
@@ -148,12 +153,14 @@ function compileTs(done) {
 			}))
 			.pipe(rename(item.output))
 			.pipe(tfsCheckout())
-			.pipe(dest('.', { sourcemaps: true }))
+			.pipe(dest('.', item.minify ? null : { sourcemaps: '.' }))
+			.pipe(filter('**/*.js'))
 			.on('end', () => logger.log('compile', item.output))
 			.pipe(gulpif(item.minify, terser()))
 			.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 			.pipe(tfsCheckout(!item.minify))
-			.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
+			.pipe(gulpif(item.minify, dest('.', { sourcemaps: '.' })))
+			.pipe(filter('**/*.js'));
 	});
 	return tasks.length ? parallel(...tasks)(done) : done();
 }
@@ -253,7 +260,8 @@ function doCssBundle(item) {
 		.pipe(gulpif(item.minify, cssmin()))
 		.pipe(gulpif(item.minify, rename({ extname: '.min.css' })))
 		.pipe(tfsCheckout(!item.minify))
-		.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
+		.pipe(gulpif(item.minify, dest('.', { sourcemaps: '.' })))
+		.pipe(filter('**/*.css'));
 }
 
 function doJsBundle(item) {
@@ -267,7 +275,8 @@ function doJsBundle(item) {
 		.pipe(gulpif(item.minify, terser()))
 		.pipe(gulpif(item.minify, rename({ extname: '.min.js' })))
 		.pipe(tfsCheckout(!item.minify))
-		.pipe(gulpif(item.minify, dest('.', { sourcemaps: true })));
+		.pipe(gulpif(item.minify, dest('.', { sourcemaps: '.' })))
+		.pipe(filter('**/*.js'));
 }
 
 // TFS
