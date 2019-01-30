@@ -480,52 +480,54 @@ function () {
         	}
         });
         */
-
-        this.parallaxes.forEach(function (node, i) {
-          var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
-          var direction = i % 2 === 0 ? 1 : -1;
-          var currentY = node.currentY || 0;
-
-          var rect = _rect.default.fromNode(node);
-
-          rect = new _rect.default({
-            top: rect.top,
-            left: rect.left,
-            width: rect.width,
-            height: rect.height
-          });
-          var intersection = rect.intersection(_this.windowRect);
-
-          if (intersection.y > 0) {
-            var y = Math.min(1, Math.max(-1, intersection.center.y));
-            var s = (100 + parallax * 2) / 100;
-            currentY = (-50 + y * parallax * direction).toFixed(3);
-
-            if (node.currentY !== currentY) {
-              node.currentY = currentY;
-
-              if (node.parentNode.classList.contains('background')) {
-                node.setAttribute('style', "top: 50%; left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%) scale3d(").concat(s, ",").concat(s, ",1.0);"));
-              } else {
-                node.setAttribute('style', "top: 50%; left: 50%; transform: translateX(-50%) translateY(".concat(currentY, "%);"));
-              }
-            }
-          }
-        }); // follower
+        // follower
 
         if (this.follower.enabled) {
           this.follower.render();
         }
-      } // appears
-      // let firstVisibleIndex = 0;
+      }
 
+      this.parallaxes.forEach(function (node, i) {
+        var parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
+        var direction = i % 2 === 0 ? 1 : -1;
+        var currentY = node.currentY || 0;
+
+        var rect = _rect.default.fromNode(node);
+
+        rect = new _rect.default({
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height
+        });
+        var intersection = rect.intersection(_this.windowRect);
+
+        if (intersection.y > 0) {
+          var y = Math.min(1, Math.max(-1, intersection.center.y));
+          var s = (100 + parallax * 2) / 100;
+          currentY = (-50 + y * parallax * direction).toFixed(3);
+
+          if (node.currentY !== currentY) {
+            node.currentY = currentY;
+
+            if (node.parentNode.classList.contains('background')) {
+              node.setAttribute('style', "height: ".concat(s * 100, "%; top: 50%; left: 50%; transform: translateX(-50%) translateY(").concat(currentY, "%);"));
+            } else {
+              node.setAttribute('style', "height: ".concat(s * 100, "%; top: 50%; left: 50%; transform: translateX(-50%) translateY(").concat(currentY, "%);"));
+            }
+          }
+        }
+      }); // appears
+      // let firstVisibleIndex = 0;
 
       this.appears.forEach(function (node, i) {
         var rect = _rect.default.fromNode(node);
 
         var intersection = rect.intersection(_this.windowRect);
 
-        if (intersection.y > 0) {
+        if (intersection.y > 0.0) {
+          // if (intersection.center.y < 0.45) {
+          // console.log(intersection.center.y);
           // 	firstVisibleIndex = firstVisibleIndex || i;
 
           /*

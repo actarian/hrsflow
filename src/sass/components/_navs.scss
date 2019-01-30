@@ -608,11 +608,11 @@
 	}
 
 	&>li {
+		&>a {
 
-		&:hover,
-		&:active,
-		&.active {
-			&>a {
+			&:hover,
+			&:active,
+			&.active {
 				color: white;
 				transform: translateX(0);
 				border-radius: 0px !important;

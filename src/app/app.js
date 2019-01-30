@@ -417,32 +417,6 @@ export default class App {
 				}
 			});
 			*/
-			this.parallaxes.forEach((node, i) => {
-				const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
-				const direction = i % 2 === 0 ? 1 : -1;
-				let currentY = node.currentY || 0;
-				let rect = Rect.fromNode(node);
-				rect = new Rect({
-					top: rect.top,
-					left: rect.left,
-					width: rect.width,
-					height: rect.height,
-				});
-				const intersection = rect.intersection(this.windowRect);
-				if (intersection.y > 0) {
-					const y = Math.min(1, Math.max(-1, intersection.center.y));
-					const s = (100 + parallax * 2) / 100;
-					currentY = (-50 + y * parallax * direction).toFixed(3);
-					if (node.currentY !== currentY) {
-						node.currentY = currentY;
-						if (node.parentNode.classList.contains('background')) {
-							node.setAttribute('style', `top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%) scale3d(${s},${s},1.0);`);
-						} else {
-							node.setAttribute('style', `top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
-						}
-					}
-				}
-			});
 
 			// follower
 			if (this.follower.enabled) {
@@ -451,12 +425,41 @@ export default class App {
 
 		}
 
+		this.parallaxes.forEach((node, i) => {
+			const parallax = node.parallax || (node.parallax = parseInt(node.getAttribute('data-parallax')) || 5) * 2;
+			const direction = i % 2 === 0 ? 1 : -1;
+			let currentY = node.currentY || 0;
+			let rect = Rect.fromNode(node);
+			rect = new Rect({
+				top: rect.top,
+				left: rect.left,
+				width: rect.width,
+				height: rect.height,
+			});
+			const intersection = rect.intersection(this.windowRect);
+			if (intersection.y > 0) {
+				const y = Math.min(1, Math.max(-1, intersection.center.y));
+				const s = (100 + parallax * 2) / 100;
+				currentY = (-50 + (y * parallax * direction)).toFixed(3);
+				if (node.currentY !== currentY) {
+					node.currentY = currentY;
+					if (node.parentNode.classList.contains('background')) {
+						node.setAttribute('style', `height: ${s * 100}%; top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
+					} else {
+						node.setAttribute('style', `height: ${s * 100}%; top: 50%; left: 50%; transform: translateX(-50%) translateY(${currentY}%);`);
+					}
+				}
+			}
+		});
+
 		// appears
 		// let firstVisibleIndex = 0;
 		this.appears.forEach((node, i) => {
 			let rect = Rect.fromNode(node);
 			const intersection = rect.intersection(this.windowRect);
-			if (intersection.y > 0) {
+			if (intersection.y > 0.0) {
+				// if (intersection.center.y < 0.45) {
+				// console.log(intersection.center.y);
 				// 	firstVisibleIndex = firstVisibleIndex || i;
 				/*
 				let overlap = '-=0.3';
