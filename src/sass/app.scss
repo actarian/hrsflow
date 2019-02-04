@@ -53,6 +53,7 @@ body {
 	height: 100%;
 	padding: 0;
 	margin: 0;
+	overflow-x: hidden;
 }
 
 body {
@@ -69,13 +70,6 @@ body {
 
 main {
 	position: relative;
-}
-
-.page {
-	background: $white;
-	min-height: 100vh;
-	margin: 0;
-	padding: 0;
 }
 
 .wrapper {

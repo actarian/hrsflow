@@ -41,9 +41,11 @@ html [type=button] {
 	display: inline-block;
 	line-height: 1;
 	vertical-align: middle;
+
 	@include transition();
 
-	i {
+	i,
+	span {
 		height: auto;
 		line-height: 1;
 		vertical-align: middle;

@@ -1,7 +1,8 @@
-i {
+[class^="icon-"],
+[class*=" icon-"] {
 	vertical-align: middle;
 
 	&:before {
-		vertical-align: middle;
+		vertical-align: baseline;
 	}
 }
