@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" ng-app="app">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Hot Runner Systems solutions | HRSflow</title>
+	<meta name="Content-Language" content="en" />
+	<meta name="robots" content="noindex,nofollow" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-title" content="HRSflow">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link href="favicon.ico" rel="shortcut icon" type="image/ico" />
+	<style>
+		[ng\:cloak],
+		[ng-cloak],
+		[data-ng-cloak],
+		[x-ng-cloak],
+		.ng-cloak,
+		.x-ng-cloak {
+			display: none !important;
+		}
+
+	</style>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/vendors.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<link href="https://file.myfontastic.com/AAJLHSuSqnU7Zc8MD8ipAS/icons.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fixed">
+
+	<ng-include src="'partials/svg.html'"></ng-include>
+	<ng-include src="'partials/header.html'"></ng-include>
+
+	<div class="page" ng-controller="NewsletterController">
+		<section class="section section--contacts-listing">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="h2">Want to keep up to date with all our news? <span class="em">Subscribe to our newsletter!</span></div>
+					</div>
+					<div class="col-lg-6">
+						<div class="h5">Thanks to our wide-spread global presence, HRSflow works with clients from all around the world every day to enable them to reduce their time-to-market and improve their overall operating efficiency. Sharing knowledge and organisational methods on a global scale enables us to offer the best support, regardless of the complexity and location of the project.</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section">
+			<div class="container">
+				<form name="form" role="form" novalidate autocomplete="off" ng-submit="form.$valid && submit(model)" ng-keyup="$event.keyCode == 13 && form.$valid && submit(model)">
+					<fieldset>
+						<div class="form-group-container">
+							<div class="form-group required">
+								<input placeholder="First Name" ng-model="model.firstName" name="firstName" required class="form-control" type="text" />
+							</div>
+							<div class="form-group required">
+								<input placeholder="Last Name" ng-model="model.lastName" name="lastName" required class="form-control" type="text" />
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group required">
+								<input placeholder="Company" ng-model="model.company" name="company" required class="form-control" type="text" />
+							</div>
+							<div class="form-group">
+								<input placeholder="City" ng-model="model.city" name="city" class="form-control" type="text" />
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group required">
+								<input placeholder="State" ng-model="model.state" name="state" required class="form-control" type="text" />
+							</div>
+							<div class="form-group">
+								<input placeholder="Phone Number" ng-model="model.phoneNumber" name="phoneNumber" class="form-control" type="text" />
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group required">
+								<input placeholder="Email" ng-model="model.email" name="email" required class="form-control" type="text" />
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<div class="legend">Application <span class="required">*</span></div>
+						<div class="form-group-container">
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="automotiveExterior" ng-true-value="1" ng-model="model.applications[0]" class="form-check-input" type="checkbox">
+									Automotive Exterior
+								</label>
+							</div>
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="automotiveInterior" ng-true-value="6" ng-model="model.applications[1]" class="form-check-input" type="checkbox">
+									Automotive Interior
+								</label>
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="transportation" ng-true-value="11" ng-model="model.applications[2]" class="form-check-input" type="checkbox">
+									Transportation
+								</label>
+							</div>
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="domesticAppliances" ng-true-value="5" ng-model="model.applications[3]" class="form-check-input" type="checkbox">
+									Domestic appliances
+								</label>
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="automotiveUnderHood" ng-true-value="13" ng-model="model.applications[4]" class="form-check-input" type="checkbox">
+									Automotive Under hood
+								</label>
+							</div>
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="automotiveLighting" ng-true-value="14" ng-model="model.applications[5]" class="form-check-input" type="checkbox">
+									Automotive Lighting
+								</label>
+							</div>
+						</div>
+						<div class="form-group-container">
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="technicalApplications" ng-true-value="8" ng-model="model.applications[6]" class="form-check-input" type="checkbox">
+									Technical applications
+								</label>
+							</div>
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="houseware" ng-true-value="3" ng-model="model.applications[7]" class="form-check-input" type="checkbox">
+									Houseware
+								</label>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<div class="legend">Other</div>
+						<div class="form-group-container">
+							<div class="form-group">
+								<!-- <label class="form-group__label">Other</label> -->
+								<!-- <input ng-model="model.other" name="other" class="form-control" type="text" name="altro_settore"> -->
+								<textarea name="otherApplication" ng-model="model.otherApplication" class="form-control" rows="4">
+								</textarea>
+							</div>
+						</div>
+						<span ng-repeat="value in model.applications track by $index">
+							<span ng-bind="value"></span>
+						</span>
+					</fieldset>
+					<fieldset>
+						<div class="legend"></div>
+						<a class="btn btn--discover iframe" data-fancybox-type="iframe" href="//www.hrsflow.com/eng/privacy.php?type=23" title="Privacy policy" rel="nofollow">
+							Having read the Information Notice on the processing of data:
+						</a>
+						<div class="form-group-container">
+							<div class="form-group">
+								<div class="input-group">
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio" name="gdprMarketingConsent" ng-model="model.gdprMarketingConsent" value="Yes" required>
+										I consent
+									</label>
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio" name="gdprMarketingConsent" ng-model="model.gdprMarketingConsent" value="No">
+										I do not consent
+									</label>
+								</div>
+								<div class="tooltip">
+									<div class="tooltip__toggle btn btn--discover">To marketing activities</div>
+									<div class="tooltip__info">i.e. the elaboration and processing of data by Inglass Spa for marketing purposes referred to under point b) of these guidelines, via the foreseen processing methods, i.e. paper-based, via automated and telematic means, by ordinary or electronic mail, telephone and any other computerised means.</div>
+								</div>
+								<div class="form-control__error" ng-if="form.gdprMarketingConsent.$invalid">
+									<span>It is necessary to either give or deny your consent to marketing activities.</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="input-group">
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio" name="gdprProfileConsent" ng-model="model.gdprProfileConsent" value="Yes" required>
+										I consent
+									</label>
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio" name="gdprProfileConsent" ng-model="model.gdprProfileConsent" value="No">
+										I do not consent
+									</label>
+								</div>
+								<div class="tooltip">
+									<div class="tooltip__toggle btn btn--discover">To profiling activities</div>
+									<div class="tooltip__info">i.e. the elaboration and processing of data by Inglass Spa for the purposes of profiling referred to in point c) of these guidelines, relating - by way of example and not exhaustive - to consumption and other habits, behaviour, consultation and use of the website.</div>
+								</div>
+								<div class="form-control__error" ng-if="form.gdprProfileConsent.$invalid">
+									<span>You need to make a choice to continue</span>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<div>
+							By clicking send button, I confirm that I request the service indicated in point a) of these guidelines; my consent to the processing of data for the purposes of the service, including the processing methods mentioned in these guidelines, including possible processing carried out in EU member states or non-EU countries.
+						</div>
+					</fieldset>
+					<fieldset class="fieldset--warning">
+						<div class="legend">ATTENTION</div>
+						<div>
+							Not providing the consent to the Marketing activities indicated in point b) of these guidelines we will not be allowed to send you promotional newsletters but only informational newsletters.
+						</div>
+					</fieldset>
+					<div class="group-cta">
+						<div class="form-info">* Mandatory fields</div>
+						<button class="btn btn--submit" ng-class="{ invalid: form.$invalid }" type="submit">Subscribe</button>
+					</div>
+				</form>
+			</div>
+		</section>
+		<!-- BREADCRUMB -->
+		<section class="section section--breadcrumb">
+			<div class="container">
+				<ul class="nav nav--breadcrumb">
+					<li><a href="#"><span>Home</span></a></li>
+					<li><a href="#"><span>Newsletter</span></a></li>
+				</ul>
+			</div>
+		</section>
+		<!-- FOOTER -->
+		<ng-include src="'partials/footer.html'"></ng-include>
+	</div>
+
+	<ng-include src="'partials/service.html'"></ng-include>
+
+	<div class="follower">
+		<div></div>
+		<div></div>
+	</div>
+
+	<div class="preloader">
+		<img class="brand" src="img/logo.svg" />
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+	<!-- angular può essere rimosso caricando i partials server side -->
+	<script src="js/vendors.js"></script>
+	<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c35ff0b6bd15a1c" type="text/javascript"></script>
+	<script src="js/app.js"></script>
+
+	<script>
+		var app = angular.module('app', []);
+		app.controller('NewsletterController', ['$scope', function($scope) {
+			$scope.model = {
+				applications: [],
+			};
+			$scope.submit = function(model) {
+				console.log(model);
+			};
+		}]);
+
+	</script>
+</body>
+
+</html>

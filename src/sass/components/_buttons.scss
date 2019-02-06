@@ -264,6 +264,24 @@ button,
 
 }
 
+.btn--submit {
+	background: #db001d;
+	padding: 15px 25px;
+	color: white;
+	font-weight: 600;
+
+	@include transition();
+
+	&:hover {
+		background: darken(#db001d, 5%);
+	}
+
+	&.invalid {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+}
+
 .btn--group {
 	margin-top: 50px;
 
@@ -294,4 +312,17 @@ button,
 .btn--block {
 	display: block;
 	width: 100%;
+}
+
+.group-cta {
+	margin-top: 50px;
+
+
+	@include media-breakpoint-down(sm) {}
+
+	@include media-breakpoint-up(md) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 }

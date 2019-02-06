@@ -1,9 +1,29 @@
+.required {
+	color: #db001d;
+}
+
 .form-group {
 	border: 1px solid #ccc;
 	padding-top: 15px;
 	padding-bottom: 10px;
 	margin-top: -1px;
 	margin-left: -1px;
+
+	&.required {
+		position: relative;
+
+		&:after {
+			content: '*';
+			position: absolute;
+			right: 11px;
+			top: 50%;
+			position: absolute;
+			color: #db001d;
+			font-weight: 600;
+			font-size: 20px;
+			transform: translateY(-50%);
+		}
+	}
 }
 
 .form-group-select {
@@ -63,4 +83,141 @@
 			margin-left: 30px;
 		}
 	}
+}
+
+.form-group--check {
+	display: flex;
+	font-size: 20px;
+	font-weight: 100;
+	line-height: 20px;
+	vertical-align: middle;
+	align-items: center;
+	justify-content: flex-start;
+	background: white;
+	padding: 12px 10px 15px 10px !important;
+
+	.form-check-label {
+		padding: 0;
+		margin: 0;
+	}
+
+	.form-check-input {
+		margin: 0 10px 0 0;
+	}
+}
+
+fieldset {
+	appearance: none;
+	display: block;
+	position: relative;
+	padding: 40px 15px 25px 15px;
+	margin: 0 0 20px 0;
+	border-top: 1px solid #ccc;
+	background: #f8f8f8;
+
+	.form-group {
+		margin-bottom: 15px;
+		background: white;
+		padding: 20px;
+	}
+
+	.form-control {
+		padding: 0;
+	}
+
+	.form-group-container {
+		@include media-breakpoint-up(md) {
+			display: flex;
+			justify-content: flex-start;
+			width: calc(100% + 30px);
+
+			.form-group {
+				min-width: calc(50% - 30px);
+				margin-right: 30px;
+			}
+
+			&>.form-group+.form-group {
+				margin-left: 0;
+			}
+		}
+	}
+
+	.btn--discover {
+		margin-bottom: 20px;
+	}
+
+}
+
+
+.legend {
+	appearance: none;
+	display: block;
+	position: relative;
+	margin: -41px -15px 40px -15px;
+	max-width: calc(100% + 30px);
+	padding: 0 15px;
+	font-size: 20px;
+	font-weight: 400;
+	background: white;
+	border-bottom: 1px solid #ccc;
+
+}
+
+.fieldset--warning {
+	background: #ffeaea;
+	color: #db001d;
+
+	.legend {
+
+		border-bottom: 1px solid #db001d;
+	}
+}
+
+.input-group {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 10px 0;
+
+	&>.form-check-label+.form-check-label {
+		margin-left: 15px;
+	}
+}
+
+.form-check-label {
+	.form-check-input {
+		margin-right: 10px;
+	}
+}
+
+.tooltip {
+	position: relative;
+
+	.tooltip__info {
+		position: absolute;
+		bottom: 100%;
+		margin-bottom: 20px;
+		background: white;
+		padding: 15px;
+		margin-left: -10px;
+		margin-right: -10px;
+		border: 1px solid #ccc;
+		box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity ease-in-out 350ms;
+	}
+
+	&:hover {
+		.tooltip__info {
+			opacity: 1;
+		}
+	}
+}
+
+.form-info {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 600;
+	color: #db001d;
 }
