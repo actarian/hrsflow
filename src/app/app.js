@@ -64,6 +64,10 @@ export default class App {
 			parallax: true,
 			spaceBetween: 300,
 			speed: 600,
+			autoplay: {
+				delay: 5000,
+				disableOnInteraction: true,
+			},
 			pagination: {
 				el: '.swiper-pagination',
 				clickable: true,
@@ -138,6 +142,7 @@ export default class App {
 		const hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
 		const links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
 		const togglers = [].slice.call(document.querySelectorAll('[toggle]'));
+		const focuses = [].slice.call(document.querySelectorAll('[focus]'));
 		const stickys = [].slice.call(document.querySelectorAll('[sticky]'));
 		stickys.forEach(x => x.content = x.querySelector('[sticky-content]'));
 		const mouse = { x: 0, y: 0 };
@@ -160,6 +165,7 @@ export default class App {
 		this.hrefs = hrefs;
 		this.links = links;
 		this.togglers = togglers;
+		this.focuses = focuses;
 		this.mouse = mouse;
 		this.timeline = timeline;
 		this.onResize();
@@ -211,8 +217,8 @@ export default class App {
 
 		this.togglers.forEach((node) => {
 			node.addEventListener('click', (e) => {
-				let target = node.getAttribute('toggle');
-				target = target ? document.querySelector(target) : node;
+				const selector = node.getAttribute('toggle');
+				const target = selector ? (selector === ':parent' ? node.parentNode : document.querySelector(selector)) : node;
 				const toggle = node.getAttribute('toggle-class') || 'active';
 				if (target.classList.contains(toggle)) {
 					target.classList.remove(toggle);
@@ -222,6 +228,19 @@ export default class App {
 				// e.preventDefault();
 				e.stopPropagation();
 			});
+		});
+
+		this.focuses.forEach((node) => {
+			const doFocus = (e) => {
+				const selector = node.getAttribute('focus');
+				const target = selector ? (selector === ':parent' ? node.parentNode : document.querySelector(selector)) : node;
+				target.focus();
+				target.select();
+				// e.preventDefault();
+				e.stopPropagation();
+			};
+			node.addEventListener('touchstart', doFocus);
+			node.addEventListener('mouseenter', doFocus);
 		});
 
 	}

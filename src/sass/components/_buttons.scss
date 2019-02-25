@@ -1,4 +1,4 @@
-﻿@import "../colors";
+@import "../colors";
 @import "../variables";
 
 [ng-click],
@@ -44,8 +44,7 @@ html [type=button] {
 
 	@include transition();
 
-	i,
-	span {
+	i, span {
 		height: auto;
 		line-height: 1;
 		vertical-align: middle;
@@ -318,7 +317,8 @@ button,
 	margin-top: 50px;
 
 
-	@include media-breakpoint-down(sm) {}
+	@include media-breakpoint-down(sm) {
+	}
 
 	@include media-breakpoint-up(md) {
 		display: flex;

@@ -89,7 +89,7 @@ footer {
 	.btn--newsletter {
 		display: flex;
 
-		&>span {
+		& > span {
 			display: block;
 			width: 100%;
 			margin: 0;
@@ -123,5 +123,4 @@ footer {
 			margin-left: 20px;
 		}
 	}
-
 }

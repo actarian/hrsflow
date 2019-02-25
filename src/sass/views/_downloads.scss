@@ -125,3 +125,7 @@ $module: 116px;
 	}
 	*/
 }
+
+.section--downloads-listing+.section--downloads-listing {
+	padding: 0 0 50px 0;
+}

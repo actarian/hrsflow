@@ -3,8 +3,8 @@
 	<div class="container flex-row">
 		<a href="index.html"><img class="brand" src="img/logo.svg" /><img class="brand--black" src="img/logo-black.svg" /></a>
 		<ul class="nav nav--primary">
-			<li toggle>
-				<span>Solutions</span>
+			<li>
+				<span toggle=":parent">Solutions</span>
 				<div class="liv2">
 					<div class="container">
 						<ul class="nav nav--primary__liv2">
@@ -71,15 +71,15 @@
 					</div>
 				</div>
 			</li>
-			<li toggle>
-				<span>Products</span>
+			<li>
+				<span toggle=":parent">Products</span>
 				<div class="liv2">
 					<div class="container">
 						<ul class="nav nav--primary__liv2">
 							<li>
 								<span>HRSFlow Hot Runner Systems</span>
 								<ul class="nav nav--primary__liv3">
-									<li><a href="product.html"></a><span>Screwed-in Systems</span></a></li>
+									<li><a href="product.html"><span>Screwed-in Systems</span></a></li>
 									<li><a href="product.html"><span>Face to Face Systems</span></a></li>
 									<li><a href="product.html"><span>Hot-Halves</span></a></li>
 									<li><a href="product.html"><span>Stack Mold</span></a></li>
@@ -121,8 +121,8 @@
 					</div>
 				</div>
 			</li>
-			<li toggle>
-				<span>Markets</span>
+			<li>
+				<span toggle=":parent">Markets</span>
 				<div class="liv2">
 					<div class="container">
 						<ul class="nav nav--primary__liv2">
@@ -143,14 +143,74 @@
 			<li><a href="#"><span>Service & Support</span></a></li>
 		</ul>
 		<ul class="nav nav--secondary">
-			<li><a href="our-history.html"><span>About Us</span></a></li>
-			<li><a href="downloads.html"><span>Downloads</span></a></li>
+			<li class="li-relative">
+				<span toggle=":parent">About Us</span>
+				<div class="liv2">
+					<div class="container">
+						<ul class="nav nav--secondary__liv2">
+							<li><a href="#"><span>Who we are</span></a></li>
+							<li><a href="#"><span>Our history</span></a></li>
+							<li><a href="#"><span>Corporate structure</span></a></li>
+							<li><a href="#"><span>Why HRSflow</span></a></li>
+							<li><a href="#"><span>Sales and service contacts</span></a></li>
+							<li><a href="#"><span>Quality</span></a></li>
+							<li><a href="#"><span>Production process</span></a></li>
+							<li><a href="#"><span>Awards</span></a></li>
+							<li><a href="#"><span>Join us</span></a></li>
+							<li><a href="#"><span>Sustainability</span></a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+			<li class="li-relative">
+				<span toggle=":parent">Downloads</span>
+				<div class="liv2">
+					<div class="container">
+						<ul class="nav nav--secondary__liv2">
+							<li><a href="#"><span>2D-3D Catalogue</span></a></li>
+							<li><a href="#"><span>PDF Catalogues</span></a></li>
+							<li><a href="#"><span>Company brochure</span></a></li>
+							<li><a href="#"><span>Flyers</span></a></li>
+							<li><a href="#"><span>Certifications</span></a></li>
+							<li><a href="#"><span>Sustainability Report</span></a></li>
+							<li><a href="#"><span>Ethical Code</span></a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
 			<li><a href="#"><span>Careers</span></a></li>
 			<li><a href="contacts.html"><span>WW Contacts</span></a></li>
 		</ul>
 		<ul class="nav nav--i18n">
-			<li><a href="#"><i class="icon-search"></i><span>Search</span></a></li>
-			<li><a href="#"><i class="icon-language"></i><span>Eng</span></a></li>
+			<li focus="#search-form input">
+				<span toggle=":parent"><i class="icon-search"></i><span>Search</span></span>
+				<div class="liv2">
+					<div class="container">
+						<form id="search-form" name="form" role="form" novalidate autocomplete="off" action="results.html">
+							<fieldset>
+								<div class="form-group required">
+									<input placeholder="search" name="search" required class="form-control" type="text" />
+									<button class="add-on" type="submit"><i class="icon-search"></i></button>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</li>
+			<li class="li-relative">
+				<span toggle=":parent"><i class="icon-language"></i><span>Eng</span></span>
+				<div class="liv2">
+					<div class="container">
+						<ul class="nav nav--secondary__liv2">
+							<li class="active"><a href="#"><span>English</span></a></li>
+							<li><a href="#"><span>Italiano</span></a></li>
+							<li><a href="#"><span>Deutsch</span></a></li>
+							<li><a href="#"><span>Türkçe</span></a></li>
+							<li><a href="#"><span>日本語</span></a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
 		</ul>
 		<button type="button" class="btn btn--menu" toggle="body" toggle-class="opened">
 			<i class="icon-menu"></i>

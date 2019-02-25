@@ -92,6 +92,10 @@ function () {
         parallax: true,
         spaceBetween: 300,
         speed: 600,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: true
+        },
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
@@ -171,6 +175,7 @@ function () {
       var hrefs = [].slice.call(document.querySelectorAll('[href="#"]'));
       var links = [].slice.call(document.querySelectorAll('.btn, .nav:not(.nav--service)>li>a'));
       var togglers = [].slice.call(document.querySelectorAll('[toggle]'));
+      var focuses = [].slice.call(document.querySelectorAll('[focus]'));
       var stickys = [].slice.call(document.querySelectorAll('[sticky]'));
       stickys.forEach(function (x) {
         return x.content = x.querySelector('[sticky-content]');
@@ -200,6 +205,7 @@ function () {
       this.hrefs = hrefs;
       this.links = links;
       this.togglers = togglers;
+      this.focuses = focuses;
       this.mouse = mouse;
       this.timeline = timeline;
       this.onResize();
@@ -246,8 +252,8 @@ function () {
       });
       this.togglers.forEach(function (node) {
         node.addEventListener('click', function (e) {
-          var target = node.getAttribute('toggle');
-          target = target ? document.querySelector(target) : node;
+          var selector = node.getAttribute('toggle');
+          var target = selector ? selector === ':parent' ? node.parentNode : document.querySelector(selector) : node;
           var toggle = node.getAttribute('toggle-class') || 'active';
 
           if (target.classList.contains(toggle)) {
@@ -259,6 +265,19 @@ function () {
 
           e.stopPropagation();
         });
+      });
+      this.focuses.forEach(function (node) {
+        var doFocus = function doFocus(e) {
+          var selector = node.getAttribute('focus');
+          var target = selector ? selector === ':parent' ? node.parentNode : document.querySelector(selector) : node;
+          target.focus();
+          target.select(); // e.preventDefault();
+
+          e.stopPropagation();
+        };
+
+        node.addEventListener('touchstart', doFocus);
+        node.addEventListener('mouseenter', doFocus);
       });
     }
   }, {

@@ -118,3 +118,61 @@ header {
 	}
 
 }
+
+#search-form {
+	fieldset {
+		background: transparent;
+		padding: 0;
+		margin: 0;
+		border: none;
+	}
+
+	.form-group {
+		display: flex;
+		margin: 30px 0 0 0;
+		background: transparent;
+		border-color: #434343;
+		color: #c5c7c8;
+
+		&.required {
+			&:after {
+				display: none;
+			}
+		}
+	}
+
+	.form-control {
+		margin: 0;
+		font-size: 30px;
+		background: transparent;
+		color: #fff;
+	}
+
+	.add-on {
+		color: #fff;
+		font-size: 23px;
+		border-left: 2px solid #434343;
+		padding: 0 40px;
+		margin-right: -20px;
+	}
+
+	.fixed &,
+	.opened & {
+		.form-group {
+			background: transparent;
+			border-color: #c7c2c2;
+			color: #000;
+		}
+
+		.form-control {
+			background: transparent;
+			color: #000;
+		}
+
+		.add-on {
+			color: #000;
+			border-left-color: #c7c2c2;
+		}
+	}
+
+}
