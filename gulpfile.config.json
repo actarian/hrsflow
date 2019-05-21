@@ -2,15 +2,14 @@
 	"targets": {
 		"browser": {
 			"compile": [{
-				"input": "src/sass/bootstrap.scss",
-				"output": "docs/css/bootstrap.css"
+				"input": "src/sass/bootstrap-ww.scss",
+				"output": "docs/css/bootstrap-ww.css"
 			}, {
-				"input": "src/sass/app-ww.scss",
-				"output": "docs/css/app-ww.css",
-				"minify": false
+				"input": "src/sass/bootstrap-ch.scss",
+				"output": "docs/css/bootstrap-ch.css"
 			}, {
-				"input": "src/sass/app-ch.scss",
-				"output": "docs/css/app-ch.css",
+				"input": "src/sass/app.scss",
+				"output": "docs/css/app.css",
 				"minify": false
 			}, {
 				"input": "src/app/app.js",

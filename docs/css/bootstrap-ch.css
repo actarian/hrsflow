@@ -31,8 +31,8 @@
   --breakpoint-md: 1024px;
   --breakpoint-lg: 1300px;
   --breakpoint-xl: 1600px;
-  --font-family-sans-serif: "aktiv-grotesk", sans-serif;
-  --font-family-monospace: "aktiv-grotesk", monospace; }
+  --font-family-sans-serif: "source-han-sans-simplified-c", sans-serif;
+  --font-family-monospace: "source-han-sans-simplified-c", monospace; }
 
 *,
 *::before,
@@ -56,7 +56,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "aktiv-grotesk", sans-serif;
+  font-family: "source-han-sans-simplified-c", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -161,7 +161,7 @@ pre,
 code,
 kbd,
 samp {
-  font-family: "aktiv-grotesk", monospace;
+  font-family: "source-han-sans-simplified-c", monospace;
   font-size: 1em; }
 
 pre {
@@ -1420,4 +1420,4 @@ pre {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
-/*# sourceMappingURL=bootstrap.css.map */
+/*# sourceMappingURL=bootstrap-ch.css.map */
