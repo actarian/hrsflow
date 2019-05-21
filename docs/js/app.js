@@ -39,6 +39,26 @@ function () {
   _createClass(App, [{
     key: "init",
     value: function init() {
+      Element.prototype.scrollIntoView_ = Element.prototype.scrollIntoView;
+
+      Element.prototype.scrollIntoView = function () {
+        if (_dom.default.fastscroll) {
+          return this.scrollIntoView_.apply(this, arguments);
+        } else {
+          var rect = _rect.default.fromNode(this);
+
+          var scrollTop = _dom.default.scrollTop();
+
+          window.scrollTo(0, Math.max(0, scrollTop + rect.top - 120));
+        }
+      };
+      /*
+      document.addEventListener('click', (e) => {
+      	e.target.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      });
+      */
+
+
       var body = document.querySelector('body');
       menuStyle = body.classList.contains('fixed') ? 0 : 1;
       var page = document.querySelector('.page');

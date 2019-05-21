@@ -16,6 +16,24 @@ export default class App {
 	constructor() {}
 
 	init() {
+
+		Element.prototype.scrollIntoView_ = Element.prototype.scrollIntoView;
+		Element.prototype.scrollIntoView = function() {
+			if (Dom.fastscroll) {
+				return this.scrollIntoView_.apply(this, arguments);
+			} else {
+				let rect = Rect.fromNode(this);
+				const scrollTop = Dom.scrollTop();
+				window.scrollTo(0, Math.max(0, scrollTop + rect.top - 120));
+			}
+		};
+
+		/*
+		document.addEventListener('click', (e) => {
+			e.target.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+		});
+		*/
+
 		const body = document.querySelector('body');
 		menuStyle = body.classList.contains('fixed') ? 0 : 1;
 		const page = document.querySelector('.page');

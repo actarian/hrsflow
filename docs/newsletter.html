@@ -57,6 +57,7 @@
 						<div class="form-group-container">
 							<div class="form-group required">
 								<input placeholder="First Name" ng-model="model.firstName" name="firstName" required class="form-control" type="text" />
+								<label class="error">campo obbligatorio</label>
 							</div>
 							<div class="form-group required">
 								<input placeholder="Last Name" ng-model="model.lastName" name="lastName" required class="form-control" type="text" />
@@ -142,6 +143,15 @@
 								</label>
 							</div>
 						</div>
+						<div class="form-group-container">
+							<div class="form-group form-group--check">
+								<label class="form-check-label">
+									<input name="Apps" id="OtherApp" value="0" class="form-check-input required" type="checkbox" required="">
+									<span>other</span>
+								</label>
+								<input name="OtherApplication" id="OtherApplication" value="" class="form-control" type="text">
+							</div>
+						</div>
 					</fieldset>
 					<fieldset>
 						<div class="legend">Other</div>
@@ -158,10 +168,11 @@
 						</span>
 					</fieldset>
 					<fieldset>
-						<div class="legend"></div>
-						<a class="btn btn--discover iframe" data-fancybox-type="iframe" href="//www.hrsflow.com/eng/privacy.php?type=23" title="Privacy policy" rel="nofollow">
-							Having read the Information Notice on the processing of data:
-						</a>
+						<div class="legend">
+							<a class="btn btn--discover iframe" data-fancybox-type="iframe" href="//www.hrsflow.com/eng/privacy.php?type=23" title="Privacy policy" rel="nofollow">
+								Having read the Information Notice on the processing of data:
+							</a>
+						</div>
 						<div class="form-group-container">
 							<div class="form-group">
 								<div class="input-group">
