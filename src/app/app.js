@@ -171,10 +171,10 @@ export default class App {
 		this.sections = []
 		const homeHero = document.querySelector('.section--home-hero');
 		if (homeHero) {
-			// setTimeout(() => {
-			this.sections = [].slice.call(document.querySelectorAll('.section'));
-			// this.sections.push(document.querySelector('footer'));
-			// }, 1000);
+			setTimeout(() => {
+				this.sections = [].slice.call(document.querySelectorAll('.section'));
+				this.sections.push(document.querySelector('footer'));
+			}, 1000);
 		}
 		this.body = body;
 		this.page = page;
@@ -378,7 +378,7 @@ export default class App {
 					if (nearest === null) {
 						return top;
 					} else {
-						return Math.abs(nearest) < Math.abs(top) ? nearest : top;
+						return Math.abs(nearest) < Math.abs(top) ? nearest : (i === this.sections.length - 1 ? null : top);
 					}
 				}, null);
 				if (Math.abs(nearest) < window.innerHeight * 0.4) {

@@ -5,9 +5,13 @@
 				"input": "src/sass/bootstrap.scss",
 				"output": "docs/css/bootstrap.css"
 			}, {
-				"input": "src/sass/app.scss",
-				"output": "docs/css/app.css",
-				"minify": true
+				"input": "src/sass/app-ww.scss",
+				"output": "docs/css/app-ww.css",
+				"minify": false
+			}, {
+				"input": "src/sass/app-ch.scss",
+				"output": "docs/css/app-ch.css",
+				"minify": false
 			}, {
 				"input": "src/app/app.js",
 				"output": "docs/js/app.js",

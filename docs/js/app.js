@@ -39,6 +39,8 @@ function () {
   _createClass(App, [{
     key: "init",
     value: function init() {
+      var _this = this;
+
       Element.prototype.scrollIntoView_ = Element.prototype.scrollIntoView;
 
       Element.prototype.scrollIntoView = function () {
@@ -214,9 +216,11 @@ function () {
       var homeHero = document.querySelector('.section--home-hero');
 
       if (homeHero) {
-        // setTimeout(() => {
-        this.sections = [].slice.call(document.querySelectorAll('.section')); // this.sections.push(document.querySelector('footer'));
-        // }, 1000);
+        setTimeout(function () {
+          _this.sections = [].slice.call(document.querySelectorAll('.section'));
+
+          _this.sections.push(document.querySelector('footer'));
+        }, 1000);
       }
 
       this.body = body;
@@ -385,7 +389,7 @@ function () {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       // smoothscroll desktop
       // if (!Dom.overscroll && !Dom.touch) {
@@ -438,7 +442,7 @@ function () {
             if (nearest === null) {
               return top;
             } else {
-              return Math.abs(nearest) < Math.abs(top) ? nearest : top;
+              return Math.abs(nearest) < Math.abs(top) ? nearest : i === _this2.sections.length - 1 ? null : top;
             }
           }, null);
 
@@ -462,8 +466,8 @@ function () {
             x: 0,
             y: 0
           };
-          var dx = _this.mouse.x - xy.x;
-          var dy = _this.mouse.y - xy.y;
+          var dx = _this2.mouse.x - xy.x;
+          var dy = _this2.mouse.y - xy.y;
           xy.x += dx / 8;
           xy.y += dy / 8;
           var shadow = node.getAttribute('data-shadow') || 90;
@@ -492,7 +496,7 @@ function () {
 
           var rect = _rect.default.fromNode(node);
 
-          var intersection = rect.intersection(_this.windowRect);
+          var intersection = rect.intersection(_this2.windowRect);
 
           if (intersection.y > 0) {
             if (!swiper.autoplay.running) {
@@ -511,7 +515,7 @@ function () {
 
         var rect = _rect.default.fromNode(node);
 
-        var intersection = rect.intersection(_this.windowRect);
+        var intersection = rect.intersection(_this2.windowRect);
 
         if (intersection.y > 0 && intersection.x > 0) {
           video.appear();
@@ -527,7 +531,7 @@ function () {
 
           var rect = _rect.default.fromNode(node);
 
-          var intersection = rect.intersection(_this.windowRect);
+          var intersection = rect.intersection(_this2.windowRect);
 
           if (intersection.y > 0) {
             triangle.appear();
@@ -576,7 +580,7 @@ function () {
           width: rect.width,
           height: rect.height
         });
-        var intersection = rect.intersection(_this.windowRect);
+        var intersection = rect.intersection(_this2.windowRect);
 
         if (intersection.y > 0) {
           var y = Math.min(1, Math.max(-1, intersection.center.y));
@@ -599,7 +603,7 @@ function () {
       this.appears.forEach(function (node, i) {
         var rect = _rect.default.fromNode(node);
 
-        var intersection = rect.intersection(_this.windowRect);
+        var intersection = rect.intersection(_this2.windowRect);
 
         if (intersection.y > 0.0) {
           // if (intersection.center.y < 0.45) {
@@ -643,13 +647,13 @@ function () {
   }, {
     key: "loop",
     value: function loop() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.render();
 
       if (this.playing) {
         window.requestAnimationFrame(function () {
-          _this2.loop();
+          _this3.loop();
         });
       }
     }

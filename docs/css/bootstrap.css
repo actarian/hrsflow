@@ -31,8 +31,8 @@
   --breakpoint-md: 1024px;
   --breakpoint-lg: 1300px;
   --breakpoint-xl: 1600px;
-  --font-family-sans-serif: "Aktiv Grotesk", sans-serif;
-  --font-family-monospace: "Aktiv Grotesk", monospace; }
+  --font-family-sans-serif: "aktiv-grotesk", sans-serif;
+  --font-family-monospace: "aktiv-grotesk", monospace; }
 
 *,
 *::before,
@@ -56,7 +56,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "Aktiv Grotesk", sans-serif;
+  font-family: "aktiv-grotesk", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -161,7 +161,7 @@ pre,
 code,
 kbd,
 samp {
-  font-family: "Aktiv Grotesk", monospace;
+  font-family: "aktiv-grotesk", monospace;
   font-size: 1em; }
 
 pre {
