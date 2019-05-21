@@ -44,7 +44,8 @@ html [type=button] {
 
 	@include transition();
 
-	i, span {
+	i,
+	span {
 		height: auto;
 		line-height: 1;
 		vertical-align: middle;
@@ -67,6 +68,7 @@ button,
 	line-height: 30px;
 	color: white;
 	text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
 
 	&:hover {
 		color: white;
@@ -97,7 +99,6 @@ button,
 			display: inline-block;
 		}
 	}
-
 }
 
 .btn--more {
@@ -226,19 +227,9 @@ button,
 
 	@include transition();
 
-	i {
-		margin-left: 10px;
-		font-size: 22px;
-		vertical-align: middle;
-		opacity: 1;
-		@include transition();
-	}
-
 	.addthis_inline_share_toolbox {
 		display: inline-block;
 		line-height: 0;
-		opacity: 0;
-		pointer-events: none;
 		@include transition();
 
 		div {
@@ -247,17 +238,6 @@ button,
 
 		a {
 			outline: none !important;
-		}
-	}
-
-	&:hover {
-		i {
-			opacity: 0;
-		}
-
-		.addthis_inline_share_toolbox {
-			opacity: 1;
-			pointer-events: auto;
 		}
 	}
 
@@ -317,8 +297,7 @@ button,
 	margin-top: 50px;
 
 
-	@include media-breakpoint-down(sm) {
-	}
+	@include media-breakpoint-down(sm) {}
 
 	@include media-breakpoint-up(md) {
 		display: flex;

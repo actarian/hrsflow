@@ -25,11 +25,10 @@
 			font-weight: 600;
 			text-transform: uppercase;
 			color: #c5c7c8;
+			cursor: pointer;
 		}
 
-		&:hover,
-		&:active,
-		&.active {
+		&:hover {
 
 			&>a,
 			&>span {
@@ -37,6 +36,12 @@
 			}
 		}
 
+		&.active {
+
+			&>a {
+				color: white;
+			}
+		}
 	}
 
 	.fixed &,
@@ -70,7 +75,7 @@
 		}
 	}
 
-	@include media-breakpoint-down(md) {
+	@include md2-down {
 		margin-top: 40px;
 
 		&>li {
@@ -87,7 +92,6 @@
 			margin: 0;
 		}
 	}
-
 }
 
 .liv2 {
@@ -105,7 +109,7 @@
 		}
 	}
 
-	@include media-breakpoint-up(lg) {
+	@include md2-up {
 		position: absolute;
 		top: -1px;
 		left: 0;
@@ -139,16 +143,15 @@
 			text-align: left;
 			top: -60px;
 			width: 100vh;
-
-			top: 40px;
+			// top: 40px;
 			border: 0;
+			z-index: 2;
 
 			.container {
 				margin: 0;
 				padding-top: 130px;
 				padding-bottom: 20px;
-
-				padding-top: 30px;
+				// padding-top: 30px;
 			}
 
 			.nav--secondary__liv2 {
@@ -157,7 +160,6 @@
 			}
 
 		}
-
 	}
 
 }
@@ -248,7 +250,7 @@
 		align-items: flex-start;
 	}
 
-	@include media-breakpoint-up(lg) {
+	@include md2-up {
 		width: calc(100% + 30px);
 		flex-direction: row;
 		justify-content: flex-start;
@@ -353,6 +355,7 @@
 			font-weight: 600;
 			color: #c5c7c8;
 			position: relative;
+			cursor: pointer;
 		}
 
 		&:hover,
@@ -385,7 +388,6 @@
 				}
 			}
 		}
-
 	}
 
 	&>li+li {
@@ -398,7 +400,7 @@
 		}
 	}
 
-	@include media-breakpoint-down(md) {
+	@include md2-down {
 		&>li {
 
 			&>a,
@@ -406,7 +408,6 @@
 				display: block;
 				padding: 15px;
 				border-bottom: 1px solid #eee;
-
 			}
 		}
 
@@ -448,8 +449,9 @@
 		&>span {
 			display: inline-block;
 			position: relative;
-			z-index: 1;
+			z-index: 3;
 			color: #c5c7c8;
+			cursor: pointer;
 		}
 
 		i {
@@ -498,7 +500,7 @@
 		}
 	}
 
-	@include media-breakpoint-down(md) {
+	@include md2-down {
 		&>li {
 
 			&>a,
@@ -954,7 +956,6 @@
 		}
 
 	}
-
 
 
 }

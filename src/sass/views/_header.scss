@@ -6,8 +6,8 @@ header {
 	z-index: 100;
 
 	.container {
-		padding-top: 40px;
-		padding-bottom: 40px;
+		padding-top: 20px;
+		padding-bottom: 20px;
 	}
 
 	.brand {
@@ -69,9 +69,17 @@ header {
 		overflow-y: auto;
 	}
 
-	@include media-breakpoint-down(md) {
+	.btn--menu {
+		display: none;
+	}
+
+	@include md2-down {
 		.nav {
 			display: none;
+		}
+
+		.btn--menu {
+			display: block;
 		}
 
 		.opened & {
@@ -109,13 +117,20 @@ header {
 				right: 40px;
 			}
 		}
-	}
 
-	@include media-breakpoint-up(lg) {
-		.btn--menu {
-			display: none;
+		.container {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			flex-direction: column-reverse;
+		}
+
+		.header__main,
+		.header__top {
+			flex: 0 0 100%;
 		}
 	}
+
 
 }
 

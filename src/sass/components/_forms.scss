@@ -29,19 +29,11 @@
 .form-group-select {
 	position: relative;
 
-	&:after {
-		content: 'o';
-		font-family: HRSFlow;
-		position: absolute;
-		right: 12px;
-		top: 50%;
-		margin-top: -19px;
-		font-size: 19px;
-		color: #aaa;
-	}
-
 	.form-control {
 		padding: 12px 40px 15px 10px;
+		background: url("../img/icons/arrow_down.svg") 92% no-repeat transparent;
+		background-size: 12px;
+		cursor: pointer;
 	}
 }
 
@@ -98,17 +90,10 @@
 	.form-check-label {
 		padding: 0;
 		margin: 0;
-		white-space: nowrap;
-		margin-right: 10px;
 	}
 
 	.form-check-input {
 		margin: 0 10px 0 0;
-	}
-
-	.form-control {
-		border-bottom: 1px solid #888;
-		flex: 1 1 auto;
 	}
 }
 
@@ -124,7 +109,7 @@ fieldset {
 	.form-group {
 		margin-bottom: 15px;
 		background: white;
-		padding: 15px 20px 30px 20px;
+		padding: 20px;
 	}
 
 	.form-control {
@@ -221,17 +206,5 @@ fieldset {
 	text-transform: uppercase;
 	font-size: 12px;
 	font-weight: 600;
-	color: #db001d;
-}
-
-label.error {
-	position: absolute;
-	display: block;
-	bottom: 10px;
-	font-weight: 600;
-	font-size: 12px;
-	padding: 0;
-	line-height: 1;
-	margin: 0;
 	color: #db001d;
 }
