@@ -219,7 +219,7 @@
 							By clicking send button, I confirm that I request the service indicated in point a) of these guidelines; my consent to the processing of data for the purposes of the service, including the processing methods mentioned in these guidelines, including possible processing carried out in EU member states or non-EU countries.
 						</div>
 					</fieldset>
-					<fieldset class="fieldset--warning">
+					<fieldset class="fieldset--warning" ng-if="model.gdprMarketingConsent != 'Yes' || model.gdprProfileConsent != 'Yes'">
 						<div class="legend">ATTENTION</div>
 						<div>
 							Not providing the consent to the Marketing activities indicated in point b) of these guidelines we will not be allowed to send you promotional newsletters but only informational newsletters.

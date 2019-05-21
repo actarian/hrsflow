@@ -33,8 +33,13 @@ header {
 
 	.flex-row {
 		align-items: center;
-		min-height: 80px;
+		min-height: 60px;
 		position: static;
+	}
+
+	.header__top {
+		line-height: 1;
+		padding-top: 10px;
 	}
 
 	.fixed &,
@@ -80,6 +85,11 @@ header {
 
 		.btn--menu {
 			display: block;
+
+			.icon-close {
+				font-size: 20px;
+				margin-top: 10px;
+			}
 		}
 
 		.opened & {
@@ -128,9 +138,10 @@ header {
 		.header__main,
 		.header__top {
 			flex: 0 0 100%;
+			padding-top: 0;
 		}
-	}
 
+	}
 
 }
 

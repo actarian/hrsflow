@@ -210,6 +210,15 @@ function () {
         body.classList.add('follower-enabled');
       }
 
+      this.sections = [];
+      var homeHero = document.querySelector('.section--home-hero');
+
+      if (homeHero) {
+        // setTimeout(() => {
+        this.sections = [].slice.call(document.querySelectorAll('.section')); // this.sections.push(document.querySelector('footer'));
+        // }, 1000);
+      }
+
       this.body = body;
       this.page = page;
       this.swiperHero = swiperHero;
@@ -410,8 +419,36 @@ function () {
           */
 
           _dom.default.scrolling = true;
-        } else {
+        } else if (_dom.default.scrolling === true) {
           _dom.default.scrolling = false;
+
+          if (this.nearest !== null) {
+            // console.log(this.nearest);
+            window.scrollTo(0, scrollTop + this.nearest);
+          }
+        }
+
+        if (this.sections.length) {
+          var nearest = this.sections.reduce(function (nearest, node, i) {
+            var rect = _rect.default.fromNode(node);
+
+            var top = rect.top - 100; //(node.tagName.toLowerCase() === 'footer' ? 100 : 0);
+            // console.log(node, top);
+
+            if (nearest === null) {
+              return top;
+            } else {
+              return Math.abs(nearest) < Math.abs(top) ? nearest : top;
+            }
+          }, null);
+
+          if (Math.abs(nearest) < window.innerHeight * 0.4) {
+            this.nearest = nearest;
+          } else {
+            this.nearest = null;
+          }
+        } else {
+          this.nearest = null;
         }
       } else if (this.body.hasAttribute('style')) {
         this.body.removeAttribute('style');

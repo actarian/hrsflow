@@ -29,7 +29,7 @@
   --breakpoint-xs: 0;
   --breakpoint-sm: 768px;
   --breakpoint-md: 1024px;
-  --breakpoint-lg: 1440px;
+  --breakpoint-lg: 1300px;
   --breakpoint-xl: 1600px;
   --font-family-sans-serif: "Aktiv Grotesk", sans-serif;
   --font-family-monospace: "Aktiv Grotesk", monospace; }
@@ -461,7 +461,7 @@ pre {
   @media (min-width: 1024px) {
     .container {
       max-width: 960px; } }
-  @media (min-width: 1440px) {
+  @media (min-width: 1300px) {
     .container {
       max-width: 1200px; } }
   @media (min-width: 1600px) {
@@ -1017,7 +1017,7 @@ pre {
   .offset-md-11 {
     margin-left: 91.66667%; } }
 
-@media (min-width: 1440px) {
+@media (min-width: 1300px) {
   .col-lg {
     -ms-flex-preferred-size: 0;
         flex-basis: 0;
@@ -1395,9 +1395,9 @@ pre {
   @page {
     size: a3; }
   body {
-    min-width: 1440px !important; }
+    min-width: 1300px !important; }
   .container {
-    min-width: 1440px !important; }
+    min-width: 1300px !important; }
   .navbar {
     display: none; }
   .badge {

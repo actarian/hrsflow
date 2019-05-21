@@ -165,7 +165,7 @@ $paragraph-margin-bottom: 1rem !default;
 $grid-breakpoints: (xs: 0,
 	sm: 768px,
 	md: 1024px,
-	lg: 1440px,
+	lg: 1300px, // 1440px
 	xl: 1600px) !default;
 
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
@@ -173,7 +173,7 @@ $grid-breakpoints: (xs: 0,
 
 //Custom breakpoint
 
-$md2-width: 1336px;
+$md2-width: 1240px; // 1336px;
 
 @mixin md2-up {
 	@media (min-width: #{$md2-width}) {

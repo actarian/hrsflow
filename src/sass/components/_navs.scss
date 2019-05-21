@@ -203,6 +203,12 @@
 			}
 		}
 
+		&>a {
+			&:before {
+				transform: scale(0, 1);
+			}
+		}
+
 		&:hover,
 		&:active,
 		:not(:hover) &.active {
@@ -442,6 +448,8 @@
 .nav--i18n {
 	display: flex;
 	justify-content: flex-end;
+	font-size: 14px;
+	font-weight: 400;
 
 	&>li {
 
@@ -646,6 +654,8 @@
 }
 
 .nav--service {
+	transform: translateX(calc(100% - 60px));
+
 	i {
 		display: inline-flex;
 		width: 60px;
@@ -657,13 +667,20 @@
 		align-items: center;
 	}
 
-	&>li>a {
-		display: flex;
-		font-size: 25px;
-		background: #d90726;
-		color: white;
-		transform: translateX(calc(100% - 60px));
+	&>li {
+		transform: translateX(0);
 		@include transition();
+
+		&>a {
+			display: flex;
+			font-size: 25px;
+			background: #d90726;
+			color: white;
+			/*
+			transform: translateX(calc(100% - 60px));
+			@include transition();
+			*/
+		}
 	}
 
 	span {
@@ -683,6 +700,7 @@
 	}
 
 	&>li {
+		/*
 		&>a {
 
 			&:hover,
@@ -690,6 +708,18 @@
 			&.active {
 				color: white;
 				transform: translateX(0);
+				border-radius: 0px !important;
+			}
+		}
+		*/
+
+		&:hover,
+		&:active,
+		&.active {
+			transform: translateX(calc(-100% + 60px));
+
+			&>a {
+				color: white;
 				border-radius: 0px !important;
 			}
 		}
